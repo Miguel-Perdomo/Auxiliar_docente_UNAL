@@ -1,0 +1,30 @@
+# Entornos virtuales de Python
+venv/
+env/
+.env
+
+# Archivos temporales y compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Archivos auxiliares de compilación de LaTeX
+*.aux
+*.bbl
+*.blg
+*.fls
+*.log
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.out
+*.lof
+*.lot
+
+# Archivos de sistema operativo y editores de código
+.DS_Store
+.vscode/
+.idea/
