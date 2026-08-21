@@ -1,25 +1,99 @@
-\documentclass[12pt]{article}
+\documentclass[11pt, letterpaper]{article}
+
+% ----- PAQUETES -----
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
-% La fuente por defecto de LaTeX es Computer Modern.
-% Esto hace un match perfecto con el text.usetex=True de styles.py
+\usepackage[margin=2.5cm]{geometry} % Márgenes más razonables
+\usepackage{xcolor} % Para colores personalizados
+\usepackage{titlesec} % Para personalizar los títulos
+\usepackage{booktabs} % Para tablas profesionales (sin líneas verticales)
+\usepackage{enumitem} % Para listas más limpias
+\usepackage{hyperref} % Para enlaces
+\usepackage{fancyhdr} % Para encabezados y pies de página
 
-\title{Material del Curso - Tema 1}
-\author{Miguel Perdomo - Auxiliar Docente UNAL}
-\date{Semestre 2026-2}
+% ----- CONFIGURACIÓN DE COLORES Y ESTILOS -----
+\definecolor{UnalGreen}{RGB}{0, 153, 51} % Verde institucional aproximado
+\definecolor{DarkGray}{RGB}{60, 60, 60}
+
+% Formato de secciones
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{UnalGreen}}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{DarkGray}}{\thesubsection}{1em}{}
+
+% Enlaces
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	filecolor=magenta,      
+	urlcolor=UnalGreen,
+}
+
+% Encabezado y pie de página
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Lab. Mecánica y Ondas para Biociencias (1000023)}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+
+\title{
+	\vspace{-2cm}
+	\includegraphics[width=0.3\textwidth]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png} \\ % Necesitas guardar un logo_unal.png en la carpeta imágenes
+	\vspace{1cm}
+	\Huge \textbf{Programa de Laboratorio} \\
+	\Large \textbf{Mecánica y Ondas para Biociencias}
+}
+\author{\textbf{Auxiliar Docente:} Miguel Andrés Perdomo Gutiérrez}
+\date{\textbf{Horario:} Martes de 11:00 a 13:00 -- \textbf{Aula:} 404-104}
 
 \begin{document}
-\maketitle
-
-\section{Introducción}
-Este documento base ya cuenta con la tipografía coherente (Computer Modern). 
-Todas las gráficas exportadas desde los notebooks o scripts en Python 
-tendrán exactamente esta misma fuente.
-
-\section{Montaje}
-% Aquí puedes importar las figuras creadas en TikZ desde la carpeta codigos/
-% \input{codigos/montaje_tikz.tex}
-
+	
+	\maketitle
+	
+	\section{Presentación y Objetivos}
+	Este laboratorio está diseñado para estudiantes de carreras biológicas, agropecuarias y de la salud. El objetivo principal no es la memorización procedimental, sino la comprensión cuantitativa y fenomenológica de las leyes de la física clásica a través de la experimentación. Se hará un fuerte énfasis en la contextualización de los principios físicos hacia sistemas biológicos y en el uso de herramientas computacionales abiertas para el análisis de datos.
+	
+	\section{Metodología de Trabajo}
+	Las sesiones presenciales tendrán una duración de dos horas y se dividirán estratégicamente para optimizar el tiempo de aprendizaje:
+	\begin{itemize}[label=$\bullet$, leftmargin=*]
+		\item \textbf{15 min:} Contextualización teórica y evaluación de lectura previa (Quiz).
+		\item \textbf{65 min:} Montaje experimental, medición y captura de datos (usando instrumentación tradicional, sensores de teléfonos inteligentes o Tracker).
+		\item \textbf{20 min:} Procesamiento inicial de datos, revisión de bitácoras y cierre metodológico.
+	\end{itemize}
+	
+	\section{Sistema de Evaluación}
+	La calificación interna del componente de laboratorio se distribuirá de la siguiente manera:
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{@{}llc@{}}
+			\toprule
+			\textbf{Componente} & \textbf{Descripción} & \textbf{Porcentaje (\%)} \\
+			\midrule
+			\textbf{Bitácoras de Laboratorio} & Trabajo colaborativo grupal semanal en el aula. & 40\% \\
+			\textbf{Informes Estructurados} & Dos (2) informes completos por grupo en el semestre. & 40\% \\
+			\textbf{Quices Individuales} & Evaluación corta de control de lectura previa. & 20\% \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\subsection{Criterios para los Informes}
+	Los dos informes exigidos en el semestre deberán contar con la siguiente estructura y ponderación interna:
+	\begin{itemize}[label=--]
+		\item Marco Teórico e Hipótesis: 15\%
+		\item Medición e Incertidumbre: 25\%
+		\item Análisis de Datos Computacional: 35\%
+		\item Discusión Aplicada (Biociencias): 15\%
+		\item Conclusiones: 10\%
+	\end{itemize}
+	
+	\section{Políticas del Curso}
+	\begin{enumerate}
+		\item \textbf{Transparencia Evaluativa:} Las calificaciones, junto con la retroalimentación o rúbrica correspondiente, serán publicadas en un plazo máximo de 7 días hábiles.
+		\item \textbf{Asistencia:} La toma de datos es indelegable; la inasistencia injustificada anula la nota de la bitácora y quiz correspondientes a esa sesión.
+	\end{enumerate}
+	
 \end{document}
