@@ -5,30 +5,30 @@
 \usepackage[spanish]{babel}
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
-\usepackage[margin=2.5cm]{geometry} % Márgenes más razonables
-\usepackage{xcolor} % Para colores personalizados
-\usepackage{titlesec} % Para personalizar los títulos
-\usepackage{booktabs} % Para tablas profesionales (sin líneas verticales)
-\usepackage{enumitem} % Para listas más limpias
-\usepackage{hyperref} % Para enlaces
-\usepackage{fancyhdr} % Para encabezados y pies de página
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
 
 % ----- CONFIGURACIÓN DE COLORES Y ESTILOS -----
-\definecolor{UnalGreen}{RGB}{0, 153, 51} % Verde institucional aproximado
+\definecolor{UnalGreen}{RGB}{0, 153, 51}
 \definecolor{DarkGray}{RGB}{60, 60, 60}
 
 % Formato de secciones
 \titleformat{\section}
-{\normalfont\Large\bfseries\color{UnalGreen}}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+  {\normalfont\large\bfseries\color{UnalGreen}}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
 \titleformat{\subsection}
-{\normalfont\large\bfseries\color{DarkGray}}{\thesubsection}{1em}{}
+  {\normalfont\normalsize\bfseries\color{DarkGray}}{\thesubsection}{1em}{}
 
 % Enlaces
 \hypersetup{
-	colorlinks=true,
-	linkcolor=UnalGreen,
-	filecolor=magenta,      
-	urlcolor=UnalGreen,
+    colorlinks=true,
+    linkcolor=UnalGreen,
+    filecolor=magenta,      
+    urlcolor=UnalGreen,
 }
 
 % Encabezado y pie de página
@@ -38,62 +38,103 @@
 \rhead{\footnotesize Semestre 2026-2}
 \cfoot{\thepage}
 
-
-\title{
-	\vspace{-2cm}
-	\includegraphics[width=0.3\textwidth]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png} \\ % Necesitas guardar un logo_unal.png en la carpeta imágenes
-	\vspace{1cm}
-	\Huge \textbf{Programa de Laboratorio} \\
-	\Large \textbf{Mecánica y Ondas para Biociencias}
-}
-\author{\textbf{Auxiliar Docente:} Miguel Andrés Perdomo Gutiérrez}
-\date{\textbf{Horario:} Martes de 11:00 a 13:00 -- \textbf{Aula:} 404-104}
-
 \begin{document}
-	
-	\maketitle
-	
-	\section{Presentación y Objetivos}
-	Este laboratorio está diseñado para estudiantes de carreras biológicas, agropecuarias y de la salud. El objetivo principal no es la memorización procedimental, sino la comprensión cuantitativa y fenomenológica de las leyes de la física clásica a través de la experimentación. Se hará un fuerte énfasis en la contextualización de los principios físicos hacia sistemas biológicos y en el uso de herramientas computacionales abiertas para el análisis de datos.
-	
-	\section{Metodología de Trabajo}
-	Las sesiones presenciales tendrán una duración de dos horas y se dividirán estratégicamente para optimizar el tiempo de aprendizaje:
-	\begin{itemize}[label=$\bullet$, leftmargin=*]
-		\item \textbf{15 min:} Contextualización teórica y evaluación de lectura previa (Quiz).
-		\item \textbf{65 min:} Montaje experimental, medición y captura de datos (usando instrumentación tradicional, sensores de teléfonos inteligentes o Tracker).
-		\item \textbf{20 min:} Procesamiento inicial de datos, revisión de bitácoras y cierre metodológico.
-	\end{itemize}
-	
-	\section{Sistema de Evaluación}
-	La calificación interna del componente de laboratorio se distribuirá de la siguiente manera:
-	
-	\begin{table}[h]
-		\centering
-		\begin{tabular}{@{}llc@{}}
-			\toprule
-			\textbf{Componente} & \textbf{Descripción} & \textbf{Porcentaje (\%)} \\
-			\midrule
-			\textbf{Bitácoras de Laboratorio} & Trabajo colaborativo grupal semanal en el aula. & 40\% \\
-			\textbf{Informes Estructurados} & Dos (2) informes completos por grupo en el semestre. & 40\% \\
-			\textbf{Quices Individuales} & Evaluación corta de control de lectura previa. & 20\% \\
-			\bottomrule
-		\end{tabular}
-	\end{table}
-	
-	\subsection{Criterios para los Informes}
-	Los dos informes exigidos en el semestre deberán contar con la siguiente estructura y ponderación interna:
-	\begin{itemize}[label=--]
-		\item Marco Teórico e Hipótesis: 15\%
-		\item Medición e Incertidumbre: 25\%
-		\item Análisis de Datos Computacional: 35\%
-		\item Discusión Aplicada (Biociencias): 15\%
-		\item Conclusiones: 10\%
-	\end{itemize}
-	
-	\section{Políticas del Curso}
-	\begin{enumerate}
-		\item \textbf{Transparencia Evaluativa:} Las calificaciones, junto con la retroalimentación o rúbrica correspondiente, serán publicadas en un plazo máximo de 7 días hábiles.
-		\item \textbf{Asistencia:} La toma de datos es indelegable; la inasistencia injustificada anula la nota de la bitácora y quiz correspondientes a esa sesión.
-	\end{enumerate}
-	
+
+% ----- ENCABEZADO Y TÍTULO DE LA PÁGINA -----
+\begin{center}
+    \vspace*{-1cm}
+    \includegraphics[width=0.18\textwidth]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png} \\[0.2cm]
+    {\Large \bfseries Programa de Laboratorio -- Grupo 4} \\[0.1cm]
+    {\large \bfseries Mecánica y Ondas para Biociencias}
+\end{center}
+
+\vspace{0.1cm}
+{\color{UnalGreen}\hrule height 0.8pt}
+\vspace{0.3cm}
+
+% ----- DATOS DEL CURSO (ALINEADOS A LA IZQUIERDA) -----
+\noindent
+\begin{small}
+\begin{tabular}{@{}p{3.3cm} l@{}}
+    \textbf{Auxiliar docente:} & Miguel Andrés Perdomo Gutiérrez (\href{mailto:mperdomog@unal.edu.co}{mperdomog@unal.edu.co}) \\[0.1cm]
+    \textbf{Horario y Lugar:}  & Martes 11:00 - 13:00 \quad|\quad Laboratorio 104 (Ed. 404) \\[0.1cm]
+    \textbf{Atención a est.:}  & Cita previa \\[0.1cm]
+    \textbf{Oficina:}  & Ed. Manuel Ancízar, Of. 2056 (Grupo de Física Nuclear)
+\end{tabular}
+\end{small}
+
+\vspace{0.5cm}
+
+% ----- SECCIONES DEL DOCUMENTO -----
+\section{Presentación y Objetivos}
+Este laboratorio está diseñado para estudiantes de carreras biológicas, agropecuarias y de la salud. El objetivo principal es la comprensión cuantitativa de los principios de la mecánica clásica, utilizando los experimentos como modelos físicos para discutir y comprender fenómenos presentes en sistemas biológicos.
+
+\section{Metodología de Trabajo}
+Las sesiones presenciales tendrán una duración de dos horas y se estructurarán de forma flexible para optimizar el tiempo de aprendizaje. De manera orientativa, la sesión se organizará en los siguientes bloques:
+\begin{itemize}[label=$\bullet$, leftmargin=*]
+	\item \textbf{15 min:} Contextualización teórica y evaluación de lectura previa (Quiz).
+	\item \textbf{65 min:} Montaje experimental, medición y captura de datos (usando instrumentación tradicional, sensores de teléfonos inteligentes o Tracker).
+	\item \textbf{20 min:} Procesamiento inicial de datos, revisión de bitácoras y cierre metodológico.
+\end{itemize}
+\textit{Nota: Esta distribución de tiempo es de carácter orientativo y podrá adaptarse según la naturaleza y complejidad de cada práctica o la dinámica del trabajo en el aula.}
+
+\section{Sistema de Evaluación del Laboratorio}
+La calificación interna del módulo de laboratorio se distribuirá de la siguiente manera:
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{@{}llc@{}}
+		\toprule
+		\textbf{Componente} & \textbf{Descripción} & \textbf{Porcentaje (\%)} \\
+		\midrule
+		\textbf{Bitácoras de Laboratorio} & Reporte conciso y análisis de datos semanal. & 60\% \\
+		\textbf{Informes Estructurados} & Dos (2) informes formales completos en el semestre. & 30\% \\
+		\textbf{Quices Individuales} & Control de lectura previo a cada práctica. & 10\% \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\noindent\textbf{Nota sobre la asistencia:} De acuerdo con la normativa, se exige una asistencia mínima del 80\% a las sesiones. Contar con más de dos (2) fallas injustificadas es causa de reprobación del módulo.
+
+\subsection{Entregables: Talleres, Bitácoras e Informes}
+La evaluación práctica del curso se compone de tres tipos de entregables con propósitos pedagógicos distintos:
+
+\begin{itemize}[label=$\circ$, leftmargin=*]
+	\item \textbf{Talleres de Fundamentación (2 en total):} Guías de trabajo práctico en aula (Semanas 2 y 3) enfocadas en propagación de errores, cifras significativas y procesamiento de datos en Excel. Se recogen al finalizar la sesión.
+	\item \textbf{Bitácoras de Laboratorio (8 en total):} Informes breves de las sesiones prácticas convencionales. Incluyen exclusivamente: descripción del montaje, toma de datos experimentales con incertidumbres, gráficos/procesamiento y conclusiones. \textbf{NO} incluyen marco teórico ni resumen.
+	\item \textbf{Informes Estructurados (2 en total):} Documentos formales tipo artículo académico que sustituyen la bitácora en la \textbf{Práctica 3 (Medio Viscoso)} y en la \textbf{Práctica 9 (Ley de Hooke)}. Requieren marco teórico profundo, discusión de resultados con énfasis biológico/fisiológico y bibliografía formal.
+\end{itemize}
+
+\section{Cronograma de Laboratorio de Física}
+Planificación semanal sincronizada con la secuencia oficial de 10 prácticas del PDF y los 12 entregables evaluables del curso.
+
+\begin{table}[h!]
+	\centering
+	\small
+	\begin{tabular}{c c l c}
+		\toprule
+		\textbf{Semana} & \textbf{Fecha} & \textbf{Práctica / Actividad Oficial} & \textbf{Entregable} \\
+		\midrule
+		1  & 01 Sep & Presentación y Teoría de Mediciones e Incertidumbre & --- \\
+		2  & 08 Sep & Taller 1: Cifras Significativas e Incertidumbres & Taller 1 \\
+		3  & 15 Sep & Taller 2: Análisis Estadístico y Graficación & Taller 2 \\
+		4  & 22 Sep & Práctica 1: Análisis de un Experimento (Vaciado) & Bitácora 1 \\
+		5  & 29 Sep & Práctica 2: Periodo de un Péndulo Simple & Bitácora 2 \\
+		6  & 06 Oct & Práctica 3: Movimiento en un Medio Viscoso & \textbf{Informe 1} \\
+		7  & 13 Oct & Práctica 4: Cinemática Unidimensional & Bitácora 3 \\
+		8  & 20 Oct & Práctica 5: Movimiento Parabólico & Bitácora 4 \\
+		9  & 27 Oct & Práctica 6: Primera Ley de Newton & Bitácora 5 \\
+		10 & 03 Nov & Práctica 7: Segunda Ley de Newton & Bitácora 6 \\
+		11 & 10 Nov & Práctica 8: Conservación de la Energía & Bitácora 7 \\
+		12 & 17 Nov & Práctica 9: Ley de Hooke & \textbf{Informe 2} \\
+		13 & 24 Nov & Práctica 10: Oscilación de un Péndulo Físico & Bitácora 8 \\
+		14 & 01 Dic & Taller de Asesoría y Redacción de Informes Formales & --- \\
+		15 & 08 Dic & Entrega Final de Informes Formales Revisados & --- \\
+		16 & 15 Dic & Socialización de Notas y Cierre del Curso & --- \\
+		\bottomrule
+	\end{tabular}
+	\caption{Cronograma tentativo.}
+	\label{tab:cronograma}
+\end{table}
+
 \end{document}
