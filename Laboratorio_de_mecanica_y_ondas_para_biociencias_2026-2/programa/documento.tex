@@ -3,138 +3,227 @@
 % ----- PAQUETES -----
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{amsmath, amssymb}
 \usepackage{graphicx}
-\usepackage[margin=2.5cm]{geometry}
+\usepackage[margin=2.3cm]{geometry}
 \usepackage{xcolor}
 \usepackage{titlesec}
 \usepackage{booktabs}
 \usepackage{enumitem}
+\usepackage{xurl}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 
-% ----- CONFIGURACIÓN DE COLORES Y ESTILOS -----
-\definecolor{UnalGreen}{RGB}{0, 153, 51}
-\definecolor{DarkGray}{RGB}{60, 60, 60}
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
 
-% Formato de secciones
+% ----- SECCIONES -----
 \titleformat{\section}
-  {\normalfont\large\bfseries\color{UnalGreen}}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
-\titleformat{\subsection}
-  {\normalfont\normalsize\bfseries\color{DarkGray}}{\thesubsection}{1em}{}
+  {\normalfont\large\bfseries\color{UnalGreen}}
+  {\thesection}{1em}{}[{\titlerule[0.8pt]}]
 
-% Enlaces
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries\color{DarkGray}}
+  {\thesubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
 \hypersetup{
     colorlinks=true,
     linkcolor=UnalGreen,
-    filecolor=magenta,      
-    urlcolor=UnalGreen,
+    urlcolor=UnalGreen
 }
 
-% Encabezado y pie de página
+% ----- ENCABEZADO -----
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{\footnotesize Lab. Mecánica y Ondas para Biociencias (1000023)}
 \rhead{\footnotesize Semestre 2026-2}
 \cfoot{\thepage}
 
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{
+    leftmargin=*,
+    itemsep=2pt,
+    topsep=2pt,
+    parsep=0pt
+}
+
 \begin{document}
 
-% ----- ENCABEZADO Y TÍTULO DE LA PÁGINA -----
+% =========================================================
+% ENCABEZADO
+% =========================================================
+
 \begin{center}
-    \vspace*{-1cm}
-    \includegraphics[width=0.18\textwidth]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png} \\[0.2cm]
-    {\Large \bfseries Programa de Laboratorio -- Grupo 4} \\[0.1cm]
-    {\large \bfseries Mecánica y Ondas para Biociencias}
+    \vspace*{-0.8cm}
+    \includegraphics[width=0.15\textwidth]
+    {imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+
+    {\Large\bfseries Programa de Laboratorio -- Grupo 4}\\[0.05cm]
+    {\large\bfseries Mecánica y Ondas para Biociencias}
 \end{center}
 
-\vspace{0.1cm}
+\vspace{0.05cm}
 {\color{UnalGreen}\hrule height 0.8pt}
-\vspace{0.3cm}
+\vspace{0.2cm}
 
-% ----- DATOS DEL CURSO (ALINEADOS A LA IZQUIERDA) -----
+% =========================================================
+% INFORMACIÓN DEL CURSO
+% =========================================================
+
 \noindent
 \begin{small}
-\begin{tabular}{@{}p{3.3cm} l@{}}
-    \textbf{Auxiliar docente:} & Miguel Andrés Perdomo Gutiérrez (\href{mailto:mperdomog@unal.edu.co}{mperdomog@unal.edu.co}) \\[0.1cm]
-    \textbf{Horario y Lugar:}  & Martes 11:00 - 13:00 \quad|\quad Laboratorio 104 (Ed. 404) \\[0.1cm]
-    \textbf{Atención a est.:}  & Cita previa \\[0.1cm]
-    \textbf{Oficina:}  & Ed. Manuel Ancízar, Of. 2056 (Grupo de Física Nuclear)
+\begin{tabular}{@{}p{3.2cm} l@{}}
+\textbf{Auxiliar docente:} &
+Miguel Andrés Perdomo Gutiérrez
+(\href{mailto:mperdomog@unal.edu.co}{mperdomog@unal.edu.co}) \\[0.05cm]
+
+\textbf{Horario y lugar:} &
+Martes 11:00--13:00 | Laboratorio 104 (Ed. 404) \\[0.05cm]
+
+\textbf{Atención:} &
+Cita previa \\[0.05cm]
+
+\textbf{Oficina:} &
+Ed. Manuel Ancízar, Of. 2056 (Grupo de Física Nuclear)
 \end{tabular}
 \end{small}
 
-\vspace{0.5cm}
-
-% ----- SECCIONES DEL DOCUMENTO -----
+% =========================================================
 \section{Presentación y Objetivos}
-Este laboratorio está diseñado para estudiantes de carreras biológicas, agropecuarias y de la salud. El objetivo principal es la comprensión cuantitativa de los principios de la mecánica clásica, utilizando los experimentos como modelos físicos para discutir y comprender fenómenos presentes en sistemas biológicos.
 
+Este laboratorio está diseñado para estudiantes de carreras biológicas,
+agropecuarias y de la salud. El objetivo principal es la comprensión
+cuantitativa de los principios de la mecánica clásica, utilizando los
+experimentos como modelos físicos para discutir y comprender fenómenos
+presentes en sistemas biológicos.
+
+% =========================================================
 \section{Metodología de Trabajo}
-Las sesiones presenciales tendrán una duración de dos horas y se estructurarán de forma flexible para optimizar el tiempo de aprendizaje. De manera orientativa, la sesión se organizará en los siguientes bloques:
-\begin{itemize}[label=$\bullet$, leftmargin=*]
-	\item \textbf{15 min:} Contextualización teórica y evaluación de lectura previa (Quiz).
-	\item \textbf{65 min:} Montaje experimental, medición y captura de datos (usando instrumentación tradicional, sensores de teléfonos inteligentes o Tracker).
-	\item \textbf{20 min:} Procesamiento inicial de datos, revisión de bitácoras y cierre metodológico.
-\end{itemize}
-\textit{Nota: Esta distribución de tiempo es de carácter orientativo y podrá adaptarse según la naturaleza y complejidad de cada práctica o la dinámica del trabajo en el aula.}
 
-\section{Sistema de Evaluación del Laboratorio}
-La calificación interna del módulo de laboratorio se distribuirá de la siguiente manera:
+Las prácticas tendrán una duración de dos horas y se realizarán en
+\textbf{grupos de 3 a 4 estudiantes}:
 
-\begin{table}[h]
-	\centering
-	\begin{tabular}{@{}llc@{}}
-		\toprule
-		\textbf{Componente} & \textbf{Descripción} & \textbf{Porcentaje (\%)} \\
-		\midrule
-		\textbf{Bitácoras de Laboratorio} & Reporte conciso y análisis de datos semanal. & 60\% \\
-		\textbf{Informes Estructurados} & Dos (2) informes formales completos en el semestre. & 30\% \\
-		\textbf{Quices Individuales} & Control de lectura previo a cada práctica. & 10\% \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-\noindent\textbf{Nota sobre la asistencia:} De acuerdo con la normativa, se exige una asistencia mínima del 80\% a las sesiones. Contar con más de dos (2) fallas injustificadas es causa de reprobación del módulo.
-
-\subsection{Entregables: Talleres, Bitácoras e Informes}
-La evaluación práctica del curso se compone de tres tipos de entregables con propósitos pedagógicos distintos:
-
-\begin{itemize}[label=$\circ$, leftmargin=*]
-	\item \textbf{Talleres de Fundamentación (2 en total):} Guías de trabajo práctico en aula (Semanas 2 y 3) enfocadas en propagación de errores, cifras significativas y procesamiento de datos en Excel. Se recogen al finalizar la sesión.
-	\item \textbf{Bitácoras de Laboratorio (8 en total):} Informes breves de las sesiones prácticas convencionales. Incluyen exclusivamente: descripción del montaje, toma de datos experimentales con incertidumbres, gráficos/procesamiento y conclusiones. \textbf{NO} incluyen marco teórico ni resumen.
-	\item \textbf{Informes Estructurados (2 en total):} Documentos formales tipo artículo académico que sustituyen la bitácora en la \textbf{Práctica 3 (Medio Viscoso)} y en la \textbf{Práctica 9 (Ley de Hooke)}. Requieren marco teórico profundo, discusión de resultados con énfasis biológico/fisiológico y bibliografía formal.
+\begin{itemize}
+    \item \textbf{15 min:} Contextualización y quiz individual de lectura previa.
+    \item \textbf{75 min:} Montaje, medición y adquisición de datos.
+    \item \textbf{30 min:} Procesamiento inicial, revisión de bitácoras y cierre.
 \end{itemize}
 
-\section{Cronograma de Laboratorio de Física}
-Planificación semanal sincronizada con la secuencia oficial de 10 prácticas del PDF y los 12 entregables evaluables del curso.
+Podrán utilizarse instrumentos tradicionales, sensores de teléfonos
+inteligentes y herramientas de análisis como Tracker.
 
-\begin{table}[h!]
-	\centering
-	\small
-	\begin{tabular}{c c l c}
-		\toprule
-		\textbf{Semana} & \textbf{Fecha} & \textbf{Práctica / Actividad Oficial} & \textbf{Entregable} \\
-		\midrule
-		1  & 01 Sep & Presentación y Teoría de Mediciones e Incertidumbre & --- \\
-		2  & 08 Sep & Taller 1: Cifras Significativas e Incertidumbres & Taller 1 \\
-		3  & 15 Sep & Taller 2: Análisis Estadístico y Graficación & Taller 2 \\
-		4  & 22 Sep & Práctica 1: Análisis de un Experimento (Vaciado) & Bitácora 1 \\
-		5  & 29 Sep & Práctica 2: Periodo de un Péndulo Simple & Bitácora 2 \\
-		6  & 06 Oct & Práctica 3: Movimiento en un Medio Viscoso & \textbf{Informe 1} \\
-		7  & 13 Oct & Práctica 4: Cinemática Unidimensional & Bitácora 3 \\
-		8  & 20 Oct & Práctica 5: Movimiento Parabólico & Bitácora 4 \\
-		9  & 27 Oct & Práctica 6: Primera Ley de Newton & Bitácora 5 \\
-		10 & 03 Nov & Práctica 7: Segunda Ley de Newton & Bitácora 6 \\
-		11 & 10 Nov & Práctica 8: Conservación de la Energía & Bitácora 7 \\
-		12 & 17 Nov & Práctica 9: Ley de Hooke & \textbf{Informe 2} \\
-		13 & 24 Nov & Práctica 10: Oscilación de un Péndulo Físico & Bitácora 8 \\
-		14 & 01 Dic & Taller de Asesoría y Redacción de Informes Formales & --- \\
-		15 & 08 Dic & Entrega Final de Informes Formales Revisados & --- \\
-		16 & 15 Dic & Socialización de Notas y Cierre del Curso & --- \\
-		\bottomrule
-	\end{tabular}
-	\caption{Cronograma tentativo.}
-	\label{tab:cronograma}
-\end{table}
+\textit{La distribución de tiempo podrá ajustarse según las necesidades
+de cada práctica.}
+
+% =========================================================
+\section{Sistema de Evaluación}
+
+\begin{center}
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Componente} & \textbf{Porcentaje} \\
+\midrule
+Talleres de Fundamentación (individuales) & 10\% \\
+Bitácoras de Laboratorio (grupales) & 50\% \\
+Informes Formales (grupales) & 30\% \\
+Quices (individuales) & 10\% \\
+\midrule
+\textbf{Total} & \textbf{100\%} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Entregables}
+
+\begin{itemize}
+
+    \item \textbf{Talleres de Fundamentación:}
+    Dos talleres individuales (Semanas 2 y 3) sobre cifras significativas,
+    errores, incertidumbres y procesamiento gráfico. Los estudiantes que
+    ingresen durante el periodo de adiciones podrán entregarlos
+    asincrónicamente hasta la Semana 3.
+
+    \item \textbf{Bitácoras de Laboratorio:}
+    Reportes grupales de las prácticas convencionales. Deben incluir
+    montaje, datos experimentales e incertidumbres, gráficos,
+    procesamiento, análisis de resultados y conclusiones.
+    \textbf{No requieren resumen ni marco teórico.} Recomiendo sea conciso pero no por ello incompleto.
+
+    \item \textbf{Informes Formales:}
+    Dos informes grupales en formato de artículo académico que
+    sustituyen la bitácora en prácticas seleccionadas. Incluyen marco
+    teórico, metodología, análisis y discusión de resultados,
+    implicaciones biológicas y bibliografía.
+
+    \item \textbf{Quices:}
+    Evaluaciones individuales de lectura previa realizadas al inicio de
+    cada sesión.
+
+\end{itemize}
+
+% =========================================================
+\subsection{Puntualidad y Entregas}
+
+Los quices se realizan durante los primeros 15 minutos de la sesión.
+No se realizarán quices extemporáneos por llegada tarde, salvo
+justificación médica o institucional válida.
+
+Las entregas deberán realizarse en Google Classroom antes de la fecha
+establecida. Sin justificación válida, se aplicará el siguiente límite
+de calificación:
+
+\begin{center}
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Entrega} & \textbf{Calificación máxima} \\
+\midrule
+En plazo & 5.0 \\
+1 día tarde & 4.0 \\
+2 días tarde & 3.0 \\
+3 días tarde & 2.0 \\
+4 días tarde & 1.0 \\
+Más de 4 días tarde & 0.0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Cada día corresponde a un periodo de 24 horas después de la fecha y hora
+límite. Las situaciones justificadas se atenderán de acuerdo con las
+disposiciones del curso y la normativa institucional.
+
+% =========================================================
+\section{Cronograma}
+
+El cronograma actualizado de prácticas, entregas y fechas estará
+disponible en Google Sheets y fijado en Google Classroom. Podrá
+actualizarse cuando las condiciones académicas, logísticas o
+experimentales lo requieran.
+
+\url{https://docs.google.com/spreadsheets/d/1wS0SMjCVXRdIrt7cfAcvsZOjNptet49roew4ILabgVw/edit?usp=sharing}
+
+% =========================================================
+\begin{thebibliography}{9}
+
+\bibitem{cristancho2026}
+F.~Cristancho Mejía,
+\textit{Notas de Clase: Fundamentos de Física Experimental},
+Departamento de Física, Facultad de Ciencias,
+Universidad Nacional de Colombia, Sede Bogotá, 2026.
+
+\bibitem{cromer1996}
+A.~H. Cromer,
+\textit{Física para las ciencias de la vida},
+2ª~ed., Reverté, Barcelona, 1996.
+
+\bibitem{jou2009}
+D.~Jou, J.~E. Llebot y C.~Pérez-García,
+\textit{Física para ciencias de la vida},
+2ª~ed., McGraw-Hill / Interamericana de España, Madrid, 2009.
+
+\end{thebibliography}
 
 \end{document}
