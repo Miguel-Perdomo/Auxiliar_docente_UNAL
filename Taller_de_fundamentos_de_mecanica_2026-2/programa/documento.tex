@@ -1,25 +1,172 @@
-\documentclass[12pt]{article}
+\documentclass[11pt, letterpaper]{article}
+
+% ----- PAQUETES -----
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage{amsmath, amssymb}
 \usepackage{graphicx}
-% La fuente por defecto de LaTeX es Computer Modern.
-% Esto hace un match perfecto con el text.usetex=True de styles.py
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
 
-\title{Material del Curso - Tema 1}
-\author{Miguel Perdomo - Auxiliar Docente UNAL}
-\date{Semestre 2026-2}
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+    colorlinks=true,
+    linkcolor=UnalGreen,
+    urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Fundamentos de Mecánica (1000019) -- Taller 14}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{
+    leftmargin=*,
+    itemsep=2pt,
+    topsep=2pt,
+    parsep=0pt
+}
 
 \begin{document}
-\maketitle
-
-\section{Introducción}
-Este documento base ya cuenta con la tipografía coherente (Computer Modern). 
-Todas las gráficas exportadas desde los notebooks o scripts en Python 
-tendrán exactamente esta misma fuente.
-
-\section{Montaje}
-% Aquí puedes importar las figuras creadas en TikZ desde la carpeta codigos/
-% \input{codigos/montaje_tikz.tex}
-
+    
+    % =========================================================
+    % ENCABEZADO
+    % =========================================================
+    
+    \begin{center}
+        \vspace*{-0.8cm}
+        \includegraphics[width=0.15\textwidth]
+        {imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+        
+        {\Large\bfseries Programa de Taller -- Grupo 14}\\[0.05cm]
+        {\large\bfseries Fundamentos de Mecánica (1000019)}
+    \end{center}
+    
+    \vspace{0.05cm}
+    {\color{UnalGreen}\hrule height 0.8pt}
+    \vspace{0.2cm}
+    
+    % =========================================================
+    % INFORMACIÓN DEL CURSO
+    % =========================================================
+    
+    \noindent
+    \begin{small}
+        \begin{tabular}{@{}p{3.2cm} l@{}}
+            \textbf{Auxiliar docente:} &
+            Miguel Andrés Perdomo Gutiérrez
+            (\href{mailto:mperdomog@unal.edu.co}{mperdomog@unal.edu.co}) \\[0.05cm]
+            
+            \textbf{Horario y lugar:} &
+            Viernes 09:00--11:00 | Edificio 401, Salón 202 \\[0.05cm]
+            
+            \textbf{Atención:} &
+            Cita previa \\[0.05cm]
+            
+            \textbf{Oficina:} &
+            Ed. Manuel Ancízar (405), Of. 2056 (Grupo de Física Nuclear)
+        \end{tabular}
+    \end{small}
+    
+    % =========================================================
+    \section{Presentación y Objetivos}
+    
+    El taller de Fundamentos de Mecánica es un espacio práctico diseñado para afianzar el razonamiento físico y la destreza matemática en la resolución de problemas de mecánica newtoniana. A través del trabajo colaborativo y la discusión guiada, se busca que el estudiante desarrolle capacidad crítica para analizar sistemas físicos, formalizar diagramas de cuerpo libre, aplicar leyes de conservación y argumentar rigurosamente sus soluciones a nivel de examen parcial.
+    
+    % =========================================================
+    \section{Metodología de Trabajo}
+    
+    Las sesiones tienen una duración de 2 horas y se realizarán en \textbf{grupos de máximo 4 y minimo 3 estudiantes}. La dinámica de cada sesión se distribuye de la siguiente manera:
+    
+    \begin{itemize}
+        \item \textbf{10 min -- Inicio:} Entrega de la guía de problemas de la semana e instrucciones generales.
+        \item \textbf{45 min -- Trabajo en grupo:} Análisis colaborativo y resolución de los problemas propuestos.
+        \item \textbf{35 min -- Sustentación en tablero:} Sorteo aleatorio de grupos e integrantes para resolver y defender los problemas en el tablero ante la clase con retroalimentación inmediata.
+        \item \textbf{15 min -- Quiz individual (quincenal):} Evaluación escrita individual de 15 a 20 minutos sobre los temas abordados.
+    \end{itemize}
+    
+    % =========================================================
+    \section{Sistema de Evaluación}
+    
+    La nota total de la componente de taller se dividirá equitativamente entre el desempeño grupal y la verificación individual:
+    
+    \begin{center}
+        \begin{tabular}{@{}lc@{}}
+            \toprule
+            \textbf{Componente} & \textbf{Porcentaje} \\
+            \midrule
+            Sustentación / Trabajo en Grupo (Sustentación en tablero o procedimiento escrito) & 50\% \\
+            Quices Individuales (Cada 2 semanas) & 50\% \\
+            \midrule
+            \textbf{Total} & \textbf{100\%} \\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+    
+    \subsection{Reglas de las Evaluaciones}
+    
+    \begin{itemize}
+        
+        \item \textbf{Trabajo Grupal y Tablero (50\%):} Todos los grupos deben resolver la guía completa y entregar una memoria escrita al finalizar la clase. Al momento de la revisión, se elegirá por sorteo a **un integrante** del grupo para exponer en el tablero. La nota obtenida por el expositor será la nota del grupo para esa sesión. Si el grupo no es seleccionado para el tablero, su nota corresponderá a la revisión del procedimiento entregado por escrito.
+        
+        \item \textbf{Quices Individuales (50\%):} Se realizarán de manera **quincenal** (cada dos semanas) durante los últimos minutos de la clase. Evaluarán un ejercicio directo derivado de los conceptos trabajados durante las sesiones previas.
+        
+    \end{itemize}
+    
+    % =========================================================
+    \subsection{Puntualidad y Asistencia}
+    
+    Los quices individuales y las asignaciones para el tablero inician estrictamente dentro de los tiempos estipulados. No se realizarán quices extemporáneos ni se reprogramarán sustentaciones por impuntualidad, salvo excusa médica o institucional debidamente validada.
+    
+    % =========================================================
+    \section{Cronograma y Recursos}
+    
+    El cronograma detallado de temas, fechas de quices y problemas recomendados estará disponible y continuamente actualizado en el siguiente enlace de Google Sheets y en la plataforma Google Classroom:
+    
+    \url{https://docs.google.com/spreadsheets/d/1wS0SMjCVXRdIrt7cfAcvsZOjNptet49roew4ILabgVw/edit?usp=sharing}
+    
+    % =========================================================
+    \begin{thebibliography}{9}
+        
+        \bibitem{alonso1992}
+        M.~Alonso y E.~J.~Finn,
+        \textit{Física. Volumen I: Mecánica},
+        Addison-Wesley Iberoamericana, México, 1992.
+        
+        \bibitem{kleppner2014}
+        D.~Kleppner y R.~Kolenkow,
+        \textit{An Introduction to Mechanics},
+        2ª~ed., Cambridge University Press, Cambridge, 2014.
+        
+        \bibitem{serway2018}
+        R.~A.~Serway y J.~W.~Jewett,
+        \textit{Física para ciencias e ingeniería},
+        Vol.~1, 10ª~ed., Cengage Learning, México, 2018.
+        
+    \end{thebibliography}
+    
 \end{document}
