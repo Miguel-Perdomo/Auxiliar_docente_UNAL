@@ -1,0 +1,279 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+% 1. Definir el color ANTES de llamar al tema SimplePlus
+\usepackage{xcolor}
+\definecolor{nyugray}{RGB}{128,128,128}
+
+\usetheme{SimplePlus}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[skip=5pt]{caption}
+
+\captionsetup{justification=justified, font=small}
+\usefonttheme{professionalfonts}
+
+% ----- INFORMACIÓN DE LA PRESENTACIÓN -----
+\title{Fundamentos de Mecánica -- Taller 14}
+\subtitle{Sesión 1: Presentación del Curso, Unidades y Vectores}
+
+\titlegraphic{
+	\vspace*{-0.3cm}
+	\IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+		\includegraphics[width=2.2cm]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+	}{%
+		\includegraphics[width=2.2cm]{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+	}
+	\hspace{1.0cm}
+	% Logo MIAI
+	\IfFileExists{logoMIAI_white.png}{%
+		\includegraphics[width=4.0cm]{logoMIAI_white.png}%
+	}{%
+		\IfFileExists{imagenes/logoMIAI_white.png}{%
+			\includegraphics[width=4.0cm]{imagenes/logoMIAI_white.png}%
+		}{}%
+	}
+}
+
+\author{Miguel Andrés Perdomo Gutiérrez}
+
+\institute{%
+	Auxiliar Docente | M.Sc. en Ciencias -- Física\\
+	Universidad Nacional de Colombia -- Sede Bogotá
+}
+
+\date{28 de agosto de 2026}
+
+\begin{document}
+	
+	% ----- SLIDE 1: PORTADA -----
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	% ----- SLIDE 2: INFORMACIÓN GENERAL -----
+	\begin{frame}[shrink]{Información General}
+		\begin{columns}[t]
+			\begin{column}{0.48\textwidth}
+				\textbf{Docente Auxiliar:}
+				\begin{itemize}
+					\item Miguel Andrés Perdomo G.
+					\item \href{mailto:mperdomog@unal.edu.co}{\footnotesize mperdomog@unal.edu.co}
+				\end{itemize}
+				
+				\vspace{0.15cm}
+				\textbf{Horario y Lugar:}
+				\begin{itemize}
+					\item Viernes: 09:00 -- 11:00
+					\item \textbf{Taller 14} (Salón asignado por la Facultad)
+				\end{itemize}
+			\end{column}
+			
+			\begin{column}{0.48\textwidth}
+				\textbf{Atención a Estudiantes:}
+				\begin{itemize}
+					\item Cita previa por correo electrónico
+					\item Of. 2056 (G. Física Nuclear, Ed. Ancízar)
+				\end{itemize}
+				
+				\vspace{0.15cm}
+				\textbf{Equipos de Trabajo:}
+				\begin{itemize}
+					\item Grupos fijos de \textbf{4 integrantes}.
+				\end{itemize}
+			\end{column}
+		\end{columns}
+		
+		\vspace{0.3cm}
+		\begin{center}
+			\IfFileExists{Images/map2.png}{%
+				\includegraphics[height=3.0cm, keepaspectratio]{Images/map2.png}%
+			}{%
+				\small \textit{[Espacio para imagen / mapa de ubicación]}%
+			}
+		\end{center}
+	\end{frame}
+	
+	% ----- SLIDE 3: OBJETIVOS Y ROL DEL TALLER -----
+	\begin{frame}{Objetivos del Taller de Mecánica}
+		\vspace{-0.3cm}
+		\begin{columns}[T]
+			\begin{column}{0.58\textwidth}
+				\textbf{¿Para qué sirve el espacio de Taller?}
+				\vspace{0.2cm}
+				\begin{itemize}
+					\item \textbf{Complemento Activo:} Afianzar de forma práctica y numérica los conceptos vistos en la asignatura magistral.
+					\vspace{0.15cm}
+					\item \textbf{Resolución de Problemas:} Desarrollar estrategias operativas para abordar ejercicios tipo examen parcial.
+					\vspace{0.15cm}
+					\item \textbf{Trabajo Colaborativo:} Discutir en grupo procedimientos físicos, razonamiento vectorial y rigor matemático.
+					\vspace{0.15cm}
+					\item \textbf{Sustentación:} Aprender a argumentar la solución de un problema en el tablero frente a sus compañeros.
+				\end{itemize}
+			\end{column}
+			
+			\begin{column}{0.38\textwidth}
+				\centering
+				\IfFileExists{Images/meme1.jpeg}{%
+					\includegraphics[width=\linewidth, height=0.65\paperheight, keepaspectratio]{Images/meme1.jpeg}%
+				}{%
+					\small \textit{[Imagen ilustrativa]}%
+				}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ----- SLIDE 4: ESTRUCTURA DE LA SESIÓN -----
+	\begin{frame}{Estructura de la Sesión Semanal (2 Horas)}
+		\begin{block}{Distribución orientativa del tiempo}
+			\begin{itemize}
+				\item \textbf{10 min -- Organización:} Registro de asistencia y asignación de problemas del taller previo al tablero.
+				\item \textbf{40 min -- Trabajo en Tablero:} Sustentación simultánea por grupos y resolución colaborativa.
+				\item \textbf{20 min -- Retroalimentación:} Intervención docente sobre vacíos conceptuales y errores comunes.
+				\item \textbf{30 min -- Evaluación / Cierre:} Quiz individual (semanas pares) o introducción práctica al nuevo tema (semanas impares).
+				\item \textbf{20 min -- Asignación del Nuevo Taller:} Pautas clave para la guía de la siguiente semana.
+			\end{itemize}
+		\end{block}
+		
+		\vspace{0.2cm}
+		\centering
+		\small \textit{"El taller se trabaja en casa durante la semana; a la clase venimos a discutir, defender y corregir el procedimiento."}
+	\end{frame}
+	
+	% ----- SLIDE 5: SISTEMA DE EVALUACIÓN -----
+	\begin{frame}{Sistema de Evaluación}
+		\vspace{-0.2cm}
+		\begin{columns}[T]
+			\begin{column}{0.42\textwidth}
+				\centering
+				\renewcommand{\arraystretch}{1.4}
+				\begin{tabular}{@{}lc@{}}
+					\toprule
+					\textbf{Componente} & \textbf{\%} \\
+					\midrule
+					Trabajo en Tablero / Memorias & 50\% \\
+					Quices Individuales & 50\% \\
+					\midrule
+					\textbf{Total} & \textbf{100\%} \\
+					\bottomrule
+				\end{tabular}
+				
+				\vspace{0.3cm}
+				{\small \textcolor{gray}{Asistencia mínima recomendada: 80\%}}
+			\end{column}
+			
+			\begin{column}{0.54\textwidth}
+				\small
+				\begin{description}
+					\item[Talleres Semanales (50\%)] Se asigna un taller por semana. Todos los grupos entregan su memoria escrita al inicio de la sesión.
+					\vspace{0.15cm}
+					\item[Sustentación en Tablero] Si el grupo es sorteado para pasar al tablero, la nota de la exposición reemplaza la entrega escrita.
+					\vspace{0.15cm}
+					\item[Quices Quincenales (50\%)] Pruebas individuales de 20--30 min basadas en los talleres trabajados.
+					\begin{itemize}
+						\item \textbf{Quiz 1 (Semana 2):} Prueba piloto (0\%, no calificable).
+						\item \textbf{Quiz 8 (Semana 15):} Opcional / Recuperación.
+					\end{itemize}
+				\end{description}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ----- SLIDE 6: DINÁMICA DE TRABAJO -----
+	\begin{frame}{Mecánica Operativa de los Talleres}
+		\vspace{-0.2cm}
+		\begin{block}{Ciclo Semanal ($N \rightarrow N+1$)}
+			\begin{enumerate}
+				\item \textbf{Semana $N$:} Se publica la guía de ejercicios (4 a 6 problemas clave).
+				\item \textbf{Trabajo Autónomo:} El grupo resuelve el taller de forma colaborativa durante la semana.
+				\item \textbf{Semana $N+1$ (En clase):} 
+				\begin{itemize}
+					\item Se recoge la solución en físico/digital por grupo.
+					\item Se realiza sorteo de estudiantes para pasar al tablero a explicar los ejercicios.
+					\item Se aplica el quiz correspondiente (en semanas pares).
+				\end{itemize}
+			\end{enumerate}
+		\end{block}
+		
+		\vspace{0.1cm}
+		\begin{alertblock}{Criterio de Calificación de Talleres}
+			\small Ningún taller se queda sin calificar: si el grupo no sale al tablero, se evalúa el documento escrito entregado esa misma sesión.
+		\end{alertblock}
+	\end{frame}
+	
+	% ----- SLIDE 7: PENALIZACIONES -----
+	\begin{frame}{Puntualidad y Entregas Tardías}
+		\vspace{-0.2cm}
+		\begin{columns}[T]
+			\begin{column}{0.52\textwidth}
+				\textbf{Quices Individuales}
+				\vspace{0.1cm}
+				
+				\small
+				\begin{itemize}
+					\item Se presentan de forma presencial e individual.
+					\vspace{0.15cm}
+					\item \textbf{No} se realizan quices extemporáneos sin excusa médica o institucional válida.
+				\end{itemize}
+				
+				\vspace{0.3cm}
+				\textbf{Reglas en el Aula}
+				\vspace{0.1cm}
+				
+				\small
+				\begin{itemize}
+					\item Respeto al momento de la sustentación en el tablero.
+					\item Uso activo del tablero por parte de todos los miembros del grupo durante el semestre.
+				\end{itemize}
+			\end{column}
+			
+			\begin{column}{0.46\textwidth}
+				\textbf{Entregas Tardías de Memorias (Classroom)}
+				\vspace{0.1cm}
+				
+				\renewcommand{\arraystretch}{1.25}
+				\begin{tabular}{lcc}
+					\toprule
+					\textbf{Retraso} & \textbf{Nota Máx.} \\
+					\midrule
+					En plazo (Inicio de clase) & 5.0 \\
+					$+24$ h (1 día) & 4.0 \\
+					$+48$ h (2 días) & 3.0 \\
+					$+72$ h (3 días) & 2.0 \\
+					$+96$ h (4 días) & 1.0 \\
+					$> 96$ h ($>$4 días) & 0.0 \\
+					\bottomrule
+				\end{tabular}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ----- SLIDE 8: PRÓXIMOS PASOS -----
+	\begin{frame}{Próximos Pasos para la Semana 2}
+		\begin{columns}[T]
+			\begin{column}{0.58\textwidth}
+				\begin{block}{Para la siguiente sesión (04/09):}
+					\begin{itemize}
+						\item Confirmar la conformación del grupo de trabajo (4 personas).
+						\item Resolver y preparar la memoria del \textbf{Taller 1} (Unidades, Conversiones y Vectores 2D/3D).
+						\item Estar listos para sustentación en tablero del Taller 1.
+						\item Presentación del \textbf{Quiz 1 (Prueba piloto, 0\%)}.
+					\end{itemize}
+				\end{block}
+			\end{column}
+			
+			\begin{column}{0.38\textwidth}
+				\centering
+				\IfFileExists{Images/meme2.jpeg}{%
+					\includegraphics[width=\linewidth, height=0.7\paperheight, keepaspectratio]{Images/meme2.jpeg}%
+				}{%
+					\small \textit{[Imagen ilustrativa]}%
+				}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+\end{document}
