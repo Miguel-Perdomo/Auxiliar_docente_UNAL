@@ -1,0 +1,156 @@
+\documentclass[11pt, letterpaper]{article}
+
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+    colorlinks=true,
+    linkcolor=UnalGreen,
+    urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Fundamentos de Mecánica (1000019) -- Taller}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{
+    leftmargin=*,
+    itemsep=2pt,
+    topsep=2pt,
+    parsep=0pt
+}
+
+\begin{document}
+    
+    % =========================================================
+    % ENCABEZADO
+    % =========================================================
+    
+    \begin{center}
+        \vspace*{-0.8cm}
+        \includegraphics[width=0.15\textwidth]
+        {imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+        
+        {\Large\bfseries Taller de Vectores y Magnitudes -- Grupo 14}\\[0.05cm]
+        {\large\bfseries Fundamentos de Mecánica (1000019)}
+    \end{center}
+   
+    
+    % =========================================================
+    % INFORMACIÓN DEL CURSO
+    % ========================================================
+    
+    \vspace{0.2cm}
+    
+    % =========================================================
+    \section{Unidades y Análisis Dimensional}
+    % =========================================================
+    
+    \begin{enumerate}
+    	
+    	\item El estadio Nemesio Camacho (El Campín) tiene un área aproximada de 76854 ft$^2$. Calcule esta área en m$^2$. Si una hectárea está definida como ha = 10000 m$^2$, ¿cuál es el área en hectáreas de este estadio?
+    	
+    	\item Convierta 80 km/h a mi/h y 20 m/s a km/h.
+    	
+    	\item El radio del átomo de hidrógeno es $r = 5.3 \times 10^{-11}$ m. Escriba este valor en fm y \AA.
+    	
+    	\item ¿Cuántos segundos tiene un año?
+    	
+    	\item Si el periodo $\tau$ de un péndulo se puede escribir en términos de la aceleración de la gravedad $g$ y de la longitud del péndulo $l$ como $\tau = l^m g^n$. ¿Cuáles deben ser los valores de $m$ y $n$ para que las unidades de $\tau$ sean unidades de tiempo?
+    	
+    	\item La energía cinética de un objeto de masa $m$ que se mueve con rapidez $v$ está dada por $E = \frac{1}{2}mv^2$. Verifique dimensionalmente que esta expresión tiene unidades de energía (Joules).
+    	
+    	\item La fuerza de atracción gravitacional entre dos masas $m_1$ y $m_2$ separadas por una distancia $r$ está dada por $F = G\frac{m_1 m_2}{r^2}$, donde $G$ es la constante de gravitación universal. ¿Cuáles son las unidades de $G$ en el SI?
+    	
+    	\item ¿Cuál es la rapidez promedio de un caminante joven, un ciclista aficionado y un auto en la ciudad de Bogotá? Exprese estas cantidades en m/s y km/h.
+    	
+    \end{enumerate}
+    
+    % =========================================================
+   \section{Vectores}
+   % =========================================================
+   
+   \begin{enumerate}
+   	\setcounter{enumi}{6}
+   	
+   	\item Sean $\vec{A} = 3\hat{i} - 2\hat{j} + 5\hat{k}$, $\vec{B} = \hat{i} + 4\hat{j} - 2\hat{k}$ y $\vec{C} = 2\hat{i} - 3\hat{j} + 4\hat{k}$. Determinar:
+   	\begin{enumerate}
+   		\item $\vec{A} + \vec{B}$
+   		\item $\vec{A} - \vec{B}$
+   		\item $\vec{A} + \vec{B} - \vec{C}$
+   		\item $5\vec{A} - 3\vec{B} - 2\vec{C}$
+   	\end{enumerate}
+   	
+   	\item Suponga que tiene los vectores $\vec{A} = 2\hat{i} + 5\hat{j} - 2\hat{k}$, $\vec{B} = 3\hat{i} - 4\hat{j}$ y $\vec{C} = 2\hat{i} + 3\hat{k}$. Determine:
+   	\begin{enumerate}
+   		\item $\vec{A} + \vec{B} + \vec{C}$
+   		\item $\vec{A} - \vec{B}$
+   		\item $|\vec{A}|$
+   		\item $|\vec{B}|$
+   		\item $|\vec{A} + \vec{B}|$
+   		\item $\vec{A} \cdot \vec{B}$
+   		\item $\vec{A} \times \vec{B}$
+   		\item $\vec{A} \cdot (\vec{B} \times \vec{C})$
+   	\end{enumerate}
+   	
+   	\item Considere los vectores $\vec{A} = 2\hat{i} - \hat{j} + 3\hat{k}$ y $\vec{B} = \hat{i} + 3\hat{j} - 2\hat{k}$. Encuentre un vector $\vec{D}$ de magnitud $7$ que sea simultáneamente perpendicular tanto a $\vec{A}$ como a $\vec{B}$.
+   
+   \item Tres vértices en el espacio $3\text{D}$ están ubicados en los puntos $P_1(1, 2, 0)$, $P_2(3, 0, 2)$ y $P_3(0, 4, 1)$.
+   \begin{enumerate}
+   	\item Construya los vectores posición $\vec{r}_{12}$ y $\vec{r}_{13}$ que van desde $P_1$ hacia $P_2$ y $P_3$.
+   	\item Calcule el área del triángulo formado por los tres puntos en el espacio.
+   \end{enumerate}
+   	
+   	\item Halle el coseno y el seno del ángulo entre los vectores $\vec{A} = 2\hat{i} + 2\hat{j} - \hat{k}$ y $\vec{B} = -\hat{i} + 2\hat{j} + 2\hat{k}$.
+   	
+   	\item Encuentre el vector unitario que tiene la misma dirección que $\vec{V} = -3\hat{i} + 4\hat{j}$.
+   	
+   \end{enumerate}
+   
+   \vfill
+   \noindent
+   \begin{center}
+   	\small\textit{*Ejercicios tomados y adaptados del taller de la profesora Edna Carolina Pinilla Beltrán.}
+   \end{center}
+    
+    \vspace{0.5cm}
+    {\color{UnalGreen}\hrule height 0.5pt}
+    \begin{center}
+        \small 
+        \textit{Trabajo en grupos.}
+    \end{center}
+    
+\end{document}
