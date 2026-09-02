@@ -29,3 +29,6 @@ __pycache__/
 .DS_Store
 .vscode/
 .idea/
+
+# Basura de WSL
+*:Zone.Identifier

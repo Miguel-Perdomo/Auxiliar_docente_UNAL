@@ -1,0 +1,62 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+% 1. Definir el color ANTES de llamar al tema SimplePlus
+\usepackage{xcolor}
+\definecolor{nyugray}{RGB}{128,128,128}
+
+\usetheme{SimplePlus}
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta}
+\usepackage[skip=5pt]{caption}
+
+\captionsetup{justification=justified, font=small}
+\usefonttheme{professionalfonts}
+
+% ----- INFORMACIÓN DE LA PRESENTACIÓN -----
+\title{Fundamentos de Mecánica -- Taller (14)}
+\subtitle{Sesión 1: Presentación del Curso, Unidades y Vectores}
+
+\titlegraphic{%
+    \vspace*{-0.3cm}%
+    \IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+        \includegraphics[width=2.2cm]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+    }{%
+        \IfFileExists{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+            \includegraphics[width=2.2cm]{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+        }{}%
+    }%
+    \hspace{1.0cm}%
+    % Logo MIAI
+    \IfFileExists{logoMIAI_white.png}{%
+        \includegraphics[width=4.0cm]{logoMIAI_white.png}%
+    }{%
+        \IfFileExists{imagenes/logoMIAI_white.png}{%
+            \includegraphics[width=4.0cm]{imagenes/logoMIAI_white.png}%
+        }{}%
+    }%
+}
+
+\author{Miguel Andrés Perdomo Gutiérrez}
+
+\institute{%
+    Auxiliar Docente | M.Sc. en Ciencias -- Física\\
+    Universidad Nacional de Colombia -- Sede Bogotá
+}
+
+\date{28 de agosto de 2026}
+
+\begin{document}
+    
+    % ----- SLIDE 1: PORTADA -----
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+
+\end{document}
