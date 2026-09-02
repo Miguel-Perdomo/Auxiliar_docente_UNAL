@@ -1,6 +1,6 @@
 \documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
 
-% 1. Definir el color ANTES de llamar al tema SimplePlus
+% ---------- Paquetes base (igual que Sesión 1) ----------
 \usepackage{xcolor}
 \definecolor{nyugray}{RGB}{128,128,128}
 
@@ -12,15 +12,36 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tikz}
-\usetikzlibrary{positioning, arrows.meta}
+\usepackage{pgfplots}
+% (Sin \pgfplotsset{compat=...}: se deja el valor por defecto del paquete,
+%  que es el modo más antiguo y estable. Fijar compat=1.16 de forma explícita
+%  provoca errores en algunas instalaciones de pgfplots al combinar barras
+%  (ybar) con una curva superpuesta.)
+\usetikzlibrary{positioning, arrows.meta, calc}
 \usepackage[skip=5pt]{caption}
+\usepackage{xurl}
+\usepackage{amsmath}
 
 \captionsetup{justification=justified, font=small}
 \usefonttheme{professionalfonts}
 
+% Macros de notacion vectorial
+\newcommand{\ii}{\hat{\imath}}
+\newcommand{\jj}{\hat{\jmath}}
+\newcommand{\kk}{\hat{k}}
+
+% Aviso estandar para imagenes/fotografias no reproducibles en LaTeX
+\newcommand{\imgwarning}[1]{%
+\begin{center}
+\fbox{\begin{minipage}{0.82\textwidth}\centering\footnotesize\itshape
+[Espacio reservado para imagen: #1. No se reproduce automaticamente por LaTeX; insertar manualmente si se desea.]
+\end{minipage}}
+\end{center}%
+}
+
 % ----- INFORMACIÓN DE LA PRESENTACIÓN -----
 \title{Fundamentos de Mecánica -- Taller (14)}
-\subtitle{Sesión 1: Presentación del Curso, Unidades y Vectores}
+\subtitle{Sesión 2: Revisión Taller 1 y Cinemática -- Principios Básicos}
 
 \titlegraphic{%
     \vspace*{-0.3cm}%
@@ -32,7 +53,6 @@
         }{}%
     }%
     \hspace{1.0cm}%
-    % Logo MIAI
     \IfFileExists{logoMIAI_white.png}{%
         \includegraphics[width=4.0cm]{logoMIAI_white.png}%
     }{%
@@ -49,14 +69,520 @@
     Universidad Nacional de Colombia -- Sede Bogotá
 }
 
-\date{28 de agosto de 2026}
+\date{4 de septiembre de 2026}
 
 \begin{document}
-    
-    % ----- SLIDE 1: PORTADA -----
-    \begin{frame}
-        \titlepage
-    \end{frame}
 
+% ----- SLIDE 1: PORTADA -----
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% ----- SLIDE 2: AGENDA DE LA SESIÓN -----
+\begin{frame}{Agenda de la Sesión}
+\centering
+\begin{tikzpicture}[
+  box/.style={rectangle, rounded corners, draw=UnalGreen, thick, fill=UnalGreen!10,
+    minimum width=2.4cm, minimum height=1.7cm, align=center, font=\small},
+  arr/.style={-{Latex[length=2mm]}, thick, UnalGreen}
+]
+\node[box] (b1) {Sustentación\\Taller 1\\\textbf{40 min}};
+\node[box, right=0.5cm of b1] (b2) {Socialización\\y cierre\\\textbf{10 min}};
+\node[box, right=0.5cm of b2] (b3) {Cinemática:\\Principios\\\textbf{65 min}};
+\node[box, right=0.5cm of b3] (b4) {Preguntas\\y dudas\\\textbf{5 min}};
+\draw[arr] (b1) -- (b2);
+\draw[arr] (b2) -- (b3);
+\draw[arr] (b3) -- (b4);
+\end{tikzpicture}
+
+\vspace{0.5cm}
+\begin{itemize}
+\item Duración total: \textbf{2 horas} (Viernes 09:00--11:00, Edificio 401, Salón 202).
+\item Primera parte: sustentación en tablero del Taller 1 (Vectores y Magnitudes).
+\item Segunda parte: introducción a Cinemática -- posición, desplazamiento y velocidad.
+\end{itemize}
+\end{frame}
+
+% ----- SLIDE 3: SOCIALIZACIÓN TALLER 1 -----
+\begin{frame}{Socialización Taller 1: Vectores}
+\begin{itemize}
+\item Se realiza un \textbf{sorteo aleatorio} de un integrante por grupo (Programa de Taller, Sección 3.1).
+\item El integrante seleccionado sustenta en el tablero uno de los ejercicios de la guía, con retroalimentación inmediata.
+\item La nota obtenida por el expositor es la nota del grupo para esta sesión.
+\item Se repite el procedimiento hasta evaluar a \textbf{todos los grupos}.
+\end{itemize}
+\begin{alertblock}{Recordatorio}
+Si un grupo no es seleccionado para el tablero, su nota corresponde a la revisión del procedimiento escrito (memoria grupal) entregado al inicio de la clase.
+\end{alertblock}
+\end{frame}
+
+% ===================== CINEMÁTICA =====================
+
+% ----- SLIDE 4: CINEMÁTICA (definición) -----
+\begin{frame}{Cinemática}
+\begin{itemize}
+\item Estudia el movimiento de los cuerpos \textbf{sin considerar las causas que lo producen}.
+\item En este curso trataremos los cuerpos como \textbf{idealizaciones}: un punto material (partícula) que ocupa una posición en el espacio en cada instante de tiempo.
+\end{itemize}
+\vspace{0.5cm}
+\footnotesize\textit{Contenidos de esta sección basados y adaptados del material de la profesora Edna Carolina Pinilla Beltrán.}
+\end{frame}
+
+% ----- SLIDE 5: VECTOR POSICIÓN -----
+\begin{frame}{Vector Posición}
+\begin{block}{Definición}
+El vector posición $\vec r$ va del origen de referencia $O$ hacia el punto donde se encuentra la partícula.
+\end{block}
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\draw[->] (-0.3,0) -- (4,0) node[right]{$x$};
+\draw[->] (0,-0.3) -- (0,3) node[above]{$y$};
+\draw[very thick, UnalGreen, -{Latex}] (0,0) -- (2.6,2.0) node[midway, above left]{$\vec r$};
+\fill (2.6,2.0) circle (2pt) node[right]{partícula};
+\node[below left] at (0,0) {$O$};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ----- SLIDE 6: VECTOR DESPLAZAMIENTO -----
+\begin{frame}{Vector Desplazamiento}
+\begin{block}{Definición}
+El vector desplazamiento $\Delta \vec x$ va de la posición inicial a la posición final:
+\[
+\Delta \vec x = \vec x_2 - \vec x_1
+\]
+\end{block}
+\begin{center}
+\begin{tikzpicture}[scale=0.95]
+\draw[->] (-0.3,0) -- (8,0) node[right]{$x$};
+\draw[dashed] (0,0) -- (0,-0.5);
+\node[below, align=center] at (0,-0.6) {\footnotesize Origen del sistema\\\footnotesize de coordenadas};
+\draw[very thick, blue!60!black,-{Latex}] (0,0.3) -- (2,0.3) node[midway, above]{$\vec x_1$};
+\draw[very thick, UnalGreen,-{Latex}] (0,0.75) -- (6,0.75) node[midway, above]{$\vec x_2$};
+\draw[very thick, red!70!black,-{Latex}] (2,1.35) -- (6,1.35) node[midway, above]{$\Delta\vec x=\vec x_2-\vec x_1$};
+\fill (2,0) circle (2pt) node[below]{$x_1$};
+\fill (6,0) circle (2pt) node[below]{$x_2$};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ----- SLIDE 7: TRAYECTORIA -----
+\begin{frame}{Trayectoria y Distancia Recorrida}
+\begin{block}{Trayectoria}
+Cantidad \textbf{escalar} que indica un recorrido o un camino entre dos puntos.
+\end{block}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\coordinate (A) at (0,0);
+\coordinate (B) at (6,-0.3);
+\fill (A) circle (2pt);
+\fill (B) circle (2pt);
+\draw[thick, UnalGreen] (A) to[out=60,in=120] node[above]{Trayectoria 1} (B);
+\draw[thick, blue!60!black] (A) -- node[above]{Trayectoria 2} (B);
+\draw[thick, red!70!black] (A) to[out=-30,in=200] node[below]{Trayectoria 3} (B);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ----- SLIDE 8: DISTANCIA RECORRIDA -----
+\begin{frame}{Trayectoria y Distancia Recorrida}
+\begin{block}{Distancia recorrida $d$}
+Cantidad \textbf{escalar} que indica lo que se recorre a lo largo de una trayectoria.
+\end{block}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\coordinate (A) at (0,0);
+\coordinate (B) at (6,-0.3);
+\fill (A) circle (2pt);
+\fill (B) circle (2pt);
+\draw[thick, UnalGreen] (A) to[out=60,in=120] node[above]{$d=6$ m} (B);
+\draw[thick, blue!60!black] (A) -- node[above]{$d=4$ m} (B);
+\draw[thick, red!70!black] (A) to[out=-30,in=200] node[below]{$d=5$ m} (B);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ----- SLIDE 9: NORMA DEL VECTOR DESPLAZAMIENTO -----
+\begin{frame}{Norma del Vector Desplazamiento}
+\begin{alertblock}{Importante}
+$|\Delta\vec r|$ equivale a la distancia recorrida $d$ \textbf{solo} cuando la trayectoria es rectilínea.
+\end{alertblock}
+\begin{center}
+\begin{tikzpicture}
+\coordinate (O) at (0,0);
+\coordinate (P1) at (1.5,2.2);
+\coordinate (P2) at (5.5,1.6);
+\draw[very thick, UnalGreen, -{Latex}] (O) -- (P1) node[midway, left]{$\vec r_1$};
+\draw[very thick, UnalGreen, -{Latex}] (O) -- (P2) node[midway, below]{$\vec r_2$};
+\draw[very thick, red!70!black, -{Latex}] (P1) -- (P2) node[midway, above]{$\Delta\vec r$};
+\fill (O) circle (2pt) node[below left]{$O$};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ----- SLIDE 10: EJEMPLO 1 -----
+\begin{frame}{Ejemplo 1}
+Un ciclista se encuentra en la posición inicial $x_1=3$ m (respecto a un origen $O$) y viaja en línea recta de occidente a oriente hasta $x_2=10$ m.
+\begin{center}
+\begin{tikzpicture}
+\draw[->] (-0.5,0) -- (11,0) node[right]{$x$ (m)};
+\foreach \x in {0,2,4,6,8,10} \draw (\x,0.08) -- (\x,-0.08) node[below]{\small\x};
+\fill (3,0) circle (2pt) node[above]{$x_1=3$ m};
+\fill (10,0) circle (2pt) node[above]{$x_2=10$ m};
+\draw[very thick, UnalGreen, -{Latex}] (3,0.7) -- (10,0.7) node[midway, above]{$\Delta \vec x$};
+\end{tikzpicture}
+\end{center}
+\begin{enumerate}
+\item Vector desplazamiento: $\Delta \vec x = 7\text{ m}\,\ii$.
+\item Distancia recorrida: $d = 7$ m.
+\item Si la trayectoria no es rectilínea, $d$ puede diferir de $|\Delta\vec x|$: depende de la trayectoria.
+\end{enumerate}
+\end{frame}
+
+% ----- SLIDE 11: EJEMPLO 2 -----
+\begin{frame}{Ejemplo 2}
+\small Un sujeto viaja en Transmilenio desde la estación Minuto de Dios hasta el Portal de la calle 80. Allí toma el articulado en dirección contraria y desciende en el Monumento a los Héroes, donde da la vuelta hasta el portal. Calcule (a) la distancia recorrida y (b) el vector desplazamiento. Asuma trayectorias rectilíneas.
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+\draw[->] (0,0) -- (10.5,0) node[right]{$x$};
+\fill (0,0) circle (2pt) node[below, align=center]{Portal 80\\($0$)};
+\fill (3,0) circle (2pt) node[below, align=center]{Minuto de Dios\\($3$ km)};
+\fill (9,0) circle (2pt) node[below, align=center]{Mon. Héroes\\($9$ km)};
+\draw[very thick, blue!60!black, -{Latex}] (3,0.7) -- (9,0.7) node[midway, above]{$\Delta \vec x_1$};
+\draw[very thick, red!70!black, -{Latex}] (9,-1.3) -- (0,-1.3) node[midway, below]{$\Delta \vec x_2$};
+\end{tikzpicture}
+\end{center}
+\vspace{0.3cm}
+\begin{align*}
+d &= 6\text{ km} + 9\text{ km} = 15\text{ km}\\
+\Delta \vec x &= \Delta\vec x_1 + \Delta \vec x_2 = (9-3)\,\ii\text{ km} + (0-9)\,\ii\text{ km} = -3\,\ii \text{ km}
+\end{align*}
+\end{frame}
+
+% ----- SLIDE 12: VELOCIDAD Y RAPIDEZ MEDIA -----
+\begin{frame}{Velocidad y Rapidez Media}
+\begin{block}{Velocidad media (cantidad vectorial)}
+\[
+\vec v_m \equiv \overline{\vec v} = \frac{\Delta \vec x}{\Delta t}
+\]
+\end{block}
+\begin{block}{Rapidez media (cantidad escalar)}
+\[
+v_m = \frac{d}{\Delta t}
+\]
+\end{block}
+\begin{itemize}
+\item Unidades en el S.I.: m/s.
+\item Unidades en el sistema inglés: ft/s.
+\item Cuando el orden de magnitud es ``grande'': km/h.
+\end{itemize}
+\end{frame}
+
+% ----- SLIDE 13: EJEMPLO NADADOR (enunciado) -----
+\begin{frame}{Ejemplo: Nadador Olímpico}
+\begin{center}
+\begin{tikzpicture}
+\draw[->] (-0.5,0) -- (8,0) node[right]{$x$};
+\fill (0,0) circle (2pt);
+\node[above] at (0,0.15) {$P_3$: $0$ m};
+\node[below] at (0,-0.3) {\footnotesize $t=40$ s};
+\fill (4,0) circle (2pt);
+\node[above] at (4,0.15) {$P_1$: $30$ m};
+\node[below] at (4,-0.3) {\footnotesize $t=14$ s};
+\fill (7,0) circle (2pt);
+\node[above] at (7,0.15) {$P_2$: $50$ m};
+\node[below] at (7,-0.3) {\footnotesize $t=20$ s};
+\end{tikzpicture}
+\end{center}
+\begin{enumerate}
+\item Calcule la velocidad y la rapidez media entre $P_1$ y $P_2$.
+\item Calcule la velocidad y la rapidez media entre el origen y $P_3$.
+\end{enumerate}
+\end{frame}
+
+% ----- SLIDE 14: SOLUCIÓN NADADOR (1) -----
+\begin{frame}{Ejemplo: Nadador Olímpico -- Solución (1)}
+Entre $P_1$ ($30$ m, $14$ s) y $P_2$ ($50$ m, $20$ s):
+\[
+\vec v_m = \frac{\Delta \vec x}{\Delta t} = \frac{(50-30)\text{ m}}{(20-14)\text{ s}}\,\ii = 3.33\ \frac{\text{m}}{\text{s}}\,\ii
+\]
+\[
+v_m = \frac{d}{\Delta t} = 3.33\ \text{m/s}
+\]
+\end{frame}
+
+% ----- SLIDE 15: SOLUCIÓN NADADOR (2) -----
+\begin{frame}{Ejemplo: Nadador Olímpico -- Solución (2)}
+Entre el origen ($0$ m, $0$ s) y $P_3$ ($0$ m, $40$ s):
+\[
+\vec v_m = \frac{\Delta \vec x}{\Delta t} = \frac{(0-0)\text{ m}}{(40-0)\text{ s}}\,\ii = 0\ \frac{\text{m}}{\text{s}}\,\ii
+\]
+\begin{alertblock}{Nota}
+La velocidad media puede ser nula aunque la distancia recorrida $d\neq 0$: el nadador regresó a su punto de partida.
+\end{alertblock}
+\end{frame}
+
+% ----- SLIDE 16: GRÁFICA POSICIÓN VS TIEMPO -----
+\begin{frame}{Gráfica Posición vs. Tiempo}
+Posición en función del tiempo de un auto en una carretera colombiana:
+\begin{columns}
+\begin{column}{0.42\textwidth}
+\centering
+\begin{tabular}{cc}
+\toprule
+$t$ (h) & $x$ (km) \\ \midrule
+1 & 60 \\ 3 & 180 \\ 5 & 250 \\ 7 & 500 \\ 10 & 600 \\ \bottomrule
+\end{tabular}
+\end{column}
+\begin{column}{0.58\textwidth}
+\begin{tikzpicture}
+\begin{axis}[width=6.6cm,height=5cm, xlabel={$t$ (h)}, ylabel={$x$ (km)}, ymin=0,xmin=0]
+\addplot[thick, mark=*, blue!60!black] coordinates {(1,60)(3,180)(5,250)(7,500)(10,600)};
+\draw[dashed, red!70!black, thick] (axis cs:3,180) -- (axis cs:7,180) -- (axis cs:7,500);
+\node[red!70!black] at (axis cs:5,140) {\small $\Delta t$};
+\node[red!70!black] at (axis cs:8.3,340) {\small $\Delta x$};
+\end{axis}
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\[
+\vec v_m(P_1\to P_2) = \frac{\Delta \vec x}{\Delta t} = \frac{(500-180)\text{ km}}{(7-3)\text{ h}}\,\ii = 80\ \frac{\text{km}}{\text{h}}\,\ii
+\]
+\end{frame}
+
+\begin{frame}{Hacia la Velocidad Instantánea}
+	Al hacer $\Delta t \to 0$, el punto $P_2$ se aproxima a $P_1$ y la recta secante se aproxima a la recta \textbf{tangente} en $P_1$.
+	\begin{center}
+		\begin{tikzpicture}
+		\begin{axis}[width=5.4cm,height=4.2cm, xlabel={$t$ (s)}, ylabel={$x$ (m)}, 
+		xtick={0,1,2,3,4,5}, ytick={0,1,2,3,4,5,6},
+		xmin=0, xmax=5, ymin=0, ymax=6,
+		grid=both, grid style={gray!30, thin}]
+		\addplot[domain=0:5, samples=60, thick, UnalGreen] {0.4*x^2+0.5};
+		\draw[dashed, red!70!black, thick] (axis cs:1,0.9) -- (axis cs:3.5,5.3);
+		\fill (axis cs:1,0.9) circle(1.5pt);
+		\fill (axis cs:3.5,5.3) circle(1.5pt);
+		\node[red!70!black] at (axis cs:2.3,0.7) {\small secante};
+		\end{axis}
+		\end{tikzpicture}
+		\hspace{0.3cm}
+		\begin{tikzpicture}
+		\begin{axis}[width=5.4cm,height=4.2cm, xlabel={$t$ (s)}, ylabel={$x$ (m)}, 
+		xtick={0,1,2,3,4,5}, ytick={0,1,2,3,4,5,6},
+		xmin=0, xmax=5, ymin=0, ymax=6,
+		grid=both, grid style={gray!30, thin}]
+		\addplot[domain=0:5, samples=60, thick, UnalGreen] {0.4*x^2+0.5};
+		\draw[dashed, red!70!black, thick] (axis cs:1,0.9) -- (axis cs:1.6,1.5);
+		\fill (axis cs:1,0.9) circle(1.5pt);
+		\fill (axis cs:1.6,1.5) circle(1.5pt);
+		\node[red!70!black] at (axis cs:2.4,0.7) {\small $P_2\to P_1$};
+		\end{axis}
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+% ----- SLIDE 18: VELOCIDAD INSTANTÁNEA (definición) -----
+\begin{frame}{Velocidad Instantánea}
+\[
+\vec v(t) = \lim_{\Delta t \to 0} \frac{\Delta \vec x}{\Delta t}\,\ii = \lim_{\Delta t\to 0}\frac{x(t+\Delta t)-x(t)}{\Delta t}\,\ii = \frac{dx}{dt}\,\ii
+\]
+\end{frame}
+
+% ----- SLIDE 19: EJEMPLO MONEDA -----
+\begin{frame}{Ejemplo}
+¿Cuál es la velocidad instantánea de una moneda cuyo movimiento se describe como $x=5t^2$ m, en $t_1=2.5$ s, $t_2=4.5$ s y $t_3=7$ s?
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=7.4cm,height=5cm, xlabel={$t$ (s)}, ylabel={$x$ (m)}, ymin=0,xmin=0,xmax=8, ymax=340]
+\addplot[domain=0:8, samples=100, thick, UnalGreen] {5*x^2};
+\addplot[domain=1.5:3.5, thick, dashed, blue!60!black] {25*x-31.25};
+\addplot[domain=3.5:5.5, thick, dashed, red!70!black] {45*x-101.25};
+\addplot[domain=6:8, thick, dashed, orange!90!black] {70*x-245};
+\fill (axis cs:2.5,31.25) circle(1.5pt);
+\fill (axis cs:4.5,101.25) circle(1.5pt);
+\fill (axis cs:7,245) circle(1.5pt);
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\[
+v(t)=\frac{dx}{dt}=10t\ \frac{\text{m}}{\text{s}} \;\Rightarrow\;
+v(t_1)=25\ \tfrac{\text{m}}{\text{s}},\;\; v(t_2)=45\ \tfrac{\text{m}}{\text{s}},\;\; v(t_3)=70\ \tfrac{\text{m}}{\text{s}}
+\]
+\end{frame}
+
+% ----- SLIDE 20: ACELERACIÓN INSTANTÁNEA -----
+\begin{frame}{Aceleración Instantánea}
+	El mismo procedimiento aplicado a la curva $v(t)$ vs. $t$ define la aceleración instantánea:
+	\[
+	\vec a(t) = \lim_{\Delta t \to 0}\frac{\Delta \vec v}{\Delta t}\,\ii = \frac{dv}{dt}\,\ii
+	\]
+	\begin{center}
+		\begin{tikzpicture}
+		\begin{axis}[width=6.2cm,height=4.3cm, xlabel={$t$ (s)}, ylabel={$v$ (m/s)}, 
+		xtick={0,1,2,3,4,5}, ytick={0,1,2,3,4,5},
+		xmin=0, xmax=5, ymin=0, ymax=5,
+		grid=both, grid style={gray!30, thin}]
+		\addplot[domain=0:5, samples=2, thick, UnalGreen] {0.6*x+1};
+		\draw[dashed, red!70!black, thick] (axis cs:1,1.6) -- (axis cs:3.5,3.1);
+		\fill (axis cs:1,1.6) circle(1.5pt);
+		\fill (axis cs:3.5,3.1) circle(1.5pt);
+		\node[red!70!black, below] at (axis cs:1,1.55) {\small $t$};
+		\node[red!70!black, below] at (axis cs:3.5,3.05) {\small $t+\Delta t$};
+		\end{axis}
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+% ----- SLIDE 21: SUMA DE RIEMANN -----
+\begin{frame}{Suma de Riemann e Integrales}
+\begin{block}{Integral $\to$ Área bajo la curva}
+\[
+\int_a^b f(x)\,dx = \lim_{N\to\infty}\sum_{i=1}^N f(x_i)\,\Delta x_i = \lim_{\Delta x_i \to 0}\sum_{i=1}^N f(x_i)\,\Delta x_i
+\]
+\end{block}
+\begin{center}
+\begin{tikzpicture}[x=0.85cm,y=0.78cm]
+\draw[thick] (0,0) rectangle (4.8,3.1);
+\foreach \a/\b/\h in {0.05/0.75/1, 0.85/1.55/1.8, 1.65/2.35/2.3, 2.45/3.15/2.0, 3.25/3.95/1.2, 4.05/4.75/0.6}{
+\filldraw[fill=blue!40, draw=blue!70!black] (\a,0) rectangle (\b,\h);
+}
+\draw[thick, black] plot[domain=0:4.8, samples=60] (\x,{1.2+1.3*sin(60*\x)});
+\node[below] at (2.4,-0.35) {\footnotesize Partición gruesa};
+\end{tikzpicture}
+\hspace{0.3cm}
+\begin{tikzpicture}[x=0.85cm,y=0.78cm]
+\draw[thick] (0,0) rectangle (4.8,3.1);
+\foreach \a/\b/\h in {0.02/0.28/1, 0.32/0.58/1.3, 0.62/0.88/1.7, 0.92/1.18/2.0, 1.22/1.48/2.2, 1.52/1.78/2.3, 1.82/2.08/2.25, 2.12/2.38/2.1, 2.42/2.68/1.9, 2.72/2.98/1.6, 3.02/3.28/1.3, 3.32/3.58/1.0, 3.62/3.88/0.8, 3.92/4.18/0.65, 4.22/4.48/0.6, 4.52/4.78/0.7}{
+\filldraw[fill=orange!45, draw=orange!80!black] (\a,0) rectangle (\b,\h);
+}
+\draw[thick, black] plot[domain=0:4.8, samples=60] (\x,{1.2+1.3*sin(60*\x)});
+\node[below] at (2.4,-0.35) {\footnotesize Partición fina};
+\end{tikzpicture}
+\end{center}
+\vspace{-0.15cm}
+\[
+\int_a^b x\,dx = b-a,\qquad \int_a^b x^n\,dx = \frac{b^{n+1}-a^{n+1}}{n+1}
+\]
+\end{frame}
+
+% ----- SLIDE 22: MOV. ACEL. CONSTANTE (I) -----
+\begin{frame}{Movimiento con Aceleración Constante (I)}
+\begin{columns}
+\begin{column}{0.52\textwidth}
+\[
+a_x(t) = \frac{dv_x}{dt} = a_x = \text{cte.}
+\]
+\[
+\int_{0}^{t} a_x\,dt' = \int_{v_{0x}}^{v_x(t)} dv_x'
+\]
+\[
+a_x\,t = v_x(t)-v_{0x}
+\]
+\[
+\boxed{v_x(t) = a_x t + v_{0x}}
+\]
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{tikzpicture}
+\begin{axis}[width=5.6cm,height=4.3cm, xlabel={$t$}, ylabel={$a_x$}, xtick=\empty, ytick=\empty, ymin=0, ymax=3]
+\addplot[domain=0:4, samples=2, thick, UnalGreen] {2};
+\node[below] at (axis cs:2,0) {\footnotesize Pendiente $=0$};
+\end{axis}
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ----- SLIDE 23: MOV. ACEL. CONSTANTE (II) -----
+\begin{frame}{Movimiento con Aceleración Constante (II)}
+\begin{columns}
+\begin{column}{0.52\textwidth}
+\[
+v_x(t) = a_x t + v_{0x}
+\]
+\[
+\int_{x_0}^{x(t)} dx' = a_x\int_0^t t'\,dt' + v_{0x}\int_0^t dt'
+\]
+\[
+x(t)-x_0 = a_x\frac{t^2}{2}+v_{0x}t
+\]
+\[
+\boxed{x(t) = a_x\frac{t^2}{2}+v_{0x}t + x_0}
+\]
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{tikzpicture}
+\begin{axis}[width=5.6cm,height=4.3cm, xlabel={$t$}, ylabel={$v_x$}, xtick=\empty, ytick=\empty]
+\addplot[domain=0:4, samples=2, thick, UnalGreen] {2*x+1};
+\node[left] at (axis cs:0,1) {\footnotesize $v_{0x}$};
+\node[below] at (axis cs:2,0) {\footnotesize Pendiente $=a_x$};
+\end{axis}
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ----- SLIDE 24: MOV. ACEL. CONSTANTE (III) -----
+\begin{frame}{Movimiento con Aceleración Constante (III)}
+La posición como función del tiempo describe una parábola; su pendiente en cada instante es la velocidad instantánea $v_x(t)$.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=7.2cm,height=5cm, xlabel={$t$}, ylabel={$x$}, xtick=\empty, ytick=\empty]
+\addplot[domain=0:4, samples=60, thick, UnalGreen] {x^2+x};
+\draw[dashed] (axis cs:1,1) -- (axis cs:3,11);
+\fill (axis cs:2,6) circle(1.3pt);
+\node[right] at (axis cs:2,6) {\footnotesize $v_x(t)$ (pendiente)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\[
+x(t) = a_x\frac{t^2}{2}+v_{0x}t+x_0
+\]
+\end{frame}
+
+% ----- SLIDE 25: ACELERACIÓN DE LA GRAVEDAD -----
+\begin{frame}{Aceleración de la Gravedad}
+\begin{itemize}
+\item Se refiere a la alteración de la velocidad de un cuerpo debido a la acción de la fuerza gravitacional sobre él.
+\item Puede variar ligeramente de un lugar a otro de la Tierra (según la latitud y la altitud).
+\item Valor de referencia: $g = 9.8\ \text{m/s}^2$.
+\end{itemize}
+\end{frame}
+
+% ----- SLIDE 30: RECURSOS INTERACTIVOS -----
+\begin{frame}{Recursos Interactivos}
+\footnotesize
+\begin{itemize}
+\item Desplazamiento vs.\ distancia:\\ \url{https://faraday.physics.utoronto.ca/PVB/Harrison/Flash/ClassMechanics/DisplaceDistance/DisplaceDistance.html}
+\item Velocidad instantánea:\\ \url{https://www.surendranath.org/GPA/Math/InstSpeed/InstSpeed.html}
+\item Área bajo la curva (integrales):\\ \url{https://www.surendranath.org/GPA/Math/IntArea/IntArea.html}
+\item Aceleración:\\ \url{https://www.walter-fendt.de/html5/phen/acceleration_en.htm}
+\end{itemize}
+\begin{block}{Video complementario}
+\small Isocronismo -- Galileo Galilei: \url{https://www.youtube.com/watch?v=ZBr8Q2ROX9s}
+\end{block}
+\end{frame}
+
+% ----- SLIDE 31: BIBLIOGRAFÍA -----
+\begin{frame}{Bibliografía}
+\begin{enumerate}
+\item H. Young, R. A. Freedman, \emph{University Physics with Modern Physics}, 15th ed., Pearson, 2019.
+\item P. A. Tipler, G. Mosca, \emph{Physics for Scientists and Engineers with Modern Physics}, 6th ed., W. H. Freeman and Company, 2020.
+\item R. A. Serway, J. W. Jewett, \emph{Physics for Scientists and Engineers with Modern Physics}, 10th ed., Brooks Cole / Cengage Learning, 2019.
+\end{enumerate}
+\begin{block}{Canal Digital del Curso}
+El seguimiento del cronograma, guías de taller y material complementario estará disponible a través de la plataforma Google Classroom.
+\end{block}
+\end{frame}
+
+% ----- SLIDE 32: CIERRE -----
+\begin{frame}
+\begin{center}
+{\Large ¿Preguntas o Comentarios?}\\[0.6cm]
+Éxitos en el semestre 2026-2.\\[0.3cm]
+\href{mailto:mperdomog@unal.edu.co}{mperdomog@unal.edu.co}\\
+Edificio 401 -- Salón 202
+\end{center}
+\end{frame}
 
 \end{document}
