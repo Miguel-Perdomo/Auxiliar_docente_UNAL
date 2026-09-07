@@ -157,7 +157,7 @@ El vector desplazamiento $\Delta \vec x$ va de la posición inicial a la posici�
 \draw[->] (-0.3,0) -- (8,0) node[right]{$x$};
 \draw[dashed] (0,0) -- (0,-0.5);
 \node[below, align=center] at (0,-0.6) {\footnotesize Origen del sistema\\\footnotesize de coordenadas};
-\draw[very thick, blue!60!black,-{Latex}] (0,0.3) -- (2,0.3) node[midway, above]{$\vec x_1$};
+\draw[very thick, blue!60!black,-{Latex}] (0,0.2) -- (2,0.2) node[midway, above]{$\vec x_1$};
 \draw[very thick, UnalGreen,-{Latex}] (0,0.75) -- (6,0.75) node[midway, above]{$\vec x_2$};
 \draw[very thick, red!70!black,-{Latex}] (2,1.35) -- (6,1.35) node[midway, above]{$\Delta\vec x=\vec x_2-\vec x_1$};
 \fill (2,0) circle (2pt) node[below]{$x_1$};
@@ -418,126 +418,138 @@ v(t_1)=25\ \tfrac{\text{m}}{\text{s}},\;\; v(t_2)=45\ \tfrac{\text{m}}{\text{s}}
 	\]
 	\begin{center}
 		\begin{tikzpicture}
-		\begin{axis}[width=6.2cm,height=4.3cm, xlabel={$t$ (s)}, ylabel={$v$ (m/s)}, 
-		xtick={0,1,2,3,4,5}, ytick={0,1,2,3,4,5},
-		xmin=0, xmax=5, ymin=0, ymax=5,
-		grid=both, grid style={gray!30, thin}]
-		\addplot[domain=0:5, samples=2, thick, UnalGreen] {0.6*x+1};
-		\draw[dashed, red!70!black, thick] (axis cs:1,1.6) -- (axis cs:3.5,3.1);
-		\fill (axis cs:1,1.6) circle(1.5pt);
-		\fill (axis cs:3.5,3.1) circle(1.5pt);
-		\node[red!70!black, below] at (axis cs:1,1.55) {\small $t$};
-		\node[red!70!black, below] at (axis cs:3.5,3.05) {\small $t+\Delta t$};
-		\end{axis}
+			\begin{axis}[width=6.2cm,height=4.3cm, xlabel={$t$ (s)}, ylabel={$v$ (m/s)}, 
+				xtick={0,1,2,3,4,5}, ytick={0,1,2,3,4,5,6},
+				xmin=0, xmax=5, ymin=0, ymax=6,
+				grid=both, grid style={gray!30, thin}]
+				\addplot[domain=0:5, samples=60, thick, UnalGreen] {0.25*x^2 + 0.8};
+				\draw[dashed, red!70!black, thick] (axis cs:1,1.05) -- (axis cs:4,4.8);
+				\draw[dashed, blue!60!black, thick] (axis cs:1,1.05) -- (axis cs:2,1.8);
+				\fill (axis cs:1,1.05) circle(2pt) node[below left] {$t$};
+				\fill (axis cs:4,4.8) circle(1.5pt);
+				\fill (axis cs:2,1.8) circle(1.5pt);
+			\end{axis}
 		\end{tikzpicture}
 	\end{center}
 \end{frame}
 
-% ----- SLIDE 21: SUMA DE RIEMANN -----
 \begin{frame}{Suma de Riemann e Integrales}
-\begin{block}{Integral $\to$ Área bajo la curva}
-\[
-\int_a^b f(x)\,dx = \lim_{N\to\infty}\sum_{i=1}^N f(x_i)\,\Delta x_i = \lim_{\Delta x_i \to 0}\sum_{i=1}^N f(x_i)\,\Delta x_i
-\]
-\end{block}
-\begin{center}
-\begin{tikzpicture}[x=0.85cm,y=0.78cm]
-\draw[thick] (0,0) rectangle (4.8,3.1);
-\foreach \a/\b/\h in {0.05/0.75/1, 0.85/1.55/1.8, 1.65/2.35/2.3, 2.45/3.15/2.0, 3.25/3.95/1.2, 4.05/4.75/0.6}{
-\filldraw[fill=blue!40, draw=blue!70!black] (\a,0) rectangle (\b,\h);
-}
-\draw[thick, black] plot[domain=0:4.8, samples=60] (\x,{1.2+1.3*sin(60*\x)});
-\node[below] at (2.4,-0.35) {\footnotesize Partición gruesa};
-\end{tikzpicture}
-\hspace{0.3cm}
-\begin{tikzpicture}[x=0.85cm,y=0.78cm]
-\draw[thick] (0,0) rectangle (4.8,3.1);
-\foreach \a/\b/\h in {0.02/0.28/1, 0.32/0.58/1.3, 0.62/0.88/1.7, 0.92/1.18/2.0, 1.22/1.48/2.2, 1.52/1.78/2.3, 1.82/2.08/2.25, 2.12/2.38/2.1, 2.42/2.68/1.9, 2.72/2.98/1.6, 3.02/3.28/1.3, 3.32/3.58/1.0, 3.62/3.88/0.8, 3.92/4.18/0.65, 4.22/4.48/0.6, 4.52/4.78/0.7}{
-\filldraw[fill=orange!45, draw=orange!80!black] (\a,0) rectangle (\b,\h);
-}
-\draw[thick, black] plot[domain=0:4.8, samples=60] (\x,{1.2+1.3*sin(60*\x)});
-\node[below] at (2.4,-0.35) {\footnotesize Partición fina};
-\end{tikzpicture}
-\end{center}
-\vspace{-0.15cm}
-\[
-\int_a^b x\,dx = b-a,\qquad \int_a^b x^n\,dx = \frac{b^{n+1}-a^{n+1}}{n+1}
-\]
+	\begin{block}{Integral $\to$ Área bajo la curva}
+		\[
+		\int_a^b f(x)\,dx = \lim_{N\to\infty}\sum_{i=1}^N f(x_i)\,\Delta x_i = \lim_{\Delta x_i \to 0}\sum_{i=1}^N f(x_i)\,\Delta x_i
+		\]
+	\end{block}
+	\begin{center}
+		\begin{tikzpicture}[x=0.85cm,y=0.78cm]
+			\draw[thick] (0,0) rectangle (4.8,3.1);
+			% Rectángulos (alturas ajustadas a la curva en cada punto)
+			\foreach \a/\b in {0.05/0.75, 0.85/1.55, 1.65/2.35, 2.45/3.15, 3.25/3.95, 4.05/4.75}{
+				\pgfmathsetmacro{\h}{1.2+1.3*sin(60*\a)}
+				\filldraw[fill=blue!40, draw=blue!70!black] (\a,0) rectangle (\b,\h);
+			}
+			\draw[thick, black] plot[domain=0:4.8, samples=60] (\x,{1.2+1.3*sin(60*\x)});
+			\node[below] at (2.4,-0.35) {\footnotesize Partición gruesa};
+		\end{tikzpicture}
+		\hspace{0.3cm}
+		\begin{tikzpicture}[x=0.85cm,y=0.78cm]
+			\draw[thick] (0,0) rectangle (4.8,3.1);
+			% Rectángulos con partición más fina
+			\foreach \a/\b in {0.02/0.28, 0.32/0.58, 0.62/0.88, 0.92/1.18, 1.22/1.48, 1.52/1.78, 1.82/2.08, 2.12/2.38, 2.42/2.68, 2.72/2.98, 3.02/3.28, 3.32/3.58, 3.62/3.88, 3.92/4.18, 4.22/4.48, 4.52/4.78}{
+				\pgfmathsetmacro{\h}{1.2+1.3*sin(60*\a)}
+				\filldraw[fill=orange!45, draw=orange!80!black] (\a,0) rectangle (\b,\h);
+			}
+			\draw[thick, black] plot[domain=0:4.8, samples=60] (\x,{1.2+1.3*sin(60*\x)});
+			\node[below] at (2.4,-0.35) {\footnotesize Partición fina};
+		\end{tikzpicture}
+	\end{center}
+	\vspace{-0.15cm}
+	\[
+	\int_a^b x\,dx = \frac{b^2-a^2}{2},\qquad \int_a^b x^n\,dx = \frac{b^{n+1}-a^{n+1}}{n+1}
+	\]
 \end{frame}
 
 % ----- SLIDE 22: MOV. ACEL. CONSTANTE (I) -----
 \begin{frame}{Movimiento con Aceleración Constante (I)}
-\begin{columns}
-\begin{column}{0.52\textwidth}
-\[
-a_x(t) = \frac{dv_x}{dt} = a_x = \text{cte.}
-\]
-\[
-\int_{0}^{t} a_x\,dt' = \int_{v_{0x}}^{v_x(t)} dv_x'
-\]
-\[
-a_x\,t = v_x(t)-v_{0x}
-\]
-\[
-\boxed{v_x(t) = a_x t + v_{0x}}
-\]
-\end{column}
-\begin{column}{0.48\textwidth}
-\begin{tikzpicture}
-\begin{axis}[width=5.6cm,height=4.3cm, xlabel={$t$}, ylabel={$a_x$}, xtick=\empty, ytick=\empty, ymin=0, ymax=3]
-\addplot[domain=0:4, samples=2, thick, UnalGreen] {2};
-\node[below] at (axis cs:2,0) {\footnotesize Pendiente $=0$};
-\end{axis}
-\end{tikzpicture}
-\end{column}
-\end{columns}
+	\begin{columns}
+		\begin{column}{0.52\textwidth}
+			\[
+			a_x(t) = \frac{dv_x}{dt} = a_x = \text{cte.}
+			\]
+			\[
+			\int_{0}^{t} a_x\,dt' = \int_{v_{0x}}^{v_x(t)} dv_x'
+			\]
+			\[
+			a_x\,t = v_x(t)-v_{0x}
+			\]
+			\[
+			\boxed{v_x(t) = a_x t + v_{0x}}
+			\]
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{tikzpicture}
+				\begin{axis}[width=5.6cm,height=4.3cm, 
+					xlabel={$t$ (s)}, ylabel={$a_x$ (m/s$^2$)}, 
+					xtick={0,2,4}, ytick={0,5,10,15,20},
+					xmin=0, xmax=4, ymin=0, ymax=20,
+					grid=both, grid style={gray!30, thin}]
+					\addplot[domain=0:4, samples=2, thick, UnalGreen] {9.8};
+					\node[above] at (axis cs:2,9.8) {\footnotesize $g = 9.8$ m/s$^2$};
+				\end{axis}
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 % ----- SLIDE 23: MOV. ACEL. CONSTANTE (II) -----
 \begin{frame}{Movimiento con Aceleración Constante (II)}
-\begin{columns}
-\begin{column}{0.52\textwidth}
-\[
-v_x(t) = a_x t + v_{0x}
-\]
-\[
-\int_{x_0}^{x(t)} dx' = a_x\int_0^t t'\,dt' + v_{0x}\int_0^t dt'
-\]
-\[
-x(t)-x_0 = a_x\frac{t^2}{2}+v_{0x}t
-\]
-\[
-\boxed{x(t) = a_x\frac{t^2}{2}+v_{0x}t + x_0}
-\]
-\end{column}
-\begin{column}{0.48\textwidth}
-\begin{tikzpicture}
-\begin{axis}[width=5.6cm,height=4.3cm, xlabel={$t$}, ylabel={$v_x$}, xtick=\empty, ytick=\empty]
-\addplot[domain=0:4, samples=2, thick, UnalGreen] {2*x+1};
-\node[left] at (axis cs:0,1) {\footnotesize $v_{0x}$};
-\node[below] at (axis cs:2,0) {\footnotesize Pendiente $=a_x$};
-\end{axis}
-\end{tikzpicture}
-\end{column}
-\end{columns}
+	\begin{columns}
+		\begin{column}{0.52\textwidth}
+			\[
+			v_x(t) = a_x t + v_{0x}
+			\]
+			\[
+			\int_{x_0}^{x(t)} dx' = a_x\int_0^t t'\,dt' + v_{0x}\int_0^t dt'
+			\]
+			\[
+			x(t)-x_0 = a_x\frac{t^2}{2}+v_{0x}t
+			\]
+			\[
+			\boxed{x(t) = a_x\frac{t^2}{2}+v_{0x}t + x_0}
+			\]
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{tikzpicture}
+				\begin{axis}[width=5.6cm,height=4.3cm, 
+					xlabel={$t$ (s)}, ylabel={$v_x$ (m/s)}, 
+					xtick={0,2,4}, ytick={0,10,20,30,40},
+					xmin=0, xmax=4, ymin=0, ymax=40,
+					grid=both, grid style={gray!30, thin}]
+					\addplot[domain=0:4, samples=2, thick, UnalGreen] {9.8*x};
+					\node[left] at (axis cs:0,0) {\footnotesize $v_{0x}=0$};
+					\node[below] at (axis cs:2,0) {\footnotesize Pendiente $=a_x=g$};
+				\end{axis}
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 % ----- SLIDE 24: MOV. ACEL. CONSTANTE (III) -----
 \begin{frame}{Movimiento con Aceleración Constante (III)}
-La posición como función del tiempo describe una parábola; su pendiente en cada instante es la velocidad instantánea $v_x(t)$.
-\begin{center}
-\begin{tikzpicture}
-\begin{axis}[width=7.2cm,height=5cm, xlabel={$t$}, ylabel={$x$}, xtick=\empty, ytick=\empty]
-\addplot[domain=0:4, samples=60, thick, UnalGreen] {x^2+x};
-\draw[dashed] (axis cs:1,1) -- (axis cs:3,11);
-\fill (axis cs:2,6) circle(1.3pt);
-\node[right] at (axis cs:2,6) {\footnotesize $v_x(t)$ (pendiente)};
-\end{axis}
-\end{tikzpicture}
-\end{center}
-\[
-x(t) = a_x\frac{t^2}{2}+v_{0x}t+x_0
-\]
+	La posición como función del tiempo describe una parábola.
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[width=7.2cm,height=5cm, 
+				xlabel={$t$ (s)}, ylabel={$x$ (m)}, 
+				xtick={0,2,4}, ytick={0,20,40,60,80},
+				xmin=0, xmax=4, ymin=0, ymax=80,
+				grid=both, grid style={gray!30, thin}]
+				\addplot[domain=0:4, samples=60, thick, UnalGreen] {4.9*x^2};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\[
+	x(t) = a_x\frac{t^2}{2}+v_{0x}t+x_0
+	\]
 \end{frame}
 
 % ----- SLIDE 25: ACELERACIÓN DE LA GRAVEDAD -----
@@ -549,7 +561,6 @@ x(t) = a_x\frac{t^2}{2}+v_{0x}t+x_0
 \end{itemize}
 \end{frame}
 
-% ----- SLIDE 30: RECURSOS INTERACTIVOS -----
 \begin{frame}{Recursos Interactivos}
 \footnotesize
 \begin{itemize}
@@ -563,7 +574,7 @@ x(t) = a_x\frac{t^2}{2}+v_{0x}t+x_0
 \end{block}
 \end{frame}
 
-% ----- SLIDE 31: BIBLIOGRAFÍA -----
+% RECORDAR: no poner el kleppner xdddd
 \begin{frame}{Bibliografía}
 \begin{enumerate}
 \item H. Young, R. A. Freedman, \emph{University Physics with Modern Physics}, 15th ed., Pearson, 2019.
@@ -575,11 +586,10 @@ El seguimiento del cronograma, guías de taller y material complementario estar�
 \end{block}
 \end{frame}
 
-% ----- SLIDE 32: CIERRE -----
 \begin{frame}
 \begin{center}
 {\Large ¿Preguntas o Comentarios?}\\[0.6cm]
-Éxitos en el semestre 2026-2.\\[0.3cm]
+Feliz día!!!!!!!.\\[0.3cm]
 \href{mailto:mperdomog@unal.edu.co}{mperdomog@unal.edu.co}\\
 Edificio 401 -- Salón 202
 \end{center}

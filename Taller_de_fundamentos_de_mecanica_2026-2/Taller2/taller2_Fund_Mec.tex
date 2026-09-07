@@ -1,0 +1,309 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, babel}
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Fundamentos de Mecánica (1000019) -- Taller}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{
+	leftmargin=*,
+	itemsep=2pt,
+	topsep=2pt,
+	parsep=0pt
+}
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	
+	\begin{center}
+		\vspace*{-0.8cm}
+		\includegraphics[width=0.15\textwidth]
+		{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		
+		{\Large\bfseries Taller de Cinemática y Graficación -- Grupo 14}\\[0.05cm]
+		{\large\bfseries Fundamentos de Mecánica (1000019)}
+	\end{center}
+	
+	
+	% =========================================================
+	% INFORMACIÓN DEL CURSO
+	% ========================================================
+	
+	\vspace{0.2cm}
+	
+	% =========================================================
+	\section{Cinemática 1D}
+	% =========================================================
+	
+	\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=8pt]
+		
+		\item ¿Cuál es la rapidez promedio de un caminante joven, un ciclista aficionado, un auto en la ciudad de Bogotá y un auto de Fórmula 1? Exprese estas cantidades en m/s y en km/h.
+		
+		\item Use las ecuaciones $x(t) = \frac{1}{2}a_xt^2 + v_{0x}t + x_0$ y $v_x(t) = v_{0x} + a_xt$ para demostrar que
+		\[
+		v_x^2 = v_{0x}^2 + 2a_x(x-x_0).
+		\]
+		
+		\item Un auto se mueve a lo largo de un camino recto. Antes de $t=2.5$ s viaja a rapidez constante; a partir de ese instante el conductor acelera. La posición del auto en función del tiempo es
+		\[
+		x(t) =
+		\begin{cases}
+			8t & 0 \le t \le 2.5 \text{ s} \\[4pt]
+			20 + 8(t-2.5) + \dfrac{1}{2}(t-2.5)^2 & t > 2.5\text{ s}
+		\end{cases}
+		\qquad [x] = \text{m},\ [t]=\text{s}.
+		\]
+		\begin{center}
+			\begin{tikzpicture}[x=0.85cm,y=0.055cm]
+				% ----- CUADRÍCULA (grid) -----
+				\draw[gray!20, very thin] (0,-2) grid[xstep=2.5, ystep=20] (9.5,90);
+				
+				% ----- EJES -----
+				\draw[->, thick] (0,0) -- (10.5,0) node[right]{\normalsize $t$ (s)};
+				\draw[->, thick] (0,0) -- (0,98) node[above]{\normalsize $x$ (m)};
+				
+				% ----- TICKS EN X -----
+				\foreach \tk in {0, 2.5, 5, 7.5, 10} {
+					\draw (\tk,0) -- (\tk,-2.5) node[below, yshift=-2pt]{\normalsize \tk};
+				}
+				
+				% ----- TICKS EN Y (CORREGIDOS: líneas más cortas) -----
+				\foreach \yk in {0, 20, 40, 60, 80} {
+					\draw (0,\yk) -- (-0.3,\yk) node[left, xshift=-3pt]{\normalsize \yk};
+				}
+				
+				% ----- FUNCIONES -----
+				% Línea punteada (sin acelerar)
+				\draw[thick, dashed, DarkGray] plot[domain=2.5:9.3, samples=2] (\x,{8*\x});
+				
+				% Tramo 1: velocidad constante
+				\draw[thick, UnalGreen] plot[domain=0:2.5, samples=15] (\x,{8*\x});
+				
+				% Tramo 2: acelerado
+				\draw[thick, UnalGreen] plot[domain=2.5:9.3, samples=60] (\x,{20+8*(\x-2.5)+0.5*(\x-2.5)*(\x-2.5)});
+				
+				% ----- PUNTO CLAVE t=2.5 s -----
+				\fill (2.5,20) circle (2pt);
+				
+			\end{tikzpicture}\\
+			\small\textit{Figura 1: posición del auto en función del tiempo (la línea punteada muestra la trayectoria que habría seguido sin acelerar).}
+		\end{center}
+		\begin{enumerate}[label=\alph*)]
+			\item ¿Cuál es la velocidad del auto antes de $t=2.5$ s?
+			\item Calcule la velocidad media entre $t_1=6$ s y $t_2=7.5$ s.
+			\item Calcule la velocidad media entre $t_1=7$ s y $t_2=7.5$ s.
+			\item Calcule la velocidad media entre $t_1=7.45$ s y $t_2=7.5$ s.
+			\item ¿Qué observa que ocurre con estos valores a medida que el intervalo se hace más pequeño? ¿Cuál es la velocidad instantánea en $t=7.5$ s?
+		\end{enumerate}
+		
+		\item Un jugador de béisbol, después de ganar un partido, se quita la gorra y la lanza verticalmente hacia arriba con una rapidez inicial de $10$ m/s. La gorra experimenta una desaceleración de $9.8$ m/s$^2$.
+		\begin{enumerate}[label=\alph*)]
+			\item ¿Cuánto tiempo le toma a la gorra alcanzar su altura máxima?
+			\item ¿Cuál es esa altura máxima?
+			\item Si la gorra es atrapada a la misma altura desde la que fue lanzada, ¿cuál es su tiempo total de vuelo?
+		\end{enumerate}
+		
+		\item Un auto se mueve a lo largo del eje $x$ con velocidad $v_x$ dada por la Figura 2. Si $x_0=2$ m en $t_0=2$ s, determine la posición del auto en $t=10$ s.
+		\begin{center}
+			\begin{tikzpicture}[x=0.62cm,y=0.17cm]
+				% ----- CUADRÍCULA (grid) -----
+				\foreach \tk in {0,2,4,6,8,10} \draw[gray!20, very thin] (\tk,-8) -- (\tk,24);
+				\foreach \vk in {-8,-4,0,4,8,12,16,20,24} \draw[gray!20, very thin] (0,\vk) -- (10,\vk);
+				
+				% ----- EJES -----
+				\draw[->, thick] (0,-8) -- (0,26) node[above]{\normalsize $v_x$ (m/s)};
+				\draw[->, thick] (-0.3,0) -- (10.4,0) node[right]{\normalsize $t$ (s)};
+				
+				% ----- TICKS EN X (más cortos) -----
+				\foreach \tk in {2,4,6,8,10} {
+					\draw[thick] (\tk,0) -- (\tk,-0.3) node[below, yshift=-4pt]{\normalsize \tk};
+				}
+				
+				% ----- TICKS EN Y (más cortos) -----
+				\foreach \vk in {-8,-4,0,4,8,12,16,20,24} {
+					\draw[thick] (0,\vk) -- (-0.3,\vk) node[left, xshift=-4pt]{\normalsize \vk};
+				}
+				
+				% ----- FUNCIÓN -----
+				\draw[thick, UnalGreen] (0,20) -- (6,-4) -- (10,4);
+				
+			\end{tikzpicture}\\
+			\small\textit{Figura 2: velocidad del auto en función del tiempo.}
+		\end{center}
+		\textit{Sugerencia: recuerden que, como se vio en la Sesión 2, el área bajo la curva $v_x$ vs.\ $t$ corresponde al desplazamiento (suma de Riemann).}
+		
+		\item La posición de una partícula que se mueve en línea recta está dada por $x(t) = t^3 - 9t^2 + 15t + 2$ (m, con $t$ en s).
+		\begin{enumerate}[label=\alph*)]
+			\item Encuentre $v_x(t)$ y determine analíticamente los instantes en que la rapidez de la partícula es cero.
+			\item Verifiquen su resultado identificando esos mismos puntos en la gráfica de $x(t)$ (Figura 3).
+			\item ¿La partícula cambia de sentido de movimiento en alguno de esos instantes? Justifiquen.
+		\end{enumerate}
+		\begin{center}
+			\begin{tikzpicture}[x=1.0cm,y=0.13cm]
+				% ----- CUADRÍCULA (grid) -----
+				\draw[gray!20, very thin] (0,-26) grid[xstep=1, ystep=5] (7,12);
+				
+				% ----- EJES -----
+				\draw[->, thick] (0,-26) -- (0,13) node[above]{\normalsize $x$ (m)};
+				\draw[->, thick] (-0.3,0) -- (7.4,0) node[right]{\normalsize $t$ (s)};
+				
+				% ----- TICKS EN X (más cortos) -----
+				\foreach \tk in {1,2,3,4,5,6,7} {
+					\draw[thick] (\tk,0) -- (\tk,-0.7) node[below, yshift=-4pt]{\normalsize \tk};
+				}
+				
+				% ----- TICKS EN Y (más cortos) -----
+				\foreach \yk in {-25,-20,-15,-10,-5,0,5,10} {
+					\draw[thick] (0,\yk) -- (-0.1,\yk) node[left, xshift=-4pt]{\normalsize \yk};
+				}
+				
+				% ----- FUNCIÓN -----
+				\draw[thick, UnalGreen] plot[domain=0:7, samples=80] (\x,{\x*\x*\x-9*\x*\x+15*\x+2});
+				
+				% ----- PUNTOS DESTACADOS -----
+				\fill[red!70!black] (1,9) circle (2.5pt) node[above right, yshift=2pt, xshift=2pt]{\normalsize $(1,9)$};
+				\fill[red!70!black] (5,-23) circle (2.5pt) node[below right, yshift=-2pt, xshift=2pt]{\normalsize $(5,-23)$};
+				
+			\end{tikzpicture}\\
+			\small\textit{Figura 3: posición de la partícula en función del tiempo.}
+		\end{center}
+		
+	\end{enumerate}
+	
+	\section{Graficación (OPCIONAL)}
+	
+	En esta actividad van a usar un simulador virtual para medir tiempos de caída, organizar sus datos y graficarlos a mano. El objetivo es obtener experimentalmente el valor de $g$ (gravedad) usando la misma idea que Galileo: graficar altura vs. $t^2$ para obtener una línea recta.
+	
+	\subsection{Paso 1: Tomar los datos}
+	
+	\begin{enumerate}
+		\item Abran el simulador de caída libre:
+		
+		\url{https://aulaquest.github.io/simulador-caida-libre/}
+		
+		(Si conocen otro, pueden usarlo, pero este permite exportar datos en \textbf{CSV}, que significa \emph{valores separados por comas}).
+		
+		\item Configúrenlo así:
+		\begin{itemize}
+			\item Sin rozamiento.
+			\item Velocidad inicial cero.
+			\item Planeta Tierra.
+		\end{itemize}
+		
+		\item Suelten el objeto desde \textbf{al menos 5 alturas distintas} (por ejemplo: $2, 4, 6, 8, 10$ m).
+		
+		\item Para cada altura, anoten el tiempo de caída. Si usan el simulador recomendado, pueden descargar el archivo CSV; el tiempo de caída es el \textbf{último valor de la columna de tiempo} (cuando la posición es cero).
+		
+		\item Llenen esta tabla con sus datos:
+	\end{enumerate}
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			Altura $h$ (m) & Tiempo $t$ (s) & $t^2$ (s$^2$) \\
+			\hline
+			& & \\
+			& & \\
+			& & \\
+			& & \\
+			& & \\
+			\hline
+		\end{tabular}
+	\end{center}
+	
+	\subsection{Paso 2: Graficar a mano}
+	
+	\begin{enumerate}
+		\item En papel milimetrado (o en una hoja cuadriculada), dibujen un plano cartesiano:
+		\begin{itemize}
+			\item Eje horizontal ($x$): $t^2$ (s$^2$).
+			\item Eje vertical ($y$): altura $h$ (m).
+		\end{itemize}
+		
+		\item Ubiquen sus puntos $(t^2, h)$.
+		
+		\item Dibujen \textbf{la mejor línea recta} que pase lo más cerca posible de todos los puntos. No tiene que pasar exactamente por todos, solo debe representar la tendencia general.
+	\end{enumerate}
+	
+	\subsection{Paso 3: Calcular $g$}
+	
+	La física dice que:
+	\[
+	h = \frac{1}{2} g \, t^2
+	\]
+	Eso significa que la pendiente de su recta es $m = g/2$. Por lo tanto:
+	\[
+	g_{\text{exp}} = 2 \times \text{pendiente}
+	\]
+	
+	Para calcular la pendiente, elijan dos puntos sobre la recta (no necesariamente de la tabla) y usen:
+	\[
+	m = \frac{\Delta h}{\Delta t^2}
+	\]
+	
+	\subsection{Paso 4: Análisis rápido}
+	
+	\begin{enumerate}
+		\item Comparen su $g_{\text{exp}}$ con $9.8$ m/s$^2$ usando:
+		\[
+		\text{Error \%} = \frac{|g_{\text{exp}} - 9.8|}{9.8} \times 100
+		\]
+		
+		\item ¿Los puntos quedaron más o menos alineados? ¿Por qué creen que sí o no?
+		
+		\item Mencionen dos posibles fuentes de error (ej: leer el tiempo en la pantalla, redondeo, etc.).
+	\end{enumerate}
+	
+	\vspace{1cm}
+	\noindent
+	\textbf{Importante:} No se preocupen por la perfección. Lo importante es practicar el proceso de graficar, linealizar y extraer información de una gráfica.
+	
+	\begin{center}
+		\small\textit{*Ejercicios tomados y adaptados del taller de la profesora Edna Carolina Pinilla Beltrán.}
+	\end{center}
+	
+	\vspace{0.5cm}
+	{\color{UnalGreen}\hrule height 0.5pt}
+	\begin{center}
+		\small 
+		\textit{Trabajo en grupos.}
+	\end{center}
+	
+\end{document}
