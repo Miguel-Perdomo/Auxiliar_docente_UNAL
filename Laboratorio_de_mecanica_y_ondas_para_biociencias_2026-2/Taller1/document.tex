@@ -1,0 +1,140 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[top=1.8cm, bottom=1.8cm, left=2.2cm, right=2.2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Mecánica y Ondas para Biociencias (1000023) -- Grupo 4}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\footnotesize\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ----- AJUSTES DE TABLA -----
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{2.1}
+
+% ----- COLUMNA CENTRADA CON ANCHO FIJO -----
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+% =========================================================
+% ENCABEZADO
+% =========================================================
+\begin{center}
+    \vspace*{-0.5cm}
+    {\Large\bfseries\color{UnalGreen} Conformación de Grupos de Trabajo}\\[0.15cm]
+    {\normalsize\bfseries Laboratorio de Mecánica y Ondas para Biociencias}\\[0.05cm]
+    {\small Docente: Miguel Andrés Perdomo Gutiérrez\hspace{0.5cm}$\cdot$\hspace{0.5cm}Fecha: \rule{3cm}{0.4pt}}
+\end{center}
+
+\vspace{0.2cm}
+
+% =========================================================
+% INSTRUCCIONES
+% =========================================================
+\begin{center}
+\fcolorbox{UnalGreen}{UnalGreen!8}{%
+\parbox{0.95\textwidth}{\small
+\textbf{Instrucciones:}
+Reúnanse en equipos de \textbf{3 o 4 integrantes}. Cada equipo escoge un número
+de grupo (1, 2, 3, \dots), lo escribe en la casilla de \textbf{todos} sus
+integrantes y cada quien firma al frente de su nombre.
+\\[4pt]
+\textcolor{UnalGreen}{\textbf{Importante:}} estos grupos son \textbf{fijos para
+todo el semestre}. Se usarán para bitácoras, informes formales y prácticas.
+\textbf{No habrá cambios de grupo una vez diligenciada esta lista.} Piénsenlo bien
+antes de escribir.
+}}
+\end{center}
+
+\vspace{0.4cm}
+
+% =========================================================
+% LISTA COMPLETA (UNA COLUMNA, LONGTABLE)
+% =========================================================
+\begin{center}
+\small
+\begin{longtable}{|C{0.8cm}|p{7.5cm}|C{1.6cm}|p{4.5cm}|}
+\hline
+\textbf{\#} & \textbf{Nombre} & \textbf{Grupo} & \textbf{Firma} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{\#} & \textbf{Nombre} & \textbf{Grupo} & \textbf{Firma} \\
+\hline
+\endhead
+
+1  & BARRAGÁN HERNÁNDEZ, María Sofía & & \\ \hline
+2  & BARRAGAN PEREZ, Danna Sofia & & \\ \hline
+3  & BETANCOURT GÓMEZ, Manuela & & \\ \hline
+4  & BONILLA CHAPARRO, Maria Paula & & \\ \hline
+5  & BRAVO RIVERA, Elizabeth Yomary & & \\ \hline
+6  & BUITRAGO JEREZ, Mariana Valentina & & \\ \hline
+7  & CASTILLO CUSBA, Andres Santiago & & \\ \hline
+8  & CESPEDES MONDRAGON, Danna Camila & & \\ \hline
+9  & ENRIQUEZ MORILLO, Sarita Alejandra & & \\ \hline
+10 & ESPINEL CARRILLO, Valeria & & \\ \hline
+11 & GARZON MOGOLLON, Maria Paula & & \\ \hline
+12 & GUISAO SUAZA, Emily & & \\ \hline
+13 & HERNANDEZ SALAZAR, Valentina & & \\ \hline
+14 & IGUARAN JIMENEZ, Jose Javier & & \\ \hline
+15 & MADROÑERO YELA, Evelyn Yuliet & & \\ \hline
+16 & MALDONADO PEÑARANDA, Carlos Jhosef & & \\ \hline
+17 & MORENO GAMBOA, Diego Alejandro & & \\ \hline
+18 & NUMPAQUE BUITRAGO, Laura Daniela & & \\ \hline
+19 & PEÑA RAMIREZ, Breinher Alexander & & \\ \hline
+20 & PINILLA DELGADO, Carlos David & & \\ \hline
+21 & PINILLA ROJAS, Zabdi Hesed & & \\ \hline
+22 & QUIÑONEZ CARDENAS, Juliana Valentina & & \\ \hline
+23 & RAMÍREZ CASARES, Santiago & & \\ \hline
+24 & RICARDO MARTÍNEZ, Valeria & & \\ \hline
+25 & SALAZAR QUIROGA, Laura Vanesa & & \\ \hline
+26 & SANCHEZ ZABALA, Laura Kamila & & \\ \hline
+27 & SANTANA MARIN, Luna Valeria & & \\ \hline
+28 & TIQUE ARIAS, Harold Esteban & & \\ \hline
+29 & VALENCIA ESCOBAR, Keidem & & \\ \hline
+30 & YANDUN YELA, Sara Deyfenny & & \\ \hline
+\end{longtable}
+\end{center}
+
+\vspace{0.3cm}
+
+% =========================================================
+% ESPACIO PARA ESTUDIANTES DE ADICIONES
+% =========================================================
+\noindent
+{\small\bfseries\color{DarkGray} Estudiantes que ingresen por adiciones:}
+
+\vspace{0.2cm}
+\begin{center}
+\small
+\begin{tabular}{|C{0.8cm}|p{5.5cm}|p{4.3cm}|C{1.3cm}|p{3cm}|}
+\hline
+\textbf{\#} & \textbf{Nombre completo} & \textbf{Correo institucional} & \textbf{Grupo} & \textbf{Firma} \\
+\hline
+31 & & & & \\ \hline
+32 & & & & \\ \hline
+33 & & & & \\ \hline
+\end{tabular}
+\end{center}
+
+\vfill
+\noindent
+{\footnotesize \textit{Total inscritos: 30 estudiantes $\cdot$
+Grupos esperados: 8 a 10 $\cdot$ mperdomog@unal.edu.co}}
+
+\end{document}

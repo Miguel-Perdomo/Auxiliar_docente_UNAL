@@ -1,0 +1,366 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, babel}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Mecánica y Ondas para Biociencias (1000023) -- Laboratorio}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{
+	leftmargin=*,
+	itemsep=2pt,
+	topsep=2pt,
+	parsep=0pt
+}
+\setlist[enumerate]{
+	leftmargin=*,
+	itemsep=3pt,
+	topsep=3pt,
+	parsep=0pt
+}
+
+% ----- CAJA DE NOTA -----
+\newcommand{\notabox}[1]{%
+	\begin{center}
+		\fcolorbox{UnalGreen}{UnalGreen!8}{%
+			\parbox{0.94\textwidth}{\small #1}%
+		}
+	\end{center}
+}
+
+\begin{document}
+	
+	% % =========================================================
+	% ENCABEZADO
+	% =========================================================
+	\begin{center}
+		\vspace*{-0.8cm}
+		\includegraphics[width=0.15\textwidth]
+		{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		
+		{\Large\bfseries Taller 1: Teoría de Medida}\\[0.05cm]
+		{\large\bfseries ¿Qué tan rápido reacciona usted?}\\[0.1cm]
+		{\normalsize Mecánica y Ondas para Biociencias (1000023)}
+	\end{center}
+	
+	\vspace{0.2cm}
+	\noindent
+	\begin{tabular}{@{}ll@{}}
+		\textbf{Docente:} & Miguel Andrés Perdomo Gutiérrez \\
+		\textbf{Modalidad:} & Individual (la toma de datos puede hacerse en parejas) \\
+		\textbf{Entrega:} & Google Classroom \\
+	\end{tabular}
+	
+	\notabox{\textbf{¿Ingresó al curso por adiciones?} Esta actividad se puede realizar
+		completa en casa: solo necesita una regla y otra persona que le ayude. Puede
+		entregarla de forma asincrónica hasta la Semana 3.}
+	% =========================================================
+	\section{Objetivos}
+	% =========================================================
+	\begin{itemize}
+		\item Reportar una medida experimental con su respectiva incertidumbre.
+		\item Distinguir entre incertidumbre instrumental e incertidumbre estadística, y combinarlas.
+		\item Aplicar la regla de cifras significativas al reporte de un resultado.
+		\item Reconocer la diferencia entre error aleatorio y error sistemático a partir de datos propios.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Contexto: el tiempo de reacción}
+	% =========================================================
+	
+	El \textbf{tiempo de reacción simple} es el intervalo que transcurre entre la llegada
+	de un estímulo (ver que la regla cae) y el inicio de la respuesta motora (cerrar los
+	dedos). En ese intervalo ocurre una cadena de procesos: la señal viaja de la retina al
+	cerebro, se procesa, y baja por la médula espinal hasta los músculos del antebrazo.
+	
+	Es una cantidad de interés real en fisiología, medicina deportiva y seguridad vial.
+	Un estudio con 1469 personas entre 18 y 65 años reportó una latencia media de
+	\textbf{231 ms} \cite{woods2015}. La prueba de la regla que usaremos aquí es un método
+	reconocido para estimar esta cantidad \cite{ferreira2024}.
+	
+	\subsection*{El principio físico}
+	
+	Cuando la regla se suelta, cae en caída libre. Si usted la atrapa después de que haya
+	caído una distancia $d$, el tiempo transcurrido es:
+	
+	\begin{equation}
+	t = \sqrt{\frac{2d}{g}}, \qquad g = 9.78\ \mathrm{m/s^2} \ \ \text{(Bogotá)}
+	\label{eq:caida}
+	\end{equation}
+	
+	\notabox{\textbf{No necesita entender la deducción de esta fórmula todavía} ---
+		la verán en el curso magistral. Por ahora úsela como una regla de conversión:
+		usted mide una distancia, y la fórmula se la convierte en un tiempo.}
+	
+	% =========================================================
+	\section{Materiales}
+	% =========================================================
+	\begin{itemize}
+		\item Una regla graduada en milímetros (30 cm preferiblemente).
+		\item Una segunda persona (compañero, familiar, amigo).
+		\item Calculadora.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Procedimiento}
+	% =========================================================
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=0.85, every node/.style={font=\small}]
+		
+		% Regla vertical
+		\draw[thick, fill=UnalGreen!15] (0,0) rectangle (0.5,5);
+		\foreach \y in {0.5,1,...,4.5} {
+			\draw (0,\y) -- (0.2,\y);
+		}
+		\node[above] at (0.25,5) {regla};
+		\node[below] at (0.25,0) {$0$ cm};
+		
+		% Mano abierta en la posición inicial
+		\draw[thick] (-0.9,0.55) -- (-0.1,0.55);
+		\draw[thick] (-0.9,-0.05) -- (-0.1,-0.05);
+		\node[left, align=right] at (-1.0,0.25) {dedos abiertos\\en el cero};
+		
+		% Flecha de caída
+		\draw[-{Latex[length=2.5mm]}, thick, red] (1.3,3.5) -- (1.3,1.2);
+		\node[right, red] at (1.4,2.35) {cae $d$};
+		
+		% Segunda regla: posición al ser atrapada
+		\begin{scope}[xshift=5cm]
+		\draw[thick, fill=UnalGreen!15] (0,-2.3) rectangle (0.5,2.7);
+		\foreach \y in {-1.8,-1.3,...,2.2} {
+			\draw (0,\y) -- (0.2,\y);
+		}
+		\node[below] at (0.25,-2.3) {$0$ cm};
+		
+		% Mano cerrada
+		\draw[thick] (-0.9,0.3) -- (-0.1,0.3);
+		\draw[thick] (-0.9,0.0) -- (-0.1,0.0);
+		\node[left, align=right] at (-1.0,0.15) {atrapada};
+		
+		% Lectura
+		\draw[<->, thick, red] (0.9,-2.3) -- (0.9,0.15);
+		\node[right, red] at (1.0,-1.1) {$d = $ lectura};
+		\end{scope}
+		
+		\end{tikzpicture}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Siéntese con el antebrazo apoyado en la mesa y la mano por fuera del borde,
+		con los dedos pulgar e índice abiertos unos 3 cm.
+		\item Su compañero sostiene la regla verticalmente, de modo que la marca de
+		\textbf{0 cm} quede a la altura de sus dedos abiertos.
+		\item Sin avisar, su compañero suelta la regla. Usted debe cerrar los dedos
+		tan rápido como pueda.
+		\item Registre la marca de la regla que queda justo a la altura de sus dedos.
+		Esa es la distancia de caída $d$.
+		\item Repita el procedimiento \textbf{20 veces}. Registre todos los valores
+		en la Tabla \ref{tab:datos}, incluso los que le parezcan ``malos''.
+	\end{enumerate}
+	
+	\notabox{\textbf{Importante:} su compañero debe variar el tiempo de espera entre
+		intento e intento (a veces 2 s, a veces 5 s). Si suelta la regla siempre con el
+		mismo ritmo, usted aprenderá a anticiparse y estará midiendo otra cosa distinta
+		al tiempo de reacción.}
+	
+	\subsection*{Tabla de datos}
+	
+\begin{table}[h]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{\#} & \textbf{$d_i \pm 0.1$ (cm)} & \textbf{\#} & \textbf{$d_i \pm 0.1$ (cm)} &
+		\textbf{\#} & \textbf{$d_i \pm 0.1$ (cm)} & \textbf{\#} & \textbf{$d_i \pm 0.1$ (cm)} \\
+		\hline
+		1 & \hspace{1.5cm} & 6  & \hspace{1.5cm} & 11 & \hspace{1.5cm} & 16 & \hspace{1.5cm} \\ \hline
+		2 &                & 7  &                & 12 &                & 17 &                \\ \hline
+		3 &                & 8  &                & 13 &                & 18 &                \\ \hline
+		4 &                & 9  &                & 14 &                & 19 &                \\ \hline
+		5 &                & 10 &                & 15 &                & 20 &                \\ \hline
+	\end{tabular}
+	\caption{Distancias de caída medidas. La incertidumbre instrumental es $\Delta_{\text{inst}} = 0.1$ cm (resolución de la regla).}
+	\label{tab:datos}
+\end{table}
+	
+	% =========================================================
+	\section{Análisis}
+	% =========================================================
+	
+	\subsection*{Paso 1: Histograma}
+	
+	Construya un histograma de sus 20 valores de $d$ en papel milimetrado o cuadriculado.
+	Use entre 5 y 7 intervalos de igual ancho. Rotule los ejes con sus unidades.
+	
+	\vspace{0.2cm}
+	\noindent
+	\textit{¿La forma se parece a la campana que vimos con los datos de pulso del salón?}
+	
+	\subsection*{Paso 2: Promedio y desviación estándar}
+	
+	Calcule, para sus 20 mediciones:
+	
+	\begin{equation}
+	\bar{d} = \frac{1}{N}\sum_{i=1}^{N} d_i
+	\qquad\qquad
+	\sigma_d = \sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(d_i - \bar{d}\right)^2}
+	\end{equation}
+	
+	\subsection*{Paso 3: Incertidumbre total}
+	
+	Su medida tiene dos fuentes de incertidumbre independientes:
+	
+	\begin{itemize}
+		\item \textbf{Instrumental:} $\Delta_{\text{inst}} = 0.1$ cm (resolución de la regla).
+		\item \textbf{Estadística:} $\sigma_d$, calculada en el paso anterior.
+	\end{itemize}
+	
+	Combínelas en cuadratura:
+	
+	\begin{equation}
+	\Delta d = \sqrt{\left(\sigma_d\right)^2 + \left(\Delta_{\text{inst}}\right)^2}
+	\end{equation}
+	
+	\noindent
+	Reporte: $\ d = \bar{d} \pm \Delta d$ \ (en cm, aplicando la regla de cifras significativas).
+	
+	\subsection*{Paso 4: Conversión a tiempo de reacción}
+	
+	Convierta su distancia promedio a tiempo usando la ecuación (\ref{eq:caida}).
+	\textbf{Trabaje en metros.}
+	
+	\vspace{0.2cm}
+	\noindent
+	Para la incertidumbre, use la siguiente expresión (no necesita deducirla):
+	
+	\begin{equation}
+	\Delta t = \frac{\Delta d}{\sqrt{2\,g\,\bar{d}}}
+	\end{equation}
+	
+	\noindent
+	Reporte su resultado final en \textbf{milisegundos}: $\ t = \bar{t} \pm \Delta t$ \ [ms].
+	
+	\subsection*{Tabla resumen}
+	
+	\begin{table}[h]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.5}
+		\begin{tabular}{|l|c|c|c|}
+			\hline
+			\textbf{Magnitud} & \textbf{Valor} & \textbf{Incertidumbre} & \textbf{Resultado final} \\
+			\hline
+			Distancia promedio $\bar{d}$ (cm) & & & \\ \hline
+			Desviación estándar $\sigma_d$ (cm) & --- & --- & \\ \hline
+			Tiempo de reacción $\bar{t}$ (ms) & & & \\ \hline
+		\end{tabular}
+		\caption{Resumen de resultados.}
+	\end{table}
+	
+	% =========================================================
+	\section{Preguntas de análisis}
+	% =========================================================
+	
+	Responda de forma clara y justificada, usando \textbf{sus propios datos}.
+	
+	\begin{enumerate}
+		\item \textbf{¿Cuál incertidumbre domina?} Compare el valor de $\sigma_d$ con el de
+		$\Delta_{\text{inst}} = 0.1$ cm. ¿Cuál de las dos contribuye más a $\Delta d$?
+		¿Qué significa esto: el problema está en la regla, o en la variabilidad de su
+		propia reacción?
+		
+		\item \textbf{Aleatorio o sistemático.} Suponga que su compañero soltó la regla
+		siempre después de contar ``uno, dos, tres''. ¿Qué le pasaría a sus mediciones?
+		¿Se volverían más dispersas (error aleatorio) o se desplazarían todas hacia
+		valores más pequeños (error sistemático)? Explique.
+		
+		\item \textbf{Cifras significativas.} Escriba el valor de $\bar{t}$ tal como
+		se lo dio la calculadora (con todos sus decimales) y al lado el valor que
+		usted reportó finalmente. Explique cuántos decimales eliminó y por qué.
+		
+		\item \textbf{Comparación con la literatura.} El estudio citado en el contexto
+		reporta una media de 231 ms. Compare su resultado con ese valor: ¿quedó por
+		encima o por debajo? Proponga al menos una explicación experimental para la
+		diferencia (no basta con decir ``me equivoqué'').
+		
+		\item \textbf{Diseño experimental.} Proponga \textbf{un} cambio concreto en el
+		procedimiento que reduciría la incertidumbre de su resultado. Justifique por qué
+		funcionaría.
+	\end{enumerate}
+	
+	% =========================================================
+	\section{Entrega}
+	% =========================================================
+	
+	Suba a Google Classroom un documento (digital o foto legible de su cuaderno) que contenga:
+	
+	\begin{itemize}
+		\item La tabla con sus 20 mediciones.
+		\item El histograma.
+		\item Los cálculos de $\bar{d}$, $\sigma_d$, $\Delta d$ y $\bar{t} \pm \Delta t$
+		(mostrando el procedimiento, no solo el resultado).
+		\item La tabla resumen diligenciada.
+		\item Las respuestas a las cinco preguntas de análisis.
+	\end{itemize}
+	
+	
+	\begin{thebibliography}{9}
+		
+		\bibitem{woods2015}
+		D. L. Woods, J. M. Wyma, E. W. Yund, T. J. Herron y B. Reed,
+		``Factors influencing the latency of simple reaction time'',
+		\textit{Frontiers in Human Neuroscience}, vol. 9, art. 131, 2015.
+		DOI: \href{https://doi.org/10.3389/fnhum.2015.00131}{10.3389/fnhum.2015.00131}
+		
+		\bibitem{ferreira2024}
+		S. Ferreira, A. Raimundo, J. del Pozo-Cruz, N. Leite, A. Pinto y J. Marmeleira,
+		``Validity and reliability of a ruler drop test to measure dual-task reaction time,
+		choice reaction time and discrimination reaction time'',
+		\textit{Aging Clinical and Experimental Research}, vol. 36, art. 63, 2024.
+		DOI: \href{https://doi.org/10.1007/s40520-024-02726-6}{10.1007/s40520-024-02726-6}
+		
+	\end{thebibliography}
+
+	
+\end{document}

@@ -1,0 +1,439 @@
+% 1. Definir el color ANTES de llamar al tema SimplePlus
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usepackage{xcolor}
+\definecolor{nyugray}{RGB}{128,128,128}
+\usetheme{SimplePlus}
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, babel}
+\usepackage[skip=5pt]{caption}
+\captionsetup{justification=justified, font=small}
+\usefonttheme{professionalfonts}
+
+% ----- INFORMACIÓN DE LA PRESENTACIÓN -----
+\title{Laboratorio de Mecánica y Ondas para
+	Biociencias}
+\subtitle{Sesión 2: Teoría de Medida y Taller 1}
+\titlegraphic{%
+    \vspace*{-0.3cm}%
+    \IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+        \includegraphics[width=2.2cm]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+    }{%
+        \IfFileExists{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+            \includegraphics[width=2.2cm]{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+        }{}%
+    }%
+    \hspace{1.0cm}%
+    \IfFileExists{logoMIAI_white.png}{%
+        \includegraphics[width=4.0cm]{logoMIAI_white.png}%
+    }{%
+        \IfFileExists{imagenes/logoMIAI_white.png}{%
+            \includegraphics[width=4.0cm]{imagenes/logoMIAI_white.png}%
+        }{}%
+    }%
+}
+\author{Miguel Andrés Perdomo Gutiérrez}
+\institute{%
+    Auxiliar Docente | M.Sc. en Ciencias -- Física\\
+    Universidad Nacional de Colombia -- Sede Bogotá
+}
+\date{08 de septiembre de 2026}
+
+\begin{document}
+
+% ============================================================
+% SLIDE 1: PORTADA
+% ============================================================
+\begin{frame}
+	\titlepage
+\end{frame}
+
+% ============================================================
+% SLIDE 2: AGENDA DEL DÍA
+% ============================================================
+\begin{frame}{Plan de la Sesión de Hoy}
+	\centering
+	\begin{tikzpicture}[
+	box/.style={rectangle, rounded corners, draw=UnalGreen, thick, fill=UnalGreen!10,
+		minimum width=1.8cm, minimum height=1.4cm, align=center, font=\scriptsize},
+	arr/.style={-{Latex[length=1.5mm]}, thick, UnalGreen}
+	]
+	\node[box] (b1) {Reactivación\\Histograma de pulso\\\textbf{10--15 min}};
+	\node[box, right=0.3cm of b1] (b2) {Mini-teoría\\Incertidumbre, cifras sig.,\\exactitud/precisión\\\textbf{20--25 min}};
+	\node[box, right=0.3cm of b2] (b3) {Taller 1\\``Atrapa la regla''\\\textbf{60--70 min}};
+	\node[box, right=0.3cm of b3] (b4) {Cierre\\Puesta en común\\\textbf{10--15 min}};
+	\draw[arr] (b1) -- (b2);
+	\draw[arr] (b2) -- (b3);
+	\draw[arr] (b3) -- (b4);
+	\end{tikzpicture}
+
+	\vspace{0.3cm}
+	\begin{block}{Objetivo de la sesión}
+		\small Aprender a reportar una medida como $x = \bar{x} \pm \sigma_x$, con el número correcto de cifras significativas.
+	\end{block}
+
+	\vspace{0.1cm}
+	\begin{small}
+		\textcolor{UnalGreen}{\textbf{Duración total:}} 2 horas (Viernes 09:00--11:00, Edificio 401, Salón 202)
+	\end{small}
+\end{frame}
+
+% ============================================================
+% SLIDE 3: HISTOGRAMA DE FRECUENCIA CARDÍACA (CON GAUSSIANA)
+% ============================================================
+\begin{frame}{Recordemos: Histograma de Frecuencia Cardíaca}
+	\begin{center}
+		\begin{tikzpicture}[x=0.12cm, y=0.28cm]
+
+		% Ejes
+		\draw[-{Latex[length=2.5mm]}] (46,0) -- (118,0) node[right] {\normalsize $f$ (bpm)};
+		\draw[-{Latex[length=2.5mm]}] (46,0) -- (46,16) node[above] {\normalsize Cuentas};
+
+		% Ticks eje x
+		\foreach \x in {60, 68, 76, 84, 92, 100, 108} {
+			\draw[thick] (\x,0.4) -- (\x,-0.4);
+			\node[below, font=\normalsize] at (\x,-0.4) {\x};
+		}
+		\node[below, align=center, font=\normalsize] at (52,-0.9) {$<60$};
+
+		% Ticks eje y
+		\foreach \y in {0,5,10,15} {
+			\draw[thick] (46.8,\y) -- (45.2,\y);
+			\node[left, font=\normalsize] at (45.0,\y) {\y};
+		}
+
+		% Barras del histograma
+		\draw[fill=UnalGreen!55, draw=black, thick] (60,0)  rectangle (68,2);
+		\draw[fill=UnalGreen!55, draw=black, thick] (68,0)  rectangle (76,5);
+		\draw[fill=UnalGreen!55, draw=black, thick] (76,0)  rectangle (84,14);
+		\draw[fill=UnalGreen!55, draw=black, thick] (84,0)  rectangle (92,9);
+		\draw[fill=UnalGreen!55, draw=black, thick] (92,0)  rectangle (100,4);
+		\draw[fill=UnalGreen!55, draw=black, thick] (100,0) rectangle (108,3);
+
+		% Etiquetas de conteo
+		\node[above, font=\large\bfseries] at (64,2)   {2};
+		\node[above, font=\large\bfseries] at (72,5)   {5};
+		\node[above, font=\large\bfseries] at (80,14)  {14};
+		\node[above, font=\large\bfseries] at (88,9)   {9};
+		\node[above, font=\large\bfseries] at (96,4)   {4};
+		\node[above, font=\large\bfseries] at (104,3)  {3};
+
+		% Curva gaussiana (ajustada al pico del histograma)
+		\draw[red, thick, domain=48:118, samples=120]
+		plot (\x, {13.5*exp(-((\x-82.5)*(\x-82.5))/(2*9.5*9.5))});
+
+		\end{tikzpicture}
+	\end{center}
+
+	\vspace{0.1cm}
+	\begin{center}
+		\large $N = 37$ \qquad $\bar{f} \approx 83$ bpm \qquad $\sigma \approx 10$ bpm
+	\end{center}
+
+	\vspace{0.1cm}
+	\begin{center}
+		\small \textit{¿Por qué no les dio el mismo número, incluso a la misma persona en sus dos intentos?}
+	\end{center}
+\end{frame}
+
+% ============================================================
+% SLIDE 4: ¿QUÉ ES LA INCERTIDUMBRE?
+% ============================================================
+\begin{frame}{¿Qué es la Incertidumbre?}
+	\begin{block}{Toda medida trae un margen de duda}
+		\centering
+		Viene de dos fuentes distintas:
+	\end{block}
+
+	\vspace{0.3cm}
+	\begin{itemize}
+		\setlength{\itemsep}{10pt}
+		\item \textbf{Resolución del instrumento o del conteo}: la separación mínima que se puede distinguir.
+		\item \textbf{Repetibilidad}: al repetir la medida, no siempre se obtiene el mismo valor.
+	\end{itemize}
+
+	\vspace{0.4cm}
+	\begin{exampleblock}{Al final del día, queremos reportar:}
+		\centering
+		\Large $x = \bar{x} \pm \sigma_x$
+	\end{exampleblock}
+
+	\vspace{0.2cm}
+	\begin{center}
+		\small Vamos paso a paso: primero \textbf{una sola} lectura, después \textbf{muchas} repeticiones.
+	\end{center}
+\end{frame}
+
+% ============================================================
+% SLIDE 5: INCERTIDUMBRE DE UNA MEDICIÓN ÚNICA (LA REGLA)
+% ============================================================
+\begin{frame}{Incertidumbre de una Medición Única}
+	\begin{center}
+		\begin{tikzpicture}[x=0.4cm, y=0.4cm]
+
+		% Banda de incertidumbre ($\pm 0.1$ cm alrededor de la marca de 4.2 cm)
+		\draw[fill=UnalGreen!15, draw=none] (41,-0.3) rectangle (43,1.6);
+
+		\draw[thick] (28,0) -- (52,0);
+		\foreach \x in {29,...,51} {
+			\draw (\x,0) -- (\x,0.6);
+		}
+		\draw[thick] (30,0) -- (30,1.2);
+		\draw[thick, UnalGreen] (40,0) -- (40,1.2);
+		\draw[thick] (50,0) -- (50,1.2);
+		\node[above] at (30,1.2) {\footnotesize 3 cm};
+		\node[above, UnalGreen] at (40,1.2) {\footnotesize 4 cm};
+		\node[above] at (50,1.2) {\footnotesize 5 cm};
+
+		\draw[red, thick, dashed] (42.3,-0.3) -- (42.3,1.6);
+		\node[red, right, align=left] at (42.5,1.0) {\footnotesize borde del\\[-2pt]\footnotesize objeto};
+
+		\draw[-{Latex[length=1.5mm]}] (42,-1.0) -- (42,-0.4);
+		\node[below] at (42,-1.1) {\footnotesize marca más cercana: $4.2$ cm};
+
+		\end{tikzpicture}
+
+		\vspace{-0.05cm}
+		{\small (banda verde $= \pm 0.1$ cm, resolución del instrumento)}
+	\end{center}
+
+	\begin{block}{Regla operativa}
+		\centering
+		$\Delta x =$ resolución del instrumento (separación entre marcas). \\
+		Se reporta la marca más cercana, con esa incertidumbre.
+	\end{block}
+
+	\begin{center}
+		Regla graduada en mm $\Rightarrow \Delta x = 0.1$ cm \qquad
+		\textbf{$x = 4.2 \pm 0.1$ cm}
+	\end{center}
+\end{frame}
+
+% ============================================================
+% SLIDE 6: PROPAGACIÓN DE LA INCERTIDUMBRE
+% ============================================================
+\begin{frame}{Propagando la Incertidumbre: del Conteo a los BPM}
+	\begin{exampleblock}{Misma idea, otro instrumento: contar latidos}
+		\centering
+		No se pueden contar fracciones de latido $\Rightarrow \Delta N = 1$ latido
+		\vspace{0.15cm}
+
+		En 30 s cuentas: $N = 32 \pm 1$ latidos
+	\end{exampleblock}
+
+	\vspace{0.3cm}
+	\begin{block}{Para pasar a bpm, multiplicamos por una constante}
+		\centering
+		Si $y = c\cdot x$, entonces $\Delta y = c \cdot \Delta x$
+	\end{block}
+
+	\vspace{0.2cm}
+	\[
+		f = 2 \times (32 \pm 1) = (2\times 32) \pm (2\times 1) = 64 \pm 2 \text{ bpm}
+	\]
+
+	\vspace{0.3cm}
+	\begin{center}
+		\small Este $\pm 2$ bpm es la incertidumbre \textbf{instrumental}: $\Delta f_{\text{inst}} = 2$ bpm. \\
+		Guardemos este número.
+	\end{center}
+\end{frame}
+
+% ============================================================
+% SLIDE 7: EXACTITUD VS. PRECISIÓN
+% ============================================================
+\begin{frame}{Exactitud vs.\ Precisión}
+	\begin{center}
+		\begin{tikzpicture}[every node/.style={font=\tiny}]
+
+		\begin{scope}[xshift=0cm]
+		\draw[fill=UnalGreen!10] (0,0) circle (0.9);
+		\draw (0,0) circle (0.6);
+		\draw (0,0) circle (0.3);
+		\fill (0.08,0.05) circle (1.5pt);
+		\fill (-0.05,0.10) circle (1.5pt);
+		\fill (0.04,-0.08) circle (1.5pt);
+		\fill (-0.08,-0.03) circle (1.5pt);
+		\node at (0,-1.25) {Exacto y Preciso};
+		\end{scope}
+
+		\begin{scope}[xshift=2.4cm]
+		\draw[fill=UnalGreen!10] (0,0) circle (0.9);
+		\draw (0,0) circle (0.6);
+		\draw (0,0) circle (0.3);
+		\fill (0.15,0.5) circle (1.5pt);
+		\fill (-0.55,-0.2) circle (1.5pt);
+		\fill (0.4,-0.4) circle (1.5pt);
+		\fill (-0.25,0.35) circle (1.5pt);
+		\node at (0,-1.25) {Exacto, no Preciso};
+		\end{scope}
+
+		\begin{scope}[xshift=4.8cm]
+		\draw[fill=UnalGreen!10] (0,0) circle (0.9);
+		\draw (0,0) circle (0.6);
+		\draw (0,0) circle (0.3);
+		\fill (0.6,0.55) circle (1.5pt);
+		\fill (0.65,0.5) circle (1.5pt);
+		\fill (0.58,0.6) circle (1.5pt);
+		\fill (0.62,0.52) circle (1.5pt);
+		\node at (0,-1.25) {Preciso, no Exacto};
+		\end{scope}
+
+		\begin{scope}[xshift=7.2cm]
+		\draw[fill=UnalGreen!10] (0,0) circle (0.9);
+		\draw (0,0) circle (0.6);
+		\draw (0,0) circle (0.3);
+		\fill (0.6,0.55) circle (1.5pt);
+		\fill (-0.5,0.3) circle (1.5pt);
+		\fill (0.2,-0.65) circle (1.5pt);
+		\fill (-0.35,-0.45) circle (1.5pt);
+		\node at (0,-1.25) {Ni Exacto ni Preciso};
+		\end{scope}
+
+		\end{tikzpicture}
+	\end{center}
+
+	\vspace{0.4cm}
+	\begin{itemize}
+		\item \textbf{Precisión}: qué tan juntas están las medidas entre sí $\rightarrow$ error \textbf{aleatorio}.
+		\item \textbf{Exactitud}: qué tan cerca están del valor real $\rightarrow$ error \textbf{sistemático}.
+	\end{itemize}
+
+	\vspace{0.2cm}
+	\begin{center}
+		\small ¿Alguien tomó café antes del conteo de pulso? ¿Corrió para llegar a clase?
+	\end{center}
+\end{frame}
+
+% ============================================================
+% SLIDE 8: REPETIMOS LA MEDICIÓN
+% ============================================================
+\begin{frame}{Repetimos la Medición: Promedio y Desviación Estándar}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Fórmulas}
+				\[
+					\bar{x} = \frac{1}{N}\sum_{i=1}^{N} x_i
+				\]
+				\[
+					\sigma_x = \sqrt{\frac{1}{N}\sum_{i=1}^{N} (x_i - \bar{x})^2}
+				\]
+			\end{block}
+			\small \textcolor{gray}{Un mismo estudiante, 5 conteos de 30 s.}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\small
+			$N_i = 30,\,35,\,28,\,33,\,29$ \quad ($f_i = 2N_i$)
+			\begin{center}
+			\begin{tabular}{c|c|c}
+				$f_i$ & $f_i-\bar f$ & $(f_i-\bar f)^2$ \\
+				\hline
+				60 & $-2$ & $4$ \\
+				70 & $8$  & $64$ \\
+				56 & $-6$ & $36$\\
+				66 & $4$  & $16$\\
+				58 & $-4$ & $16$\\
+				\hline
+				& Suma: & $136$
+			\end{tabular}
+			\end{center}
+		\end{column}
+	\end{columns}
+
+	\vspace{0.25cm}
+	\[
+		\bar f = \frac{310}{5} = 62 \text{ bpm} \qquad
+		\sigma_{\text{est}} = \sqrt{\frac{136}{5}} = \sqrt{27.2} \approx 5.2 \text{ bpm}
+	\]
+\end{frame}
+
+% ============================================================
+% SLIDE 9: COMBINANDO LAS DOS INCERTIDUMBRES (CUADRATURA)
+% ============================================================
+\begin{frame}{Combinando las Dos Incertidumbres}
+	\begin{block}{Tenemos dos contribuciones independientes}
+		\centering
+		\begin{tabular}{lc}
+			Incertidumbre \textbf{instrumental} (resolución del conteo) & $\Delta f_{\text{inst}} = 2$ bpm \\[2pt]
+			Incertidumbre \textbf{estadística} (dispersión al repetir) & $\sigma_{\text{est}} \approx 5.2$ bpm \\
+		\end{tabular}
+	\end{block}
+
+	\vspace{0.3cm}
+	\begin{exampleblock}{Se combinan en cuadratura}
+		\centering
+		\Large $\sigma_{\text{total}} = \sqrt{\sigma_{\text{est}}^{\,2} + \Delta f_{\text{inst}}^{\,2}}$
+	\end{exampleblock}
+
+	\vspace{0.2cm}
+	\[
+		\sigma_{\text{total}} = \sqrt{(5.2)^2 + (2)^2} = \sqrt{27.2 + 4} = \sqrt{31.2} \approx 5.6 \text{ bpm}
+	\]
+
+	\vspace{0.2cm}
+	\begin{center}
+		\small \textbf{¿Por qué en cuadratura y no sumadas?} Porque son errores \textbf{independientes}.
+
+		\vspace{0.1cm}
+		\small Note que domina la contribución \textbf{estadística}: $5.2 \rightarrow 5.6$ bpm.
+	\end{center}
+\end{frame}
+
+% ============================================================
+% SLIDE 10: REPORTE FINAL — LA REGLA DE ORO
+% ============================================================
+\begin{frame}{¿Cómo Reporto mi Medida Final?}
+	\begin{block}{Regla de oro (en este orden)}
+		\begin{enumerate}
+			\item Redondear $\sigma_x$ a \textbf{una cifra significativa}.
+			\item Redondear $\bar{x}$ a la \textbf{misma posición decimal} que $\sigma_x$.
+		\end{enumerate}
+		\centering
+		\small \textcolor{gray}{El promedio se ajusta a la incertidumbre, nunca al revés.}
+	\end{block}
+
+	\begin{exampleblock}{Aplicando la regla a nuestros datos}
+		\begin{itemize}
+			\item Calculamos: $\bar f = 62.4$ bpm, \ $\sigma_{\text{total}} = 5.6$ bpm
+			\item \textbf{Paso 1:} $\sigma_{\text{total}} \approx 6$ bpm \ (una cifra significativa)
+			\item \textbf{Paso 2:} $\sigma$ no tiene decimales $\Rightarrow \bar f \approx 62$ bpm
+			\item \alert{Reporte final: $f = 62 \pm 6$ bpm}
+		\end{itemize}
+	\end{exampleblock}
+
+	\begin{center}
+		\small \textbf{Error común:} escribir $\mathbf{62.4 \pm 5.6}$ bpm. Si la incertidumbre es de 6 bpm, \\ el ``$.4$'' del promedio es información que no se puede sostener.
+	\end{center}
+\end{frame}
+
+% ============================================================
+% SLIDE 11: TRANSICIÓN AL TALLER
+% ============================================================
+\begin{frame}{Ahora es su Turno: Taller 1}
+	\begin{block}{Actividad: ``Atrapa la regla''}
+		\centering
+		Van a medir su propio \textbf{tiempo de reacción} usando la caída libre de una regla.
+	\end{block}
+
+	\vspace{0.3cm}
+	\begin{itemize}
+		\setlength{\itemsep}{8pt}
+		\item \textbf{Materiales:} una regla y otra persona (nada más).
+		\item \textbf{Repiten} el experimento 20--30 veces.
+		\item \textbf{Combinan} $\Delta_{\text{inst}}$ (resolución de la regla) con $\sigma_{\text{est}}$ (dispersión) en cuadratura.
+		\item \textbf{Reportan} $\bar t \pm \sigma_t$ con el número correcto de cifras significativas.
+	\end{itemize}
+
+	\vspace{0.4cm}
+	\begin{center}
+		\large \textcolor{UnalGreen}{\textbf{Todo lo que acabamos de ver, ahora lo hacen ustedes con sus propios datos.}}
+	\end{center}
+\end{frame}
+
+\end{document}
