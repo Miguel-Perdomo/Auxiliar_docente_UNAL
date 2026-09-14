@@ -1,0 +1,441 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, babel, calc}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Mecánica y Ondas para Biociencias (1000023) -- Laboratorio}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt, parsep=0pt}
+\setlist[enumerate]{leftmargin=*, itemsep=3pt, topsep=3pt, parsep=0pt}
+
+% ----- CAJA DE NOTA -----
+\newcommand{\notabox}[1]{%
+	\begin{center}
+		\fcolorbox{UnalGreen}{UnalGreen!8}{%
+			\parbox{0.94\textwidth}{\small #1}%
+		}
+	\end{center}
+}
+
+% ----- PLACEHOLDER PARA IMÁGENES -----
+\newcommand{\imgwarning}[2][0.75]{%
+	\begin{center}
+		\fcolorbox{gray}{gray!8}{%
+			\parbox[c][3cm][c]{#1\textwidth}{\centering\small\textcolor{gray}{%
+					[\,Insertar imagen: #2\,]}}%
+		}
+	\end{center}
+}
+
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	\begin{center}
+		\vspace*{-0.8cm}
+		\includegraphics[width=0.15\textwidth]
+		{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		
+		{\Large\bfseries Práctica 1: Plano Inclinado}\\[0.1cm]
+		{\large\bfseries Movimiento uniformemente acelerado con Tracker}\\[0.1cm]
+		{\normalsize Mecánica y Ondas para Biociencias (1000023)}
+	\end{center}
+	
+	\vspace{0.2cm}
+	\noindent
+	\begin{tabular}{@{}ll@{}}
+		Modalidad: & Grupal (3 a 4 integrantes) \\
+		Entregable: & Bitácora 1 \\
+		Fecha de sesión: & 22 de septiembre de 2026 \\
+	\end{tabular}
+	
+	\notabox{\textbf{Antes de venir al laboratorio:} respondan las \emph{preguntas
+			previas} de la Sección 2, y traigan al menos
+		\textbf{un portátil por grupo con Tracker instalado}. El quiz individual del
+		inicio de la sesión sale de esas preguntas.}
+	
+	% =========================================================
+	\section{Objetivos}
+	% =========================================================
+	\begin{itemize}
+		\item Obtener las gráficas de posición y velocidad contra tiempo de un
+		objeto en movimiento acelerado, usando análisis de video.
+		\item Determinar la aceleración de un carro sobre un plano inclinado a
+		partir de la pendiente de la gráfica $v$ vs.\ $t$.
+		\item Medir la aceleración de la gravedad linealizando la relación entre
+		la aceleración del carro y el ángulo de inclinación.
+		\item Aplicar propagación de incertidumbres a un cociente y a una pendiente.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Materiales}
+	% =========================================================
+	\begin{itemize}
+		\item Carro y riel (plano inclinado).
+		\item Soporte para variar la altura.
+		\item Regla o cinta métrica.
+		\item Celular con cámara.
+		\item Portátil con Tracker instalado.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Preguntas previas}
+	% =========================================================
+	
+	Respóndanlas \textbf{antes} de la sesión. No se califican, pero
+	el quiz de entrada sale de aquí.
+	
+	\begin{enumerate}
+		\item ¿Qué caracteriza el movimiento de un objeto sobre el cual actúa una
+		fuerza constante? ¿Cómo se llama ese movimiento?
+		
+		\item Dibujen el \textbf{diagrama de cuerpo libre} de un bloque que desliza
+		sin fricción sobre un plano inclinado un ángulo $\theta$. Tomen el eje $x$
+		paralelo a la superficie del plano. A partir de la segunda ley de Newton,
+		demuestren que la aceleración es
+		\[
+		a = g\,\sin\theta
+		\]
+		
+		\item Según esa expresión, ¿qué valor toma $a$ si $\theta = 0^\circ$?
+		¿Y si $\theta = 90^\circ$? ¿Tiene sentido físico en ambos casos?
+		
+		\item A un objeto en movimiento se le mide la posición cada segundo:
+		
+		\begin{center}
+			\small
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				Punto & $x$ (cm) & $v$ (cm/s) & $a$ (cm/s$^2$) \\
+				\hline
+				1 & 0.0 & & \\ \hline
+				2 & 6.7 & & \\ \hline
+				3 & 26.8 & & \\ \hline
+			\end{tabular}
+		\end{center}
+		
+		Calculen la velocidad y la aceleración en todos los puntos donde sea
+		posible. ¿Por qué no se pueden llenar todas las casillas?
+	\end{enumerate}
+	
+	% =========================================================
+	\section{Teoría}
+	% =========================================================
+	
+	Un carro que desliza sin fricción por un plano inclinado se mueve con
+	aceleración constante $a = g\sin\theta$. En la práctica, el carro no desliza
+	sino que \textbf{rueda}, y además hay fricción en los ejes. Ambos efectos hacen
+	que la aceleración real sea algo menor:
+	
+	\begin{equation}
+		a = \gamma\,g\,\sin\theta
+		\label{eq:principal}
+	\end{equation}
+	
+	\noindent
+	donde $\gamma$ es un coeficiente adimensional, menor que 1, que depende de cómo
+	está construido el carro (la masa y el radio de sus ruedas). Para un bloque que
+	desliza sin fricción, $\gamma = 1$.
+	
+	\subsection*{Cómo obtener $\theta$ sin transportador}
+	
+	Medir un ángulo directamente con transportador es impreciso. Es mejor medir dos
+	longitudes y usar la definición del seno:
+	
+	\begin{equation}
+		\sin\theta = \frac{h}{L}
+		\label{eq:seno}
+	\end{equation}
+	
+	\noindent
+	donde $h$ es la altura del extremo elevado del riel sobre la mesa, y $L$ es la
+	longitud del riel. Como se trata de un \textbf{cociente}, la incertidumbre se
+	propaga con la regla que ya conocen:
+	
+	\begin{equation}
+		\frac{\Delta(\sin\theta)}{\sin\theta}
+		= \sqrt{\left(\frac{\Delta h}{h}\right)^{2} + \left(\frac{\Delta L}{L}\right)^{2}}
+		\label{eq:propaga}
+	\end{equation}
+	
+	\subsection*{La estrategia de medición}
+	
+	De la ecuación (\ref{eq:principal}) se ve que si graficamos $a$ contra
+	$\sin\theta$ obtenemos una \textbf{recta que pasa por el origen}, de pendiente
+	$m = \gamma g$. Por eso vamos a repetir el experimento a varias inclinaciones:
+	no para promediar cinco valores sueltos de $g$, sino para obtener uno solo a
+	partir de la pendiente de esa recta.
+	
+	% =========================================================
+	\section{Materiales}
+	% =========================================================
+	\begin{itemize}
+		\item Carro y riel (plano inclinado).
+		\item Soporte para variar la altura.
+		\item Regla o cinta métrica.
+		\item Un celular con cámara.
+		\item Un portátil con Tracker instalado.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Montaje}
+	% =========================================================
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=0.95]
+			% mesa
+			\draw[very thick] (-0.6,0) -- (10.2,0);
+			\draw[gray!60] (-0.6,-0.25) -- (10.2,-0.25);
+			
+			% soporte
+			\draw[thick, fill=gray!25] (8.9,0) rectangle (9.3,2.6);
+			
+			% riel
+			\draw[very thick, UnalGreen] (0.4,0.12) -- (9.1,2.72);
+			\draw[very thick, UnalGreen] (0.4,-0.02) -- (9.1,2.58);
+			
+			% carro
+			\begin{scope}[shift={(6.4,2.0)}, rotate=16.6]
+				\draw[thick, fill=UnalGreen!30] (-0.45,0.08) rectangle (0.45,0.52);
+				\fill[black] (-0.27,0.08) circle (0.09);
+				\fill[black] (0.27,0.08) circle (0.09);
+			\end{scope}
+			\draw[-{Latex[length=2mm]}, thick, red!75!black] (5.9,1.75) -- (4.7,1.4)
+			node[midway, below, font=\scriptsize] {$a$};
+			
+			% altura h
+			\draw[|-|, thick] (9.75,0) -- (9.75,2.6)
+			node[midway, right, font=\small] {$h$};
+			
+			% longitud L
+			\draw[|-|, thick] (0.55,0.62) -- (8.75,3.07);
+			\node[above left, font=\small] at (5.0,2.1) {$L$};
+			
+			% angulo
+			\draw (1.9,0.05) arc (0:16.6:1.5);
+			\node[font=\small] at (2.2,0.32) {$\theta$};
+			
+			% regla de calibracion
+			\draw[thick, fill=yellow!35] (1.0,-0.85) rectangle (4.6,-0.5);
+			\foreach \x in {1.3,1.6,...,4.3} {\draw (\x,-0.85) -- (\x,-0.72);}
+			\node[below, font=\scriptsize] at (2.8,-0.9) {regla (calibración)};
+			
+			% celular
+			\draw[thick, fill=gray!35] (4.6,-2.4) rectangle (5.6,-1.3);
+			\node[below, font=\scriptsize, align=center] at (5.1,-2.45)
+			{celular fijo\\(no tocar)};
+			\draw[dashed, gray] (5.1,-1.3) -- (2.0,0.2);
+			\draw[dashed, gray] (5.1,-1.3) -- (8.6,2.5);
+		\end{tikzpicture}
+	\end{center}
+	
+	\notabox{\textbf{Crítico:} el celular \textbf{no se puede mover} durante la
+		grabación. Apóyenlo en una estructura improvisada con sus útiles; nadie debe
+		tocarlo mientras corre el video. Si la cámara se mueve, la calibración de
+		Tracker deja de ser válida y el video no sirve.}
+	
+	% =========================================================
+	\section{Procedimiento}
+	% =========================================================
+	
+	\subsection*{6.1 Preparación}
+	
+	\begin{enumerate}
+		\item Midan la longitud $L$ del riel y anoten su incertidumbre $\Delta L$.
+		\item Coloquen una regla \textbf{horizontal sobre la mesa}, dentro del campo
+		de visión de la cámara. Servirá para calibrar la escala en Tracker.
+		\item Ubiquen el montaje en el borde de la mesa y el celular en el costado
+		opuesto, de modo que se vea \emph{todo} el recorrido del carro y la regla.
+	\end{enumerate}
+	
+	\subsection*{6.2 Grabación}
+	
+	\begin{enumerate}
+		\item Eleven un extremo del riel a una altura $h$ pequeña. Midan $h$ y
+		anoten $\Delta h$.
+		\item Suelten el carro desde el reposo, en la parte alta, y graben todo el
+		recorrido.
+		\item Repitan para \textbf{cinco alturas distintas}, aumentando de a unos
+		3 cm. Anoten cada $h$ en su bitácora junto con el nombre del archivo de
+		video correspondiente.
+	\end{enumerate}
+	
+	\notabox{Anoten los cinco valores de $h$ \textbf{en el laboratorio}. Si los
+		dejan para después, no van a poder reconstruirlos a partir de los videos.}
+	
+	\subsection*{6.3 Análisis en Tracker}
+	
+	Para cada video, en Tracker:
+	
+	\begin{enumerate}
+		\item \textbf{Importar el video.} Verifiquen la tasa de cuadros (fps): cada
+		cuadro dura $1/\text{fps}$ segundos, y esa es su resolución temporal
+		$\Delta t$.
+		\item \textbf{Calibrar la escala.} Usen la herramienta \emph{vara de
+			calibración} sobre la regla horizontal e introduzcan su longitud real.
+		\item \textbf{Fijar el sistema de referencia.} Ubiquen el origen y orienten
+		el eje $x$ \textbf{paralelo al riel}.
+		\item \textbf{Marcar el carro} cuadro por cuadro (o usar el
+		\emph{autotracker}) para generar la tabla de posición contra tiempo.
+		\item \textbf{Exportar} la tabla a Excel u hoja de cálculo.
+	\end{enumerate}
+	
+	\notabox{En la sesión analizaremos \textbf{un} video juntos. Los otros cuatro
+		quedan como trabajo del grupo. Repártanselos entre los integrantes: marcar
+		cuadro por cuadro toma tiempo.}
+	
+	% =========================================================
+	\section{Análisis de resultados}
+	% =========================================================
+	
+	\subsection*{7.1 Para cada uno de los cinco videos}
+	
+	\begin{enumerate}
+		\item Grafiquen la posición $x$ contra el tiempo $t$. ¿Qué forma tiene?
+		\item Grafiquen la velocidad $v_x$ contra el tiempo $t$. ¿Se ajusta a una
+		recta?
+		\item Obtengan la aceleración $a$ como la \textbf{pendiente} de la recta
+		$v_x$ vs.\ $t$. Reporten también su incertidumbre $\Delta a$.
+	\end{enumerate}
+	
+	\subsection*{7.2 Tabla resumen}
+	
+	\begin{center}
+		\small
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			Video & $h$ (cm) & $\sin\theta = h/L$ & $\Delta(\sin\theta)$
+			& $a$ (cm/s$^2$) & $\Delta a$ (cm/s$^2$) \\
+			\hline
+			\rule{0pt}{3ex} 1 & & & & & \\ \hline
+			\rule{0pt}{3ex} 2 & & & & & \\ \hline
+			\rule{0pt}{3ex} 3 & & & & & \\ \hline
+			\rule{0pt}{3ex} 4 & & & & & \\ \hline
+			\rule{0pt}{3ex} 5 & & & & & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	\noindent
+	Usen la ecuación (\ref{eq:propaga}) para llenar la cuarta columna.
+	
+	\subsection*{7.3 La gráfica principal}
+	
+	Grafiquen $a$ (eje vertical) contra $\sin\theta$ (eje horizontal), con
+	\textbf{barras de error en ambos ejes}. Tracen la recta que mejor represente los
+	puntos y obtengan su pendiente $m$.
+	
+	\vspace{0.15cm}
+	\noindent
+	Según la ecuación (\ref{eq:principal}), esa pendiente vale $m = \gamma g$.
+	
+	\subsection*{7.4 Obtengan $\gamma$ y comparen}
+	
+	Tomando $g = 978$ cm/s$^2$ (valor de la gravedad en Bogotá), calculen
+	\begin{equation}
+		\gamma = \frac{m}{g}
+		\qquad\text{y}\qquad
+		\text{discrepancia} = |\gamma - 1|\times 100\%
+		\label{eq:gamma}
+	\end{equation}
+	
+	\noindent
+	Recuerden que $\gamma = 1$ corresponde a un objeto que desliza sin fricción.
+	
+	% =========================================================
+	\section{Conclusiones}
+	% =========================================================
+	
+	Además de sus conclusiones propias, discutan:
+	
+	\begin{itemize}
+		\item ¿Los datos de $v_x$ contra $t$ se ajustan bien a una recta? ¿Qué
+		significa eso sobre el tipo de movimiento?
+		\item ¿La recta de $a$ contra $\sin\theta$ pasa por el origen dentro de sus
+		barras de error? ¿Debería hacerlo? ¿Qué significaría un intercepto distinto
+		de cero?
+		\item Su valor de $\gamma$, ¿resultó mayor o menor que 1? Propongan una
+		explicación física.
+		\item ¿Qué aspectos del montaje o del procedimiento mejorarían la calidad de
+		sus medidas?
+	\end{itemize}
+	
+	% =========================================================
+	\section{Recursos}
+	% =========================================================
+	
+	\noindent
+	\textbf{Descarga de Tracker:} \\
+	\url{https://opensourcephysics.github.io/tracker-website/}
+	
+	\vspace{0.25cm}
+	\noindent
+	\textbf{Tutoriales en video} (Rodolfo Hernández):
+	\begin{itemize}
+		\item Parte 1: \url{https://www.youtube.com/watch?v=lMOjcSrPlaw}
+		\item Parte 2: \url{https://www.youtube.com/watch?v=G5JOjSgoc9U}
+		\item Parte 3: \url{https://www.youtube.com/watch?v=tNWU4fCP6kU}
+	\end{itemize}
+	
+	\vspace{0.25cm}
+	\noindent
+	\textbf{Referencias}
+	\begin{itemize}
+		\item F. Cristancho Mejía, \emph{Notas de Clase: Fundamentos de Física
+			Experimental}, Departamento de Física, Universidad Nacional de Colombia,
+		2026. Capítulo 9: Movimiento en una dimensión.
+		\item A. Riascos, ``Movimiento en 1 dimensión a través del software
+		Tracker'', \emph{Guías de Laboratorio Fundamentos de Mecánica},
+		Universidad Nacional de Colombia, 2022.
+		\item L. G. Chica G., \emph{Guías de Laboratorio de Física: Cinemática,
+			Dinámica y Termodinámica}, Universidad Nacional de Colombia, 2003.
+	\end{itemize}
+	
+	\vfill
+	\noindent
+	{\footnotesize \textit{Auxiliar docente: Miguel Andrés Perdomo Gutiérrez ---
+			mperdomog@unal.edu.co}}
+	
+\end{document}

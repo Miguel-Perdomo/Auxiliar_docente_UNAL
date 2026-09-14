@@ -1,0 +1,213 @@
+\documentclass[11pt,letterpaper]{article}
+
+% ------------------ Codificación e idioma ------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting,es-tabla]{babel}
+\usepackage{lmodern}
+
+% ------------------ Matemáticas ------------------
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\sisetup{output-decimal-marker={,}}
+
+% ------------------ Geometría y estilo ------------------
+\usepackage[margin=2.4cm,top=2.6cm,bottom=2.4cm]{geometry}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{babel,arrows.meta}
+
+\definecolor{UnalGreen}{RGB}{0,153,51}
+
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}{\thesection}{0.8em}{}
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{UnalGreen!75!black}}{\thesubsection}{0.7em}{}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.4\baselineskip}
+
+\newcommand{\rulesec}{\vspace{-0.7\baselineskip}{\color{UnalGreen}\rule{\textwidth}{0.8pt}}\vspace{0.2\baselineskip}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Fundamentos de Mecánica (1000019) -- Taller en clase}
+\rhead{\small Semestre 2026-2}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ------------------ Macros ------------------
+\newcommand{\vv}[1]{\vec{#1}}
+\newcommand{\ii}{\hat{\imath}}
+\newcommand{\jj}{\hat{\jmath}}
+\newcommand{\kk}{\hat{k}}
+\newcommand{\pto}[4]{$#1$(#2,\,#3,\,#4)}
+
+\setlist[enumerate,1]{leftmargin=*,label=\textbf{\arabic*.},itemsep=0.45em}
+\setlist[enumerate,2]{label=\textit{\alph*}),itemsep=0.15em,topsep=0.2em}
+
+\begin{document}
+	
+	% ================= Portada =================
+	\begin{center}
+		{\Large\bfseries Taller en Clase: Magnitudes, Vectores y Cinemática}\\[0.3em]
+		{\large\bfseries Grupo 14 -- Fundamentos de Mecánica (1000019)}\\[0.6em]
+		{\small Trabajo en equipos de \textbf{4} personas $\;\cdot\;$ Duración: 1 hora}
+	\end{center}
+	
+	\vspace{0.4em}
+	
+	\begin{tcolorbox}[colback=UnalGreen!4,colframe=UnalGreen!70!black,boxrule=0.6pt,
+		left=6pt,right=6pt,top=5pt,bottom=5pt]
+		\textbf{Reglas de trabajo}
+		\begin{itemize}[leftmargin=1.2em,itemsep=0.15em,topsep=0.25em]
+			\item Se entrega \textbf{una sola solución por equipo}, con los cuatro nombres.
+			\item Cada resultado debe llevar \textbf{unidades} y un número razonable de cifras significativas.
+			\item Antes de entregar cada parte, el equipo debe verificar la \textbf{consistencia dimensional} y el \textbf{orden de magnitud} de sus respuestas.
+			\item Roles (\textbf{rotan en cada parte}): \textsc{coordinador} organiza y reparte; \textsc{calculista} ejecuta las cuentas; \textsc{escéptico} revisa unidades, signos y plausibilidad; \textsc{relator} escribe la solución final.
+		\end{itemize}
+	\end{tcolorbox}
+	
+	\vspace{0.3em}
+	
+	\noindent\begin{tabular}{@{}p{0.13\textwidth}p{0.42\textwidth}p{0.40\textwidth}@{}}
+		\textbf{Equipo:} & \hrulefill & \\[0.8em]
+		\textbf{Integrantes:} & \hrulefill & \hrulefill \\[0.8em]
+		& \hrulefill & \hrulefill \\
+	\end{tabular}
+	
+	% ================= Parte 1 =================
+	\section{Unidades, dimensiones y estimación \normalfont\small\textit{}}
+	\rulesec
+	
+	\begin{enumerate}
+		\item La rapidez del sonido en aire a \SI{20}{\celsius} es \SI{343}{m/s}.
+		\begin{enumerate}
+			\item Exprésela en km/h y en mi/h ($1\ \text{mi}=\SI{1609}{m}$).
+			\item Un rayo cae y el trueno se escucha \SI{4,5}{s} después. ¿A qué distancia cayó el rayo? (La luz llega prácticamente de forma instantánea; justifiquen esta afirmación con un cálculo).
+		\end{enumerate}
+		
+		\item El radio de un núcleo de uranio es aproximadamente \SI{7,4e-15}{m} y el radio del átomo de hidrógeno es \SI{0,529}{\text{\AA}}.
+		\begin{enumerate}
+			\item Escriban ambas cantidades en fm y en nm.
+			\item ¿Cuántas veces más grande es el átomo que el núcleo? Si el núcleo tuviera el tamaño de una canica (\SI{1}{cm} de radio), ¿cuál sería el radio del átomo en metros? Comparen ese resultado con una distancia conocida de Bogotá.
+		\end{enumerate}
+		
+		\item La rapidez $v$ con la que se propaga una onda en una cuerda depende de la tensión $T$ (unidades de fuerza) y de la densidad lineal de masa $\mu$ (masa por unidad de longitud). Suponiendo que $v = k\,T^{a}\mu^{b}$, con $k$ adimensional:
+		\begin{enumerate}
+			\item Determinen $a$ y $b$ por análisis dimensional.
+			\item ¿Puede el análisis dimensional determinar el valor de $k$? Justifiquen.
+		\end{enumerate}
+		
+	\end{enumerate}
+	
+	% ================= Parte 2 =================
+	\section{Vectores \normalfont\small\textit{}}
+	\rulesec
+	
+	\begin{enumerate}[resume]
+		\item Sean $\vv{A} = 4\ii - \jj + 2\kk$, $\vv{B} = -2\ii + 3\jj + \kk$ y $\vv{C} = \ii + \jj - 3\kk$. Determinen:
+		\begin{enumerate}
+			\item $\vv{A} + \vv{B} - \vv{C}$ \quad y \quad $2\vv{A} - 3\vv{B} + \vv{C}$
+			\item $|\vv{A}|$, $|\vv{B}|$ \ y \ $|\vv{A}+\vv{B}|$. ¿Es $|\vv{A}+\vv{B}| = |\vv{A}|+|\vv{B}|$?
+			\item $\vv{A}\cdot\vv{B}$ \quad y \quad $\vv{A}\times\vv{B}$
+			\item El vector unitario $\hat{u}$ en la dirección de $\vv{C}$ (verifiquen que $|\hat u| = 1$).
+		\end{enumerate}
+		\textbf{Verificación del escéptico:} comprueben explícitamente que $\vv{A}\times\vv{B}$ es perpendicular a $\vv{A}$ y a $\vv{B}$.
+		
+		
+		\item \textbf{Preguntas conceptuales.} Respondan \textit{verdadero} o \textit{falso} y \textbf{justifiquen con un argumento o un contraejemplo}:
+		\begin{enumerate}
+			\item Si $|\vv{A}+\vv{B}| = |\vv{A}| + |\vv{B}|$, entonces $\vv{A}$ y $\vv{B}$ son paralelos.
+			\item Si $\vv{A}\cdot\vv{B} = 0$, necesariamente $\vv{A}=0$ o $\vv{B}=0$.
+			\item Siempre se cumple $|\vv{A}-\vv{B}| \le |\vv{A}| + |\vv{B}|$.
+			\item $\vv{A}\times\vv{B} = \vv{B}\times\vv{A}$.
+			\item Si $\vv{A}\cdot\vv{B} = \vv{A}\cdot\vv{C}$ con $\vv{A}\neq 0$, entonces $\vv{B} = \vv{C}$.
+		\end{enumerate}
+	\end{enumerate}
+	
+	\newpage
+	
+	% ================= Parte 3 =================
+	\section{Cinemática en una dimensión \normalfont\small\textit{}}
+	\rulesec
+	
+	\begin{enumerate}[resume]
+
+		
+		\item Un objeto se mueve a lo largo del eje $x$ con la velocidad $v_x(t)$ mostrada en la Figura~\ref{fig:vt}. En $t=0$ su posición es $x_0 = 0$.
+		
+		\begin{figure}[h!]
+			\centering
+			\begin{tikzpicture}[scale=1.0]
+				% ejes
+				\draw[->,thick] (-0.3,0) -- (10.8,0) node[below right] {$t$ (s)};
+				\draw[->,thick] (0,-2.6) -- (0,2.9) node[left] {$v_x$ (m/s)};
+				% grilla
+				\draw[gray!30,very thin] (0,-2.5) grid[xstep=1,ystep=0.5] (10.5,2.5);
+				% marcas x
+				\foreach \x in {1,...,10} \draw (\x,0.08) -- (\x,-0.08);
+				\foreach \x in {2,4,6,8,10} \node[below,font=\small] at (\x,-0.12) {\x};
+				% marcas y
+				\foreach \y/\l in {2/4,1/2,-1/-2,-2/-4} {\draw (0.08,\y) -- (-0.08,\y); \node[left,font=\small] at (-0.12,\y) {\l};}
+				% curva: (0,0)->(2,4)->(4,4)->(8,-4)->(10,-4)
+				\draw[UnalGreen,ultra thick] (0,0) -- (2,2) -- (4,2) -- (8,-2) -- (10,-2);
+				\fill[UnalGreen] (0,0) circle (1.6pt) (2,2) circle (1.6pt) (4,2) circle (1.6pt) (8,-2) circle (1.6pt) (10,-2) circle (1.6pt);
+			\end{tikzpicture}
+			\caption{Velocidad del objeto en función del tiempo.}
+			\label{fig:vt}
+		\end{figure}
+		
+		\begin{enumerate}
+			\item Determinen la aceleración en cada uno de los cuatro intervalos.
+			\item Calculen la posición del objeto en $t = 4$ s, $t = 6$ s y $t = 10$ s.
+			\item ¿En qué instante el objeto está \textbf{más alejado} del origen? ¿Cuál es esa distancia?
+			\item Comparen el \textbf{desplazamiento} y la \textbf{distancia total recorrida} entre $t=0$ y $t=10$ s.
+			\item Dibujen la gráfica de $a_x$ vs.\ $t$ en la cuadrícula siguiente.
+		\end{enumerate}
+		
+		\begin{figure}[h!]
+			\centering
+			\begin{tikzpicture}[scale=0.95]
+				\draw[gray!35,very thin] (0,-1.5) grid[xstep=0.5,ystep=0.5] (10.5,1.5);
+				\draw[->,thick] (-0.3,0) -- (10.8,0) node[below right] {$t$ (s)};
+				\draw[->,thick] (0,-1.8) -- (0,1.9) node[left] {$a_x$ (m/s$^2$)};
+				\foreach \x in {1,...,10} \draw (\x,0.08) -- (\x,-0.08);
+				\foreach \x in {2,4,6,8,10} \node[below,font=\small] at (\x,-0.12) {\x};
+				\foreach \y in {1,-1} {\draw (0.08,\y) -- (-0.08,\y); \node[left,font=\small] at (-0.12,\y) {\pgfmathparse{int(\y*2)}\pgfmathresult};}
+			\end{tikzpicture}
+			\caption{Cuadrícula para la gráfica de $a_x$ vs.\ $t$.}
+		\end{figure}
+		
+		\newpage
+		
+		\item Desde la azotea de un edificio se lanza una piedra \textbf{verticalmente hacia arriba} con rapidez inicial \SI{15}{m/s}. La piedra llega al suelo \SI{5,0}{s} después de ser lanzada. Tomen $g = \SI{9,8}{m/s^2}$ y desprecien la resistencia del aire.
+		\begin{enumerate}
+			\item Definan explícitamente su sistema de referencia (origen y sentido positivo) antes de plantear las ecuaciones.
+			\item ¿Qué altura máxima alcanza la piedra por encima del punto de lanzamiento y en qué instante?
+			\item ¿Cuál es la altura del edificio?
+			\item ¿Con qué rapidez llega al suelo?
+			\item ¿En qué instante(s) la piedra pasa por la altura del punto de lanzamiento? Interpreten \textbf{todas} las raíces de la ecuación cuadrática.
+		\end{enumerate}
+		
+		
+		\item \textbf{Preguntas conceptuales.} Respondan y justifiquen con un ejemplo concreto:
+		\begin{enumerate}
+			\item ¿Puede un objeto tener velocidad nula y aceleración distinta de cero?
+			\item ¿Puede un objeto tener aceleración negativa y estar aumentando su rapidez?
+			\item Si la gráfica $x$ vs.\ $t$ es una recta con pendiente negativa, ¿qué se puede afirmar sobre $v_x$ y $a_x$?
+			\item Dos objetos parten del mismo punto al mismo tiempo y llegan al mismo punto en el mismo instante. ¿Tienen necesariamente la misma velocidad media? ¿La misma rapidez media?
+		\end{enumerate}
+	\end{enumerate}
+	
+	\newpage
+	
+	
+	\vspace{0.6em}
+	\noindent\small\textit{Ejercicios adaptados del material del curso y del taller de la profesora Edna Carolina Pinilla Beltrán. Trabajo en grupos de cuatro.}
+	
+\end{document}

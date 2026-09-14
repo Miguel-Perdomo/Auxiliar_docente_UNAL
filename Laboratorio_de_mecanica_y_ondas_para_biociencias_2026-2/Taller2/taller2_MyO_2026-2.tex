@@ -1,0 +1,319 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Mecánica y Ondas para Biociencias (1000023) -- Laboratorio}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt, parsep=0pt}
+\setlist[enumerate]{leftmargin=*, itemsep=3pt, topsep=3pt, parsep=0pt}
+
+% ----- CAJA DE NOTA -----
+\newcommand{\notabox}[1]{%
+	\begin{center}
+		\fcolorbox{UnalGreen}{UnalGreen!8}{%
+			\parbox{0.94\textwidth}{\small #1}%
+		}
+	\end{center}
+}
+
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	\begin{center}
+		\vspace*{-0.8cm}
+		\includegraphics[width=0.15\textwidth]
+		{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		
+		{\Large\bfseries Taller 2: Análisis Estadístico y Graficación}\\[0.1cm]
+		{\normalsize Mecánica y Ondas para Biociencias (1000023)}
+	\end{center}
+	
+	\vspace{0.2cm}
+	\noindent
+	\begin{tabular}{@{}ll@{}}
+		Modalidad: & Individual \\
+		Entrega: & Google Classroom \\
+	\end{tabular}
+	
+	\notabox{Se empieza en clase y se termina en casa. Solo necesita una regla,
+		una hoja de papel, papel milimetrado y calculadora.}
+	
+	% =========================================================
+	\section{Objetivos}
+	% =========================================================
+	\begin{itemize}
+		\item Propagar incertidumbres en productos y en potencias.
+		\item Reconocer cuándo una relación no es lineal y linealizarla.
+		\item Graficar con barras de error y obtener una constante física a partir
+		de la pendiente de una recta.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Parte A: Propagación en un producto}
+	% =========================================================
+	
+	Tome cualquier hoja de papel rectangular: una hoja de cuaderno, de block, de
+	impresora, o incluso la tapa de un libro. Lo único que importa es que tenga
+	cuatro lados rectos.
+	
+	\subsection*{A.1 Mida}
+	
+	Mida el largo $L$ y el ancho $a$ de su hoja con una regla graduada en
+	milímetros.
+	
+	\vspace{0.25cm}
+	\begin{center}
+		\small
+		\begin{tabular}{|l|c|}
+			\hline
+			\rule{0pt}{4ex} Largo \quad $L$ (cm) & \hspace{3.5cm} \\ \hline
+			\rule{0pt}{4ex} Ancho \quad $a$ (cm) & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	\vspace{0.15cm}
+	\noindent
+	Use como incertidumbre de cada dimensión la resolución de su regla:
+	\[
+	\Delta L = \Delta a = 0.1\ \text{cm}
+	\]
+	
+	\subsection*{A.2 Calcule el área y propague}
+	
+	El área es el producto de las dos dimensiones:
+	\[
+	A = L\cdot a
+	\]
+	
+	\noindent
+	Para un producto, los errores \emph{relativos} se combinan en cuadratura:
+	\[
+	\frac{\Delta A}{A} = \sqrt{\left(\frac{\Delta L}{L}\right)^2
+		+ \left(\frac{\Delta a}{a}\right)^2}
+	\]
+	
+	\notabox{Esta fórmula no le da $\Delta A$ directamente: le da $\Delta A / A$, que
+		es el \emph{error relativo}, un número sin unidades (algo como $0.004$). Para
+		obtener la incertidumbre del área en cm$^2$ debe multiplicar ese resultado por el
+		valor del área:
+		\[
+		\Delta A = A \times \left(\frac{\Delta A}{A}\right)
+		\]}
+	
+	\noindent
+	Reporte: $A \pm \Delta A$, en cm$^2$, con cifras significativas correctas.
+	
+	% =========================================================
+	\section{Parte B: Graficación y linealización}
+	% =========================================================
+	
+	Se dejó caer un objeto desde distintas alturas $h$, midiendo el tiempo de caída
+	$t$ con la cámara de un celular grabando a 30 cuadros por segundo.
+	
+	\vspace{0.2cm}
+	\noindent
+	Las dos incertidumbres del experimento son:
+	\begin{itemize}
+		\item $\Delta h = 0.10$ m
+		\item $\Delta t = 0.03$ s, que es la duración de un cuadro de video
+		($1/30$ de segundo). No se puede saber en qué momento dentro de ese cuadro
+		ocurrió realmente el impacto.
+	\end{itemize}
+	
+	\subsection*{B.1 Por qué no graficamos $h$ contra $t$}
+	
+	La física de la caída libre dice que
+	\begin{equation}
+		h = \tfrac{1}{2}\,g\,t^{2}
+		\label{eq:caida}
+	\end{equation}
+	
+	\noindent
+	donde $g$ es la aceleración de la gravedad. Si graficáramos $h$ contra $t$
+	obtendríamos una \emph{curva}, y de una curva no se puede leer directamente el
+	valor de $g$.
+	
+	\vspace{0.15cm}
+	\noindent
+	En cambio, la relación sí es lineal si en el eje horizontal ponemos $t^{2}$ en
+	lugar de $t$. A ese truco se le llama \textbf{linealizar}, y lo van a usar en
+	casi todas las prácticas del semestre.
+	
+	\subsection*{B.2 Propague la incertidumbre del tiempo}
+	
+	Al elevar el tiempo al cuadrado, su incertidumbre también cambia. Para una
+	potencia, el error relativo se multiplica por el exponente:
+	\[
+	\frac{\Delta(t^{2})}{t^{2}} = 2\,\frac{\Delta t}{t}
+	\]
+	
+	\noindent
+	Despejando, y como $t^{2}/t = t$:
+	\[
+	\boxed{\ \Delta(t^{2}) = 2\,t\,\Delta t\ }
+	\]
+	
+	\notabox{Observe algo importante: $\Delta t$ es siempre el mismo (0.03 s), pero
+		$\Delta(t^{2})$ \emph{cambia de un punto a otro}, porque depende de $t$. Los
+		tiempos más largos tendrán barras de error más largas. En cambio $\Delta h$ sí es
+		constante: todas las barras verticales miden lo mismo.}
+	
+	\vspace{0.2cm}
+	\noindent
+	Complete las dos últimas columnas:
+	
+	\vspace{0.2cm}
+	\begin{center}
+		\small
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			$h$ (m) & $t$ (s) & $t^2$ (s$^2$) & $\Delta(t^2) = 2\,t\,\Delta t$ (s$^2$) \\
+			\hline
+			0.50 & 0.312 & \hspace{2cm} & \hspace{2.5cm} \\ \hline
+			1.00 & 0.461 & & \\ \hline
+			1.50 & 0.548 & & \\ \hline
+			2.00 & 0.652 & & \\ \hline
+			2.50 & 0.703 & & \\ \hline
+			3.00 & 0.795 & & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	\subsection*{B.3 Haga la gráfica}
+	
+	En papel milimetrado, grafique $h$ en el eje vertical contra $t^{2}$ en el eje
+	horizontal. Rotule los ejes con su magnitud y su unidad.
+	
+	\vspace{0.15cm}
+	\noindent
+	Sobre cada punto dibuje sus \emph{dos} barras de error:
+	
+	\begin{itemize}
+		\item Una barra \emph{vertical}, de $h - 0.10$ m a $h + 0.10$ m
+		(igual para todos los puntos).
+		\item Una barra \emph{horizontal}, de $t^{2} - \Delta(t^{2})$ a
+		$t^{2} + \Delta(t^{2})$, usando el valor que calculó para cada punto.
+	\end{itemize}
+	
+	\noindent
+	Ponga una pequeña raya en cada extremo. El resultado es una \emph{cruz} sobre
+	cada punto: el valor real de esa medición está en algún lugar dentro de esa cruz.
+	
+	\subsection*{B.4 Trace la recta y obtenga la pendiente}
+	
+	Trace a mano, con regla, la recta que en su criterio mejor representa el conjunto
+	de puntos. No tiene que pasar por todos: debe representar la tendencia general,
+	dejando puntos por encima y por debajo de manera equilibrada. Las barras de error
+	le sirven de guía: una buena recta debería atravesar la mayoría de las cruces.
+	
+	\vspace{0.2cm}
+	\noindent
+	Para calcular la pendiente, escoja dos puntos que estén sobre la recta que usted
+	trazó (no sobre los datos de la tabla), uno cerca de cada extremo. Llámelos
+	$(x_1, y_1)$ y $(x_2, y_2)$, y lea sus coordenadas directamente del papel
+	milimetrado:
+	
+	\begin{itemize}
+		\item $x_1$ y $x_2$ son los valores de $t^{2}$ de esos dos puntos, en s$^2$.
+		\item $y_1$ y $y_2$ son los valores de $h$ de esos mismos puntos, en m.
+	\end{itemize}
+	
+	\vspace{0.1cm}
+	\noindent
+	La pendiente es
+	\[
+	m = \frac{y_2 - y_1}{x_2 - x_1}
+	\]
+	
+	\notabox{Aquí $y_2 - y_1$ y $x_2 - x_1$ son simplemente \emph{restas de
+			coordenadas} entre los dos puntos que usted escogió.}
+	
+	\subsection*{B.5 Obtenga $g$}
+	
+	Compare la ecuación (\ref{eq:caida}) con la ecuación de una recta que pasa por el
+	origen, $y = m\,x$. Si $y$ es la altura $h$ y $x$ es el tiempo al cuadrado
+	$t^{2}$, entonces la pendiente vale $m = g/2$. Por lo tanto:
+	\[
+	g_{\text{exp}} = 2\,m
+	\]
+	
+	\noindent
+	Reporte su valor de $g_{\text{exp}}$ en m/s$^2$.
+	
+	% =========================================================
+	\section{Preguntas de análisis}
+	% =========================================================
+	
+	\begin{enumerate}
+		\item \emph{Error relativo.} Calcule el error relativo del largo
+		($\Delta L / L$) y el del área ($\Delta A / A$) de la Parte A. ¿El del área
+		resultó mayor o menor? Explique por qué multiplicar dos cantidades medidas
+		amplifica la incertidumbre.
+		
+		\item \emph{Barras que cambian.} En su gráfica, las barras verticales son
+		todas del mismo tamaño, pero las horizontales se alargan hacia la derecha.
+		Explique por qué, usando la fórmula $\Delta(t^{2}) = 2\,t\,\Delta t$.
+	\end{enumerate}
+	
+	% =========================================================
+	\section{Entrega}
+	% =========================================================
+	
+	Suba a Google Classroom un documento (digital o foto legible de su cuaderno) con:
+	
+	\begin{itemize}
+		\item La tabla de la Parte A y el reporte $A \pm \Delta A$.
+		\item La tabla de la Parte B con las columnas $t^{2}$ y $\Delta(t^{2})$.
+		\item La gráfica en papel milimetrado, con ejes rotulados, unidades y barras
+		de error en ambos ejes.
+		\item El cálculo de la pendiente y el valor de $g_{\text{exp}}$.
+		\item Las respuestas a las cuatro preguntas.
+	\end{itemize}
+	
+	\vfill
+	\noindent
+	{\footnotesize \textit{Auxiliar docente: Miguel Andrés Perdomo Gutiérrez ---
+			mperdomog@unal.edu.co}}
+	
+\end{document}
