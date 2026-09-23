@@ -1,0 +1,107 @@
+\documentclass[11pt, letterpaper]{article}
+
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1.2cm, includehead, headsep=0.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+
+% ----- ENCABEZADO -----
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Laboratorio Mecánica y Ondas para Biociencias (1000023) -- Quiz 1}
+\rhead{\footnotesize Semestre 2026-2}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{0pt}
+
+% ----- PUNTAJE -----
+\newcommand{\pts}[1]{\hfill{\small\textcolor{UnalGreen}{\textbf{(#1)}}}}
+
+% ----- FIGURA DEL PLANO INCLINADO -----
+\newcommand{\plano}{%
+	\begin{tikzpicture}[scale=0.6]
+		\draw[thick] (0,0) -- (4,0) -- (4,2) -- cycle;
+		\draw (0.9,0) arc (0:26.57:0.9);
+		\node at (1.3,0.22) {\scriptsize $\theta$};
+		\begin{scope}[shift={(2.4,1.2)}, rotate=26.57]
+			\draw[thick, fill=gray!25] (-0.38,0) rectangle (0.38,0.5);
+		\end{scope}
+	\end{tikzpicture}%
+}
+
+% ----- CONTENIDO DE UN QUIZ -----
+\newcommand{\quizcontent}{%
+	\begin{center}
+		{\large\bfseries\color{UnalGreen} Quiz 1 -- Práctica 1: Plano Inclinado}
+	\end{center}
+	
+	\vspace{0.05cm}
+	Nombre: \rule{9cm}{0.4pt} \hfill Grupo: \rule{1.5cm}{0.4pt}
+	
+	\vspace{0.25cm}
+	\begin{enumerate}[leftmargin=*, itemsep=6pt, topsep=2pt]
+		\item Sobre un objeto actúa una fuerza neta \emph{constante}.
+		¿Cómo se llama el tipo de movimiento que realiza?
+		Dibuje su gráfica de velocidad contra tiempo.
+		\pts{1.5 pts}
+		
+		\item
+		\begin{minipage}[t]{0.70\textwidth}
+			\vspace{0pt}
+			Un bloque desliza \emph{sin fricción} por un plano inclinado un
+			ángulo $\theta$.
+			\begin{enumerate}[label=\alph*), itemsep=3pt, topsep=3pt]
+				\item Dibuje el diagrama de cuerpo libre del bloque.
+				\pts{1.5 pts}
+				\item Su aceleración es $a = g\sin\theta$. ¿Cuánto vale $a$ si
+				$\theta = 0^\circ$? ¿Y si $\theta = 90^\circ$?
+				\pts{1.0 pt}
+				\item Si se cambia el bloque por otro con el doble de masa,
+				¿su aceleración aumenta, disminuye o queda igual? Justifique.
+				\pts{1.0 pt}
+			\end{enumerate}
+		\end{minipage}%
+		\hfill
+		\begin{minipage}[t]{0.25\textwidth}
+			\vspace{0pt}
+			\centering\plano
+		\end{minipage}
+	\end{enumerate}
+}
+
+% ----- CAJA DE ALTURA FIJA (un tercio de página) -----
+\newcommand{\quizbox}{%
+	\noindent
+	\begin{minipage}[t][0.31\textheight][t]{\textwidth}
+		\quizcontent
+	\end{minipage}%
+}
+
+% ----- LÍNEA DE CORTE -----
+\newcommand{\corte}{%
+	\par\noindent
+	\makebox[\textwidth]{\color{gray}\dotfill\ \small corte\ \dotfill}%
+	\par
+}
+
+\begin{document}
+	
+	\quizbox
+	\corte
+	\quizbox
+	\corte
+	\quizbox
+	
+\end{document}

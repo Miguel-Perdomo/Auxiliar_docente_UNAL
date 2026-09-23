@@ -33,9 +33,9 @@
 
 % ----- ENLACES -----
 \hypersetup{
-    colorlinks=true,
-    linkcolor=UnalGreen,
-    urlcolor=UnalGreen
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
 }
 
 % ----- ENCABEZADO -----
@@ -47,55 +47,90 @@
 
 % ----- LISTAS COMPACTAS -----
 \setlist[itemize]{
-    leftmargin=*,
-    itemsep=2pt,
-    topsep=2pt,
-    parsep=0pt
+	leftmargin=*,
+	itemsep=2pt,
+	topsep=2pt,
+	parsep=0pt
+}
+
+\setlist[enumerate]{
+	leftmargin=*,
+	itemsep=4pt,
+	topsep=4pt,
+	parsep=0pt
 }
 
 \begin{document}
-    
-    % =========================================================
-    % ENCABEZADO
-    % =========================================================
-    
-    \begin{center}
-        \vspace*{-0.8cm}
-        \includegraphics[width=0.15\textwidth]
-        {imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
-        
-        {\Large\bfseries Taller de Cinemática y Graficación -- Grupo 14}\\[0.05cm]
-        {\large\bfseries Fundamentos de Mecánica (1000019)}
-    \end{center}
-   
-    
-    % =========================================================
-    % INFORMACIÓN DEL CURSO
-    % ========================================================
-    
-    \vspace{0.2cm}
-    
-    % =========================================================
-    \section{Cinemática 1D}
-    % =========================================================
-    
-   
-   
-   \section{Graficación}
-   
-   
-   
-   \vfill
-   \noindent
-   \begin{center}
-   	\small\textit{*Ejercicios tomados y adaptados del taller de la profesora Edna Carolina Pinilla Beltrán.}
-   \end{center}
-    
-    \vspace{0.5cm}
-    {\color{UnalGreen}\hrule height 0.5pt}
-    \begin{center}
-        \small 
-        \textit{Trabajo en grupos.}
-    \end{center}
-    
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	
+	\begin{center}
+		\vspace*{-0.8cm}
+		\includegraphics[width=0.15\textwidth]
+		{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		
+		{\Large\bfseries Taller de Cinemática 2D}\\[0.05cm]
+		{\large\bfseries Fundamentos de Mecánica (1000019)}
+	\end{center}
+	
+	\vspace{0.2cm}
+	
+	% =========================================================
+	\section{Cinemática 2D}
+	% =========================================================
+	
+	\begin{enumerate}
+		
+		% ----- EJERCICIO 1 -----
+		\item Un jugador de baloncesto lanza el balón para intentar hacer cesta, de tal forma que el balón es lanzado formando un ángulo $0 \le \theta \le \pi/2$. ¿Cuál de las siguientes cantidades permanece constante durante el movimiento de la bola: $x$, $y$, $v_x$, $v_y$, $a_x$ y $a_y$? Justifique.
+		
+		% ----- EJERCICIO 2 -----
+		\item Si en el movimiento de un proyectil la altura máxima y el rango son iguales, ¿cuál es el ángulo de disparo?
+		
+		% ----- EJERCICIO 3 -----
+		\item Un golfista situado sobre una peña con \textbf{480 m} de elevación golpea una bola de golf con una rapidez horizontal de \textbf{25 m/s}, con el fin de enviarla al campo de golf, que está justo por debajo de la peña. Despreciando la resistencia del aire, calcule:
+		\begin{enumerate}[label=\alph*)]
+			\item ¿Cuánto tiempo tarda la bola en tocar el campo de golf?
+			\item ¿Cuál es la distancia horizontal total en la que viaja la bola?
+			\item ¿Cuál es la aceleración de la bola 5 s después de ser golpeada?
+			\item La rapidez de la bola 7 s después de ser golpeada.
+			\item ¿Cuál es la rapidez con que la bola golpea el piso?
+		\end{enumerate}
+		
+		% ----- EJERCICIO 4 -----
+		\item Un chico demente quiere cruzar un cañón de \textbf{400 m} de ancho, al salir disparado sobre una patineta desde una colina de \textbf{8 m} de alto, como se muestra en la figura. ¿Cuál es la rapidez inicial mínima requerida para que el chico cruce el cañón? Desprecie la resistencia del aire.
+		
+		\begin{center}
+			\includegraphics[width=0.85\textwidth]{imagenes/cañon.pdf}
+		\end{center}
+		
+		% ----- EJERCICIO 5 -----
+		\item El movimiento de una partícula está descrito por las siguientes ecuaciones
+		\[
+		x = 6\cos(2\pi t); \qquad y = 6\sin(2\pi t), \qquad (1)
+		\]
+		en donde el desplazamiento está en metros y el tiempo en s.
+		\begin{enumerate}[label=\alph*)]
+			\item Haga una gráfica de la trayectoria de la partícula ($x$ vs $y$).
+			\item Determine las ecuaciones que describen las componentes $x$ y $y$ de la velocidad como función del tiempo.
+			\item Haga una gráfica de la rapidez de la partícula como función del tiempo.
+		\end{enumerate}
+		
+	\end{enumerate}
+	
+	\vfill
+	\noindent
+	\begin{center}
+		\small\textit{*Ejercicios tomados y adaptados del taller de la profesora Edna Carolina Pinilla Beltrán.}
+	\end{center}
+	
+	\vspace{0.5cm}
+	{\color{UnalGreen}\hrule height 0.5pt}
+	\begin{center}
+		\small 
+		\textit{Trabajo en grupos.}
+	\end{center}
+	
 \end{document}

@@ -1,0 +1,236 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Mecánica y Ondas para Biociencias (1000023) -- Laboratorio}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt, parsep=0pt}
+\setlist[enumerate]{leftmargin=*, itemsep=3pt, topsep=3pt, parsep=0pt}
+
+% ----- CAJA DE NOTA -----
+\newcommand{\notabox}[1]{%
+	\begin{center}
+		\fcolorbox{UnalGreen}{UnalGreen!8}{%
+			\parbox{0.94\textwidth}{\small #1}%
+		}
+	\end{center}
+}
+
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	\begin{center}
+		\vspace*{-0.8cm}
+		\IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+			\includegraphics[width=0.15\textwidth]
+			{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		}{}
+		
+		{\Large\bfseries La Bitácora de Laboratorio}\\[0.1cm]
+		{\large\bfseries Qué debe contener y cómo entregarla}\\[0.1cm]
+		{\normalsize Mecánica y Ondas para Biociencias (1000023)}
+	\end{center}
+	
+	\notabox{Las bitácoras valen el \textbf{50\,\% de la nota} del laboratorio.
+		Son \textbf{grupales}: se entrega una sola por grupo. Se envían por
+		\textbf{Google Classroom en formato PDF}, antes de la fecha límite publicada
+		para cada práctica.}
+	
+	% =========================================================
+	\section{¿Qué es una bitácora?}
+	% =========================================================
+	
+	La bitácora es el registro de lo que \emph{realmente} hicieron y midieron en el
+	laboratorio: qué montaron, qué datos obtuvieron, cómo los procesaron y qué
+	concluyen. No es un informe formal: \textbf{no lleva resumen ni marco teórico}.
+	La teoría ya está en la guía; la bitácora muestra su trabajo experimental.
+	
+	\vspace{0.15cm}
+	\noindent
+	Recomiendo que sea \textbf{concisa, pero no por ello incompleta}. Una bitácora
+	corta con todos sus datos, unidades e incertidumbres vale más que una larga con
+	texto de relleno.
+	
+	% =========================================================
+	\section{Formato}
+	% =========================================================
+	
+	Pueden elaborarla en el medio que prefieran:
+	
+	\begin{itemize}
+		\item \textbf{Cuaderno físico} (cuadriculado): recomendado para tomar datos
+		en el laboratorio y hacer las gráficas preliminares a mano.
+		\item \textbf{Digital}: Word, Google Docs, \LaTeX, o la que prefieran.
+	\end{itemize}
+	
+	\noindent
+	Sea cual sea el formato, \textbf{lo que se entrega es un único archivo PDF}.
+	Si trabajan en el cuaderno, escaneen las páginas con una aplicación de
+	escáner y únanlas en un solo PDF. Las fotos deben ser legibles, derechas y con buena
+	luz: \textbf{lo que no se puede leer, no se califica}.
+	
+	% =========================================================
+	\section{Estructura de la bitácora}
+	% =========================================================
+	
+	\subsection{Encabezado}
+	
+	\begin{itemize}
+		\item Número y nombre de la práctica (por ejemplo: \emph{Bitácora 1 --
+			Plano Inclinado}).
+		\item Número de grupo y nombres completos de \textbf{todos} los integrantes.
+		\item Fecha de realización de la práctica.
+	\end{itemize}
+	
+	\subsection{Montaje}
+	
+	Un esquema o dibujo del montaje experimental, con las magnitudes que midieron
+	señaladas sobre él ($h$, $L$, $x$, etc.). Puede ser a mano o una foto del
+	montaje real, pero debe estar \textbf{rotulado} (es decir señalado qué es qué). Agreguen en pocas líneas qué
+	hicieron, sobre todo si se apartaron de lo que dice la guía.
+	
+	\subsection{Datos experimentales}
+	
+	Es la parte más importante. Todos los datos que tomaron, organizados en tablas:
+	
+	\begin{itemize}
+		\item Cada columna con el nombre de la magnitud y su \textbf{unidad}:
+		$h$ (cm), $t$ (s).
+		\item Cada medida con su \textbf{incertidumbre}, e indicando de dónde sale
+		(resolución del instrumento, dispersión de medidas repetidas, o ambas).
+		\item Los datos \textbf{crudos}, tal como los midieron, aunque alguno les
+		parezca ``malo''. No se borran datos: si descartan uno, lo tachan y
+		explican por qué.
+	\end{itemize}
+	
+	\notabox{\textbf{Sin unidades o sin incertidumbres, la nota se reduce.} Una
+		medida sin su incertidumbre no se puede comparar con nada; un número sin unidad
+		no significa nada.}
+	
+	\subsection{Procesamiento}
+	
+	Los cálculos que hicieron a partir de los datos: promedios, desviaciones
+	estándar, propagación de incertidumbres, variables linealizadas.
+	
+	\begin{itemize}
+		\item Muestren \textbf{al menos un ejemplo de cada cálculo} completo, con la
+		fórmula, los valores sustituidos y el resultado. Los demás pueden ir
+		directamente en una tabla (no llenen la bitacora con calculos repetitivos).
+		\item Reporten los resultados con el \textbf{número correcto de cifras
+			significativas}: incertidumbre con una cifra significativa y el valor
+		redondeado a la misma posición decimal.
+	\end{itemize}
+	
+	\subsection{Gráficas}
+	
+	\begin{itemize}
+		\item Ejes rotulados con la magnitud y la unidad.
+		\item Escalas con valores redondos y que aprovechen el espacio disponible.
+		\item Puntos con sus \textbf{barras de error}.
+		\item Si ajustan una recta, que se vea sobre la gráfica, junto con su
+		pendiente e intercepto (con unidades).
+		\item Cada gráfica numerada y con un título o pie breve que diga qué muestra.
+	\end{itemize}
+	
+	\noindent
+	Pueden hacerlas a mano en papel milimetrado o con software (Excel, Tracker,
+	Python). Las gráficas hechas a mano durante la sesión, para verificar
+	tendencias, también pueden incluirse.
+	
+	\subsection{Análisis de resultados}
+	
+	Respondan las preguntas de análisis de la guía, \textbf{numeradas} igual que en
+	ella. Comparen sus resultados con lo que predice la teoría (por ejemplo, con un
+	porcentaje de discrepancia) y discutan si la diferencia es compatible con sus
+	incertidumbres.
+	
+	\subsection{Conclusiones}
+	
+	Pocas y concretas. Una buena conclusión:
+	
+	\begin{itemize}
+		\item Responde a los \textbf{objetivos} de la práctica.
+		\item Se apoya en \textbf{números}: ``obtuvimos $g = (9.6 \pm 0.3)$ m/s$^2$,
+		compatible con el valor esperado'' dice mucho más que ``el experimento
+		salió bien''.
+		\item Identifica fuentes de error concretas y propone cómo mejorar el
+		experimento.
+	\end{itemize}
+	
+
+	% =========================================================
+	\section{Entrega}
+	% =========================================================
+	
+	\begin{itemize}
+		\item Un solo archivo \textbf{PDF} por grupo, subido a Google Classroom por
+		\emph{un} integrante.
+		\item Nombre del archivo: \texttt{Bitacora1\_Grupo3.pdf} (con el número de
+		bitácora y de grupo correspondientes).
+		\item Páginas numeradas.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Lista de verificación antes de enviar}
+	% =========================================================
+	
+	\begin{itemize}
+		\item[$\square$] ¿Están los nombres de todos los integrantes y el número de
+		grupo?
+		\item[$\square$] ¿El montaje tiene un esquema rotulado?
+		\item[$\square$] ¿Todas las tablas tienen unidades en los encabezados?
+		\item[$\square$] ¿Todas las medidas y resultados tienen su incertidumbre?
+		\item[$\square$] ¿Las incertidumbres tienen una sola cifra significativa?
+		\item[$\square$] ¿Hay al menos un ejemplo completo de cada cálculo?
+		\item[$\square$] ¿Las gráficas tienen ejes rotulados, unidades y barras de
+		error?
+		\item[$\square$] ¿Respondieron todas las preguntas de análisis de la guía?
+		\item[$\square$] ¿Es un solo PDF, legible, con el nombre correcto?
+	\end{itemize}
+	
+	
+	
+\end{document}

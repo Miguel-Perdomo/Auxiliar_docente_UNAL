@@ -1,0 +1,653 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+% 1. Definir el color ANTES de llamar al tema SimplePlus
+\usepackage{xcolor}
+\definecolor{nyugray}{RGB}{128,128,128}
+\usetheme{SimplePlus}
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{StripA}{RGB}{200,60,60}
+\definecolor{StripB}{RGB}{60,90,180}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{cancel}
+\usepackage{pgfplots}
+% NOTA: no se declara \pgfplotsset{compat=...} a propósito (ver convenciones del curso)
+\usetikzlibrary{positioning, arrows.meta, babel, calc}
+\usepackage[skip=5pt]{caption}
+\captionsetup{justification=justified, font=small}
+\usefonttheme{professionalfonts}
+
+\title{Laboratorio Mecánica y ondas para Biociencias}
+\subtitle{Sesión 4: Práctica 1 -- Plano Inclinado}
+\titlegraphic{%
+	\vspace*{-0.3cm}%
+	\IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+		\includegraphics[width=2.2cm]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+	}{%
+		\IfFileExists{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+			\includegraphics[width=2.2cm]{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+		}{}%
+	}%
+	\hspace{1.0cm}%
+	\IfFileExists{logoMIAI_white.png}{%
+		\includegraphics[width=4.0cm]{logoMIAI_white.png}%
+	}{%
+		\IfFileExists{imagenes/logoMIAI_white.png}{%
+			\includegraphics[width=4.0cm]{imagenes/logoMIAI_white.png}%
+		}{}%
+	}%
+}
+\author{Miguel Andrés Perdomo Gutiérrez}
+\institute{%
+	Auxiliar Docente | M.Sc. en Ciencias -- Física\\
+	Universidad Nacional de Colombia -- Sede Bogotá
+}
+\date{22 de septiembre de 2026}
+
+\begin{document}
+	
+	% ============================================================
+	% SLIDE 1: PORTADA
+	% ============================================================
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 2: AGENDA
+	% ============================================================
+	\begin{frame}{Agenda de la Sesión}
+		\centering
+		\begin{tikzpicture}[
+			box/.style={rectangle, rounded corners, draw=UnalGreen, thick, fill=UnalGreen!10,
+				minimum width=2.3cm, minimum height=1.7cm, align=center, font=\scriptsize},
+			arr/.style={-{Latex[length=2mm]}, thick, UnalGreen}
+			]
+			\node[box] (b1) {Quiz 1\\\textbf{15 min}};
+			\node[box, right=0.35cm of b1] (b2) {Solución\\del quiz\\\textbf{10 min}};
+			\node[box, right=0.35cm of b2] (b3) {Introducción\\a la práctica\\\textbf{15 min}};
+			\node[box, right=0.35cm of b3] (b4) {Montaje y\\grabación\\\textbf{50 min}};
+			\node[box, right=0.35cm of b4] (b5) {Análisis\\en Tracker\\\textbf{30 min}};
+			\draw[arr] (b1) -- (b2);
+			\draw[arr] (b2) -- (b3);
+			\draw[arr] (b3) -- (b4);
+			\draw[arr] (b4) -- (b5);
+		\end{tikzpicture}
+		
+		\vspace{0.5cm}
+		\begin{itemize}
+			\item Duración total: \textbf{2 horas} (Martes 11:00--13:00, Laboratorio 104, Ed.\ 404).
+			\item Entregable: \textbf{Bitácora 1} (grupal, en PDF por Classroom).
+		\end{itemize}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 3: SEPARADOR -- SOLUCIÓN DEL QUIZ
+	% ============================================================
+	\begin{frame}
+		\begin{center}
+			\vspace{1cm}
+			{\Huge\bfseries\color{UnalGreen} Solución del Quiz 1}
+			
+			\vspace{0.5cm}
+			\large Plano inclinado sin fricción
+		\end{center}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 4: PREGUNTA 1
+	% ============================================================
+	\begin{frame}{Pregunta 1: fuerza constante}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\small
+				\textbf{Pregunta:} si la fuerza neta sobre un objeto es constante,
+				¿qué movimiento realiza?
+				
+				\vspace{0.3cm}
+				Por la segunda ley de Newton:
+				\[
+				\vec{F} = m\,\vec{a}
+				\quad\Longrightarrow\quad
+				\vec{a} = \frac{\vec{F}}{m} = \text{constante}
+				\]
+				
+				\begin{exampleblock}{Respuesta}
+					\centering
+					Movimiento \textbf{uniformemente acelerado} (MUA).
+				\end{exampleblock}
+				
+				\vspace{0.2cm}
+				Como $v(t) = v_0 + a\,t$, la gráfica $v$ vs.\ $t$ es una
+				\textbf{recta} cuya pendiente es la aceleración.
+			\end{column}
+			\begin{column}{0.48\textwidth}
+				\begin{center}
+					\begin{tikzpicture}
+						\begin{axis}[width=6.2cm, height=5.0cm,
+							xlabel={$t$ (s)}, ylabel={$v$ (m/s)},
+							xmin=0, xmax=5, ymin=0, ymax=6,
+							xtick={0,1,2,3,4,5}, ytick={0,2,4,6},
+							grid=both, grid style={gray!30, thin}]
+							\addplot[domain=0:5, samples=2, very thick, UnalGreen] {0.5 + 1.0*x};
+							\draw[dashed, red!75!black, thick] (axis cs:1.5,2.0) -- (axis cs:3.5,2.0)
+							-- (axis cs:3.5,4.0);
+							\node[below, font=\scriptsize, red!75!black] at (axis cs:2.5,2.0) {$\Delta t$};
+							\node[right, font=\scriptsize, red!75!black] at (axis cs:3.5,3.0) {$\Delta v$};
+							\node[font=\scriptsize, fill=white, inner sep=2pt] at (axis cs:1.6,4.7)
+							{$a = \dfrac{\Delta v}{\Delta t}$};
+						\end{axis}
+					\end{tikzpicture}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 5: PREGUNTA 2a -- DIAGRAMA DE CUERPO LIBRE
+	% ============================================================
+	\begin{frame}{Pregunta 2a: diagrama de cuerpo libre}
+		\begin{columns}[T]
+			\begin{column}{0.55\textwidth}
+				\begin{center}
+					\begin{tikzpicture}[scale=0.95]
+						% plano
+						\draw[thick, fill=gray!10] (0,0) -- (6,0) -- (6,3.464) -- cycle;
+						\draw (1.1,0) arc (0:30:1.1);
+						\node at (1.45,0.3) {$\theta$};
+						
+						% bloque
+						\begin{scope}[shift={(3.4,1.963)}, rotate=30]
+							\draw[thick, fill=UnalGreen!25] (-0.5,0) rectangle (0.5,0.6);
+						\end{scope}
+						\coordinate (C) at (3.25,2.223);
+						\fill (C) circle (1.5pt);
+						
+						% componentes del peso (punteadas)
+						\draw[-{Latex[length=2mm]}, thick, dashed, StripB] (C) -- ++(-0.693,-0.4)
+						node[left, font=\scriptsize] {$mg\sin\theta$};
+						\draw[-{Latex[length=2mm]}, thick, dashed, StripB] (C) -- ++(0.693,-1.2)
+						node[right, font=\scriptsize] {$mg\cos\theta$};
+						
+						% peso
+						\draw[-{Latex[length=2.5mm]}, very thick, StripA] (C) -- ++(0,-1.6)
+						node[below, font=\small] {$m\vec{g}$};
+						
+						% normal
+						\draw[-{Latex[length=2.5mm]}, very thick, UnalGreen!70!black] (C) -- ++(-0.693,1.2)
+						node[above left, font=\small] {$\vec{N}$};
+						
+						% angulo entre el peso y la componente perpendicular
+						\draw (C) ++(270:0.55) arc (270:300:0.55);
+						\node[font=\scriptsize] at ($(C)+(285:0.8)$) {$\theta$};
+					\end{tikzpicture}
+				\end{center}
+			\end{column}
+			\begin{column}{0.43\textwidth}
+				\small
+				Solo actúan \textbf{dos fuerzas}:
+				\begin{itemize}
+					\item El \textcolor{StripA}{\textbf{peso}} $m\vec{g}$, vertical hacia abajo.
+					\item La \textcolor{UnalGreen!70!black}{\textbf{normal}} $\vec{N}$,
+					perpendicular al plano.
+				\end{itemize}
+				
+				\vspace{0.3cm}
+				Con el eje $x$ \textbf{paralelo al plano}, el peso se descompone en:
+				\begin{itemize}
+					\item \textcolor{StripB}{$mg\sin\theta$}: a lo largo del plano.
+					\item \textcolor{StripB}{$mg\cos\theta$}: perpendicular al plano.
+				\end{itemize}
+				
+				\vspace{0.3cm}
+				\textcolor{UnalGreen}{\textbf{Error común:}} dibujar la normal
+				vertical. La normal es siempre \emph{perpendicular a la superficie}.
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 6: DE DONDE SALE a = g sin(theta)
+	% ============================================================
+	\begin{frame}{¿De dónde sale $a = g\sin\theta$?}
+		\begin{columns}[T]
+			\begin{column}{0.48\textwidth}
+				\begin{block}{Eje $y$ (perpendicular al plano)}
+					No hay movimiento en esa dirección:
+					\[
+					N - mg\cos\theta = 0
+					\]
+					\[
+					\Rightarrow\quad N = mg\cos\theta
+					\]
+				\end{block}
+			\end{column}
+			\begin{column}{0.48\textwidth}
+				\begin{block}{Eje $x$ (a lo largo del plano)}
+					La única fuerza es la componente del peso:
+					\[
+					mg\sin\theta = m\,a
+					\]
+					\[
+					\Rightarrow\quad a = g\sin\theta
+					\]
+				\end{block}
+			\end{column}
+		\end{columns}
+		
+		\vspace{0.5cm}
+		\begin{exampleblock}{}
+			\centering
+			\Large $a = g\sin\theta$
+		\end{exampleblock}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 7: PREGUNTAS 2b Y 2c
+	% ============================================================
+	\begin{frame}{Preguntas 2b y 2c: analizando la fórmula}
+		\begin{columns}[T]
+			\begin{column}{0.48\textwidth}
+				\textbf{2b. Casos extremos}
+				
+				\vspace{0.2cm}
+				\small
+				$\theta = 0^\circ$: \quad $a = g\sin 0^\circ = 0$
+				
+				\hspace{1.2cm}Plano horizontal: el bloque no se mueve.
+				
+				\vspace{0.3cm}
+				$\theta = 90^\circ$: \quad $a = g\sin 90^\circ = g$
+				
+				\hspace{1.3cm}Plano vertical: \textbf{caída libre}.
+				
+				\vspace{0.4cm}
+				\begin{center}
+					\textcolor{UnalGreen}{\textbf{La fórmula recupera los dos casos que ya conocemos.}}
+				\end{center}
+			\end{column}
+			\begin{column}{0.48\textwidth}
+				\textbf{2c. ¿Depende de la masa?}
+				
+				\vspace{0.2cm}
+				\small
+				En la ecuación de Newton, la masa aparece a \textbf{ambos lados}:
+				\[
+				\cancel{m}g\sin\theta = \cancel{m}a
+				\]
+				
+				\begin{exampleblock}{Respuesta}
+					\centering
+					Con el doble de masa, la aceleración \textbf{queda igual}.
+				\end{exampleblock}
+				
+				\vspace{0.2cm}
+				Un bloque pesado y uno liviano bajan \emph{juntos}, igual que en
+				caída libre.
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 8: SEPARADOR -- LA PRÁCTICA
+	% ============================================================
+	\begin{frame}
+		\begin{center}
+			\vspace{1cm}
+			{\Huge\bfseries\color{UnalGreen} Práctica 1}
+			
+			\vspace{0.5cm}
+			\large Plano inclinado con Tracker
+		\end{center}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 9: EL CARRO NO ES UN BLOQUE
+	% ============================================================
+	\begin{frame}{En el laboratorio: el carro no es un bloque}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\small
+				El carro \textbf{rueda} en vez de deslizar, y sus ejes tienen algo de
+				fricción. Parte de la energía se va en hacer girar las ruedas.
+				
+				\vspace{0.3cm}
+				Por eso la aceleración real es un poco menor:
+				\begin{exampleblock}{}
+					\centering
+					\Large $a = \gamma\,g\sin\theta$
+				\end{exampleblock}
+				
+				\vspace{0.2cm}
+				\begin{itemize}
+					\item $\gamma = 1$: bloque ideal sin fricción.
+					\item $\gamma < 1$: carro real.
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.46\textwidth}
+				\begin{alertblock}{Objetivo de hoy}
+					\centering
+					Medir $\gamma$ para el carro del laboratorio.
+				\end{alertblock}
+				
+				\vspace{0.4cm}
+				\small
+				Para eso necesitamos dos cosas:
+				\begin{enumerate}
+					\item La aceleración $a$ del carro \\
+					\textcolor{nyugray}{$\rightarrow$ con Tracker}
+					\item El ángulo $\theta$ del riel \\
+					\textcolor{nyugray}{$\rightarrow$ con una regla}
+				\end{enumerate}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 10: MEDIR EL ÁNGULO SIN TRANSPORTADOR
+	% ============================================================
+	\begin{frame}{Medir el ángulo sin transportador}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\begin{center}
+					\begin{tikzpicture}[scale=0.9]
+						\draw[very thick] (-0.3,0) -- (6.4,0);
+						\draw[very thick, UnalGreen] (0,0) -- (6,1.8);
+						\draw[thick, fill=gray!25] (5.85,0) rectangle (6.15,1.8);
+						\draw[|-|, thick] (6.6,0) -- (6.6,1.8) node[midway, right] {$h$};
+						\draw[|-|, thick] (0.15,0.55) -- (5.85,2.26);
+						\node[above left] at (3.0,1.35) {$L$};
+						\draw (1.3,0) arc (0:16.7:1.3);
+						\node at (1.6,0.22) {$\theta$};
+					\end{tikzpicture}
+				\end{center}
+				
+				\vspace{0.2cm}
+				\begin{exampleblock}{}
+					\centering
+					\Large $\sin\theta = \dfrac{h}{L}$
+				\end{exampleblock}
+			\end{column}
+			\begin{column}{0.46\textwidth}
+				\small
+				Un transportador tiene resolución de $1^\circ$: para ángulos pequeños
+				eso es un error enorme.
+				
+				\vspace{0.3cm}
+				Medir dos \textbf{longitudes} con una regla es mucho más preciso.
+				
+				\vspace{0.3cm}
+				Como es un \textbf{cociente}, la incertidumbre se propaga con la regla
+				del Taller 2:
+				\[
+				\frac{\Delta(\sin\theta)}{\sin\theta}
+				= \sqrt{\left(\frac{\Delta h}{h}\right)^{2}
+					+ \left(\frac{\Delta L}{L}\right)^{2}}
+				\]
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 11: LA ESTRATEGIA
+	% ============================================================
+	\begin{frame}{La estrategia: una recta, no cinco promedios}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\small
+				Si graficamos $a$ contra $\sin\theta$:
+				\[
+				\underbrace{a}_{y} = \underbrace{(\gamma g)}_{m}\,
+				\underbrace{\sin\theta}_{x}
+				\]
+				
+				\vspace{0.1cm}
+				Obtenemos una \textbf{recta por el origen} con pendiente
+				$m = \gamma g$.
+				
+				\vspace{0.3cm}
+				Por eso repetimos el experimento a \textbf{cinco inclinaciones}
+				distintas, y al final:
+				\begin{exampleblock}{}
+					\centering
+					$\gamma = \dfrac{m}{g}$, \quad con $g = 978$ cm/s$^2$
+				\end{exampleblock}
+			\end{column}
+			\begin{column}{0.48\textwidth}
+				\begin{center}
+					\begin{tikzpicture}
+						\begin{axis}[width=6.4cm, height=5.2cm,
+							xlabel={$\sin\theta$}, ylabel={$a$ (cm/s$^2$)},
+							xmin=0, xmax=0.12, ymin=0, ymax=125,
+							xtick={0,0.04,0.08,0.12}, ytick={0,40,80,120},
+							xticklabel style={/pgf/number format/fixed},
+							scaled x ticks=false,
+							grid=both, grid style={gray!30, thin},
+							legend style={font=\tiny, at={(0.03,0.97)}, anchor=north west,
+								draw=none, fill=white, fill opacity=0.8, text opacity=1}]
+							\addplot[domain=0:0.12, samples=2, thick, dashed, nyugray] {978*x};
+							\addlegendentry{ideal ($\gamma=1$)}
+							\addplot[domain=0:0.12, samples=2, very thick, UnalGreen] {929*x};
+							\addlegendentry{carro real ($\gamma<1$)}
+							\addplot[only marks, mark=*, mark size=1.8pt, red!75!black,
+							error bars/.cd, y dir=both, y explicit, x dir=both, x explicit]
+							coordinates {
+								(0.02,19.4) +- (0.002,3)
+								(0.04,36.5) +- (0.002,3)
+								(0.06,56.1) +- (0.002,3)
+								(0.08,73.8) +- (0.002,3)
+								(0.10,93.6) +- (0.002,3)
+							};
+						\end{axis}
+					\end{tikzpicture}
+				\end{center}
+				\vspace{-0.3cm}
+				\begin{center}\scriptsize (datos ilustrativos)\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 12: MONTAJE
+	% ============================================================
+	\begin{frame}{El montaje}
+		\begin{center}
+			\begin{tikzpicture}[scale=0.82]
+				% mesa
+				\draw[very thick] (-0.6,0) -- (10.2,0);
+				\draw[gray!60] (-0.6,-0.25) -- (10.2,-0.25);
+				% soporte
+				\draw[thick, fill=gray!25] (8.9,0) rectangle (9.3,2.6);
+				% riel
+				\draw[very thick, UnalGreen] (0.4,0.12) -- (9.1,2.72);
+				\draw[very thick, UnalGreen] (0.4,-0.02) -- (9.1,2.58);
+				% carro
+				\begin{scope}[shift={(6.4,2.0)}, rotate=16.6]
+					\draw[thick, fill=UnalGreen!30] (-0.45,0.08) rectangle (0.45,0.52);
+					\fill[black] (-0.27,0.08) circle (0.09);
+					\fill[black] (0.27,0.08) circle (0.09);
+				\end{scope}
+				\draw[-{Latex[length=2mm]}, thick, red!75!black] (5.9,1.75) -- (4.7,1.4)
+				node[midway, below, font=\scriptsize] {$a$};
+				% h
+				\draw[|-|, thick] (9.75,0) -- (9.75,2.6) node[midway, right, font=\small] {$h$};
+				% L
+				\draw[|-|, thick] (0.55,0.62) -- (8.75,3.07);
+				\node[above left, font=\small] at (5.0,2.1) {$L$};
+				% angulo
+				\draw (1.9,0.05) arc (0:16.6:1.5);
+				\node[font=\small] at (2.2,0.32) {$\theta$};
+				% regla
+				\draw[thick, fill=yellow!35] (1.0,-0.85) rectangle (4.6,-0.5);
+				\foreach \x in {1.3,1.6,...,4.3} {\draw (\x,-0.85) -- (\x,-0.72);}
+				\node[below, font=\scriptsize] at (2.8,-0.9) {regla (calibración)};
+				% celular
+				\draw[thick, fill=gray!35] (4.6,-2.4) rectangle (5.6,-1.3);
+				\node[right, font=\scriptsize, align=left] at (5.7,-1.85) {celular fijo\\(no tocar)};
+				\draw[dashed, gray] (5.1,-1.3) -- (2.0,0.2);
+				\draw[dashed, gray] (5.1,-1.3) -- (8.6,2.5);
+			\end{tikzpicture}
+		\end{center}
+		
+		\vspace{-0.1cm}
+		\begin{alertblock}{Lo más importante}
+			\centering
+			El celular \textbf{no se mueve} durante la grabación. Si se mueve, el video no sirve.
+		\end{alertblock}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 13: PROCEDIMIENTO
+	% ============================================================
+	\begin{frame}{Procedimiento}
+		\begin{center}
+			\begin{tikzpicture}[
+				bx/.style={rectangle, rounded corners, draw=UnalGreen, thick,
+					fill=UnalGreen!10, minimum width=2.5cm, minimum height=1.5cm,
+					align=center, font=\scriptsize},
+				arr/.style={-{Latex[length=2mm]}, thick, UnalGreen}
+				]
+				\node[bx] (p1) {Medir $L$\\y $\Delta L$};
+				\node[bx, right=0.4cm of p1] (p2) {Elevar el riel\\medir $h$ y $\Delta h$};
+				\node[bx, right=0.4cm of p2] (p3) {Soltar el carro\\desde el reposo\\y grabar};
+				\node[bx, right=0.4cm of p3] (p4) {Anotar $h$ y\\el nombre\\del video};
+				\draw[arr] (p1) -- (p2);
+				\draw[arr] (p2) -- (p3);
+				\draw[arr] (p3) -- (p4);
+				\draw[arr, dashed] (p4.south) -- ++(0,-0.55) -| (p2.south)
+				node[pos=0.25, below, font=\scriptsize] {repetir para 5 alturas (de a $\sim$3 cm)};
+			\end{tikzpicture}
+		\end{center}
+		
+		\vspace{0.4cm}
+		\begin{itemize}
+			\setlength{\itemsep}{6pt}
+			\item Dejen la regla \textbf{horizontal sobre la mesa} y dentro del video:
+			sirve para calibrar la escala.
+			\item Anoten cada $h$ \textbf{en el laboratorio}. Después no hay forma de
+			recuperarla desde el video.
+		\end{itemize}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 14: TRACKER -- PASOS
+	% ============================================================
+	\begin{frame}{En Tracker}
+		\begin{enumerate}
+			\setlength{\itemsep}{8pt}
+			\item \textbf{Importar el video.} Revisen los fps: cada cuadro dura
+			$1/\text{fps}$ segundos. Esa es su resolución temporal $\Delta t$.
+			\item \textbf{Calibrar la escala} con la \emph{vara de calibración}
+			sobre la regla.
+			\item \textbf{Ejes:} el eje $x$ va \textbf{paralelo al riel}, no
+			horizontal.
+			\item \textbf{Marcar el carro} cuadro por cuadro, o usar el
+			\emph{autotracker}.
+			\item \textbf{Exportar} la tabla $x$ vs.\ $t$ a Excel.
+		\end{enumerate}
+		
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 15: DE x(t) A LA ACELERACIÓN
+	% ============================================================
+	\begin{frame}{De la tabla de Tracker a la aceleración}
+		\begin{columns}[T]
+			\begin{column}{0.48\textwidth}
+				\begin{center}
+					\begin{tikzpicture}
+						\begin{axis}[width=5.8cm, height=4.4cm,
+							xlabel={$t$ (s)}, ylabel={$x$ (cm)},
+							xmin=0, xmax=2, ymin=0, ymax=110,
+							xtick={0,0.5,1,1.5,2}, ytick={0,50,100},
+							grid=both, grid style={gray!30, thin}]
+							\addplot[domain=0:2, samples=40, very thick, UnalGreen] {0.5*50*x^2};
+						\end{axis}
+					\end{tikzpicture}
+					
+					\small Posición: \textbf{parábola}
+				\end{center}
+			\end{column}
+			\begin{column}{0.48\textwidth}
+				\begin{center}
+					\begin{tikzpicture}
+						\begin{axis}[width=5.8cm, height=4.4cm,
+							xlabel={$t$ (s)}, ylabel={$v$ (cm/s)},
+							xmin=0, xmax=2, ymin=0, ymax=110,
+							xtick={0,0.5,1,1.5,2}, ytick={0,50,100},
+							grid=both, grid style={gray!30, thin}]
+							\addplot[domain=0:2, samples=2, very thick, red!75!black] {50*x};
+						\end{axis}
+					\end{tikzpicture}
+					
+					\small Velocidad: \textbf{recta}
+				\end{center}
+			\end{column}
+		\end{columns}
+		
+		\vspace{0.3cm}
+		\begin{exampleblock}{}
+			\centering
+			La \textbf{pendiente} de la recta $v$ vs.\ $t$ es la aceleración $a$.
+			Tracker calcula $v$ por ustedes.
+		\end{exampleblock}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 16: ENTREGABLE
+	% ============================================================
+	\begin{frame}{Entregable: Bitácora 1}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\textbf{Lo que debe incluir:}
+				\begin{itemize}
+					\small
+					\item Esquema del montaje, rotulado.
+					\item Tabla con las 5 alturas, $\sin\theta$ y $a$, con unidades e
+					incertidumbres.
+					\item Gráficas $x$ vs.\ $t$ y $v$ vs.\ $t$ de al menos un video.
+					\item Gráfica $a$ vs.\ $\sin\theta$ con barras de error.
+					\item Valor de $\gamma$ y su discrepancia con 1.
+					\item Respuestas a las preguntas de la guía.
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.46\textwidth}
+				\begin{block}{Entrega}
+					\small
+					\begin{itemize}
+						\item Un solo \textbf{PDF} por grupo.
+						\item Por Google Classroom.
+						\item Nombre: \texttt{Bitacora1\_GrupoN.pdf}
+					\end{itemize}
+				\end{block}
+				
+				\vspace{0.3cm}
+				\small
+				Revisen el documento \emph{La Bitácora de Laboratorio} en
+				Classroom antes de escribirla.
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 17: PARA LA PRÓXIMA
+	% ============================================================
+	\begin{frame}{Para la próxima sesión (29/09)}
+		\begin{block}{Práctica 2: Conservación de la Energía}
+			\begin{itemize}
+				\item Lean la guía y la descripción del montaje.
+				\item Respondan las \textbf{preguntas previas}: de ahí sale el Quiz 2.
+			\end{itemize}
+		\end{block}
+		
+		\vspace{0.5cm}
+		\begin{center}
+			\Large \textcolor{UnalGreen}{\textbf{¡Manos a la obra!}}
+		\end{center}
+	\end{frame}
+	
+\end{document}

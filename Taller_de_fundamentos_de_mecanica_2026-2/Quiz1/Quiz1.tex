@@ -1,0 +1,112 @@
+\documentclass[11pt, letterpaper]{article}
+
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=1.2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Fundamentos de Mecánica (1000019) -- Quiz}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{
+	leftmargin=*,
+	itemsep=2pt,
+	topsep=2pt,
+	parsep=0pt
+}
+
+% ----- COMANDO PARA UN QUIZ -----
+\newcommand{\quizcontent}{%
+	\begin{center}
+		\vspace*{0.3cm}
+		{\large\bfseries Quiz 1}\\[0.05cm]
+		{\normalsize\bfseries Fundamentos de Mecánica (1000019)}
+	\end{center}
+	
+	\vspace{0.1cm}
+	
+	\begin{enumerate}[leftmargin=*]
+		\item Suponga que tiene los vectores $\vec{A} = \hat{i} + 7\hat{j} - 2\hat{k}$, $\vec{B} = 3\hat{i} - 4\hat{j}$ y $\vec{C} = 2\hat{i} + 3\hat{k}$. Determine: $(\vec{A} \times \vec{B}) + \vec{C}$.
+		
+		\item Un jugador de béisbol, después de ganar un partido, se quita la gorra y la lanza verticalmente hacia arriba con una rapidez inicial de $20$ m/s. La gorra experimenta una desaceleración de $9.8$ m/s$^2$.
+		\begin{enumerate}[label=\alph*)]
+			\item ¿Cuánto tiempo le toma a la gorra alcanzar su altura máxima?
+			\item ¿Cuál es esa altura máxima?
+			\item Si la gorra es atrapada a la misma altura desde la que fue lanzada, ¿cuál es su tiempo total de vuelo?
+		\end{enumerate}
+	\end{enumerate}
+}
+
+\begin{document}
+	\thispagestyle{fancy}
+	
+	% ----- PRIMER QUIZ (mitad superior) -----
+	\noindent
+	\begin{minipage}[t]{0.95\textwidth}
+		\quizcontent
+	\end{minipage}
+	
+	\vspace{0.6cm}
+	
+	% ----- LÍNEA DE CORTE -----
+	\noindent\rule{\textwidth}{0.4pt}
+	
+	\vspace{0.6cm}
+	
+	% ----- SEGUNDO QUIZ (mitad inferior) -----
+	\noindent
+	\begin{minipage}[t]{0.95\textwidth}
+		\quizcontent
+	\end{minipage}
+	
+	\vspace{2 cm}
+		% ----- LÍNEA DE CORTE -----
+	\noindent\rule{\textwidth}{0.4pt}
+	
+	\vspace{0.6cm}
+	
+	% ----- SEGUNDO QUIZ (mitad inferior) -----
+	\noindent
+	\begin{minipage}[t]{0.95\textwidth}
+		\quizcontent
+	\end{minipage}
+	
+\end{document}

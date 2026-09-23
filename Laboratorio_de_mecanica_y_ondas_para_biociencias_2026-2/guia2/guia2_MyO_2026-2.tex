@@ -1,0 +1,380 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, babel, calc}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Mecánica y Ondas para Biociencias (1000023) -- Laboratorio}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt, parsep=0pt}
+\setlist[enumerate]{leftmargin=*, itemsep=3pt, topsep=3pt, parsep=0pt}
+
+% ----- CAJA DE NOTA -----
+\newcommand{\notabox}[1]{%
+	\begin{center}
+		\fcolorbox{UnalGreen}{UnalGreen!8}{%
+			\parbox{0.94\textwidth}{\small #1}%
+		}
+	\end{center}
+}
+
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	\begin{center}
+		\vspace*{-0.8cm}
+		\IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+			\includegraphics[width=0.15\textwidth]
+			{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		}{}
+		
+		{\Large\bfseries Práctica 2: Conservación de la Energía}\\[0.1cm]
+		{\large\bfseries De energía potencial a energía cinética}\\[0.1cm]
+		{\normalsize Mecánica y Ondas para Biociencias (1000023)}
+	\end{center}
+	
+	\vspace{0.2cm}
+	\noindent
+	\begin{tabular}{@{}ll@{}}
+		Modalidad: & Grupal (3 a 4 integrantes) \\
+		Entregable: & Bitácora 2 \\
+		Fecha de sesión: & 29 de septiembre de 2026 \\
+	\end{tabular}
+	
+	\notabox{\textbf{Antes de venir al laboratorio:} lean la descripción del
+		experimento y respondan las \emph{preguntas previas} de la
+		Sección~\ref{sec:previas} en su cuaderno de bitácora. El quiz individual del
+		inicio de la sesión sale de esas preguntas.}
+	
+	% =========================================================
+	\section{Objetivos}
+	% =========================================================
+	\begin{itemize}
+		\item Explorar los conceptos de energía cinética y energía potencial
+		gravitacional.
+		\item Validar experimentalmente la conservación de la energía mecánica.
+		\item Linealizar una relación física usando variables adimensionales.
+		\item Propagar incertidumbres en cocientes y potencias.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Materiales}
+	% =========================================================
+	\begin{itemize}
+		\item Esfera metálica e hilo.
+		\item Soporte con cuchilla.
+		\item Papel carbón y papel blanco.
+		\item Regla o cinta métrica.
+		\item Papel milimetrado.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Descripción del experimento}
+	% =========================================================
+	
+	Una esfera de masa $m$, atada a un hilo, se eleva formando un arco y se suelta
+	desde una altura $h_1$ sobre el piso. Al pasar por el punto más bajo de su
+	trayectoria, a una altura $h_2 = H$, una cuchilla corta el hilo. A partir de ese
+	instante la esfera continúa en movimiento parabólico, con rapidez inicial
+	horizontal $v_0$, hasta caer a una distancia $x$ medida desde el punto del piso
+	que está justo debajo de la cuchilla.
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
+			% piso
+			\draw[very thick] (0.8,0) -- (9.4,0);
+			\draw[gray!60] (0.8,-0.18) -- (9.4,-0.18);
+			
+			% soporte y pivote
+			\draw[line width=2.5pt, gray!65] (4,0) -- (4,5.4);
+			\fill (4,5.4) circle (1.6pt);
+			\node[right] at (4.1,5.4) {soporte};
+			
+			% hilo y esfera elevada
+			\draw[thick] (4,5.4) -- (2.116,4.081);
+			\node[above left] at (3.05,4.75) {hilo};
+			\shade[ball color=gray!60] (2.116,4.081) circle (0.17);
+			\node[left] at (1.9,4.3) {esfera};
+			
+			% arco de la trayectoria circular
+			\draw[dashed, thick, gray!70!black] (2.116,4.081)
+			arc[start angle=215, end angle=270, radius=2.3];
+			
+			% cuchilla
+			\draw[line width=1.8pt] (3.62,3.36) -- (3.98,3.36);
+			\draw[-{Latex[length=1.8mm]}] (3.0,3.62) -- (3.6,3.40);
+			\node[left] at (3.05,3.66) {cuchilla};
+			
+			% esfera en el punto mas bajo y v0
+			\shade[ball color=gray!60] (4,3.1) circle (0.17);
+			\draw[-{Latex[length=2.2mm]}, very thick, red!75!black] (4.22,3.1) -- (5.2,3.1)
+			node[above] {$\vec{v}_0$};
+			
+			% trayectoria parabolica
+			\draw[dashed, thick, red!75!black, domain=4:7.4, samples=60]
+			plot (\x, {3.1 - 3.1*((\x-4)/3.4)^2});
+			
+			% papel carbon
+			\fill[gray!55] (6.8,0) rectangle (8.1,0.08);
+			\node[right, font=\scriptsize] at (8.1,0.22) {papel carbón};
+			
+			% linea de referencia a la altura H
+			\draw[dotted, thick, gray] (1.3,3.1) -- (3.83,3.1);
+			
+			% cota h
+			\draw[dotted, thick, gray] (1.3,4.081) -- (1.95,4.081);
+			\draw[|-|, thick] (1.5,3.1) -- (1.5,4.081) node[midway, left] {$h$};
+			
+			% cota H
+			\draw[|-|, thick] (2.9,0) -- (2.9,3.1) node[midway, left] {$H$};
+			
+			% cota x
+			\draw[|-|, thick] (4,-0.55) -- (7.4,-0.55) node[midway, below] {$x$};
+		\end{tikzpicture}
+	\end{center}
+	
+	% =========================================================
+	\section{Preguntas previas}\label{sec:previas}
+	% =========================================================
+	
+	Respóndanlas \textbf{antes} de la sesión. No se califican, pero el quiz de
+	entrada sale de aquí.
+	
+	\begin{enumerate}
+		\item \emph{Predicción} (respondan antes de hacer cálculos): si aumenta la
+		altura $h$, ¿cómo cambia la distancia $x$? ¿Y si se usa una esfera de mayor
+		masa?
+		
+		\item Escriban la energía potencial gravitacional y la energía cinética.
+		¿Cuándo se conserva la energía mecánica?
+		
+		\item Usando conservación de la energía, demuestren que la esfera llega a la
+		cuchilla con rapidez $v_0 = \sqrt{2gh}$.
+		
+		\item Si la esfera sale horizontal con rapidez $v_0$ desde una altura $H$,
+		tarda $t = \sqrt{2H/g}$ en caer. Con esto, demuestren que $x^{2} = 4hH$.
+		¿Depende de $m$? ¿Depende de $g$?
+	\end{enumerate}
+	
+	% =========================================================
+	\section{Teoría}
+	% =========================================================
+	
+	Si no hay pérdidas, toda la energía potencial que pierde la esfera al bajar la
+	altura $h = h_1 - h_2$ se convierte en energía cinética:
+	\begin{equation}
+		m\,g\,h = \tfrac{1}{2}\,m\,v_0^{2}
+		\qquad\Longrightarrow\qquad
+		v_0 = \sqrt{2\,g\,h}
+		\label{eq:energia}
+	\end{equation}
+	
+	\noindent
+	Después del corte, la esfera cae la altura $H$ en un tiempo $t=\sqrt{2H/g}$,
+	mientras avanza horizontalmente con rapidez constante $v_0$. Combinando ambos
+	resultados (pregunta previa 4):
+	\begin{equation}
+		x^{2} = 4\,h\,H
+		\label{eq:alcance}
+	\end{equation}
+	
+	\subsection*{Linealización con variables adimensionales}
+	
+	Dividiendo la ecuación (\ref{eq:alcance}) entre $H^{2}$ y definiendo
+	\begin{equation}
+		X = \frac{h}{H}
+		\qquad\qquad
+		Y = \left(\frac{\bar{x}}{H}\right)^{2}
+		\label{eq:variables}
+	\end{equation}
+	
+	\noindent
+	se obtiene una recta que pasa por el origen:
+	\begin{equation}
+		Y = 4\,X
+		\label{eq:recta}
+	\end{equation}
+	
+	\notabox{Fíjense en dos cosas. Primero, $X$ y $Y$ no tienen unidades. Segundo,
+		la pendiente teórica es \textbf{exactamente 4}: no depende de la masa de la
+		esfera ni del valor de $g$. Si el experimento conserva la energía, cualquier
+		grupo, con cualquier esfera, debería obtener la misma pendiente.}
+	
+	% =========================================================
+	\section{Procedimiento}
+	% =========================================================
+	
+	\begin{enumerate}
+		\item Ubiquen la cuchilla horizontalmente, de modo que corte el hilo justo
+		arriba de la esfera cuando esta pasa por el punto más bajo.
+		\item Aten la esfera al hilo, y el hilo al soporte, por encima de la cuchilla.
+		\item Midan la altura $H$ de la esfera en el punto de corte, respecto al
+		piso. \textbf{Manténganla constante} durante todo el experimento.
+		\item Marquen en el piso el punto que está justo debajo de la cuchilla: desde
+		ahí se mide $x$.
+		\item Hagan un lanzamiento de prueba para ver dónde cae la esfera, y coloquen
+		allí el papel blanco con el papel carbón encima.
+		\item Suelten la esfera desde una altura $h_1$, midan $h = h_1 - h_2$ y la
+		distancia horizontal $x$ marcada en el papel.
+		\item Repitan \textbf{tres veces} para la misma altura $h$.
+		\item Repitan todo para \textbf{cuatro alturas diferentes}.
+	\end{enumerate}
+	
+	\notabox{Suelten la esfera sin empujarla: debe partir del reposo. Cualquier
+		impulso inicial agrega energía cinética que la ecuación (\ref{eq:energia}) no
+		contempla.}
+	
+	\vspace{0.2cm}
+	\begin{center}
+		\small
+		$H = $ \rule{2cm}{0.4pt} $\pm$ \rule{1.2cm}{0.4pt} cm
+		
+		\vspace{0.3cm}
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline
+			Medida & $h$ (cm) & $x_1$ (cm) & $x_2$ (cm) & $x_3$ (cm)
+			& $\bar{x}$ (cm) & $\Delta\bar{x}$ (cm) \\
+			\hline
+			\rule{0pt}{3ex} 1 & & & & & & \\ \hline
+			\rule{0pt}{3ex} 2 & & & & & & \\ \hline
+			\rule{0pt}{3ex} 3 & & & & & & \\ \hline
+			\rule{0pt}{3ex} 4 & & & & & & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	% =========================================================
+	\section{Análisis de resultados}
+	% =========================================================
+	
+	\subsection{Incertidumbre de la distancia}
+	
+	Para cada altura, combinen en cuadratura la dispersión de sus tres medidas con
+	la resolución de la regla, como en el Taller~1:
+	\[
+	\Delta\bar{x} = \sqrt{\sigma_x^{2} + \Delta_{\text{inst}}^{2}}
+	\]
+	
+	\subsection{Variables linealizadas}
+	
+	Calculen $X$ y $Y$ con la ecuación (\ref{eq:variables}). Sus incertidumbres
+	salen de las reglas de propagación del Taller~2: $X$ es un \emph{cociente}, y
+	$Y$ es el \emph{cuadrado} de un cociente, por lo que su error relativo se
+	duplica:
+	\[
+	\frac{\Delta X}{X} = \sqrt{\left(\frac{\Delta h}{h}\right)^{2}
+		+ \left(\frac{\Delta H}{H}\right)^{2}}
+	\qquad\qquad
+	\frac{\Delta Y}{Y} = 2\sqrt{\left(\frac{\Delta\bar{x}}{\bar{x}}\right)^{2}
+		+ \left(\frac{\Delta H}{H}\right)^{2}}
+	\]
+	
+	\begin{center}
+		\small
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			Medida & $X = h/H$ & $\Delta X$ & $Y = (\bar{x}/H)^2$ & $\Delta Y$ \\
+			\hline
+			\rule{0pt}{3ex} 1 & & & & \\ \hline
+			\rule{0pt}{3ex} 2 & & & & \\ \hline
+			\rule{0pt}{3ex} 3 & & & & \\ \hline
+			\rule{0pt}{3ex} 4 & & & & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	\subsection{La gráfica}
+	
+	Grafiquen $Y$ (eje vertical) contra $X$ (eje horizontal), con barras de error
+	en ambos ejes. Tracen la recta que mejor represente los puntos y obtengan su
+	pendiente $m$ y su intercepto $b$.
+	
+	\subsection{Comparación con la teoría}
+	
+	Comparen la pendiente medida con el valor teórico $m_{\text{teo}} = 4$:
+	\[
+	\text{discrepancia} = \frac{|m - 4|}{4}\times 100\%
+	\]
+	
+	\noindent
+	Si la discrepancia es baja, puede afirmarse que la energía potencial $mgh$ se
+	convirtió en energía cinética $\frac{1}{2}mv_0^2$ justo antes del corte.
+	
+	% =========================================================
+	\section{Conclusiones}
+	% =========================================================
+	
+	Además de sus conclusiones propias, discutan:
+	
+	\begin{itemize}
+		\item ¿Sus resultados son compatibles con la conservación de la energía?
+		\item ¿La pendiente resultó mayor o menor que 4? ¿Qué mecanismos físicos
+		podrían hacer que la esfera llegue a la cuchilla con \emph{menos} energía
+		cinética de la esperada?
+		\item ¿El intercepto $b$ es compatible con cero? ¿Debería serlo?
+		\item ¿Su predicción de la pregunta previa 1 resultó correcta?
+		\item ¿Qué factores del montaje (el corte del hilo, la posición de la
+		cuchilla, la lectura en el papel carbón) pueden explicar las diferencias?
+	\end{itemize}
+	
+	% =========================================================
+	\section{Referencias}
+	% =========================================================
+	
+	\begin{itemize}
+		\item L. Agulles Perdós, \emph{Guías de Laboratorio: Mecánica y Ondas para
+			Biociencias}, Departamento de Física, Universidad Nacional de Colombia,
+		2026. Laboratorio 8.
+		\item C. Perilla, \emph{Guía de trabajo en el laboratorio: Conservación de
+			la energía}, Universidad Nacional de Colombia, 2023.
+		\item L. G. Chica G., \emph{Guías de Laboratorio de Física: Cinemática,
+			Dinámica y Termodinámica}, Universidad Nacional de Colombia, 2003.
+	\end{itemize}
+	
+	\vfill
+	\noindent
+	{\footnotesize \textit{Auxiliar docente: Miguel Andrés Perdomo Gutiérrez ---
+			mperdomog@unal.edu.co}}
+	
+\end{document}
