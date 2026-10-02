@@ -1,0 +1,128 @@
+\documentclass[11pt, letterpaper]{article}
+
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Fundamentos de Mecánica (1000019) -- Taller}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{
+	leftmargin=*,
+	itemsep=2pt,
+	topsep=2pt,
+	parsep=0pt
+}
+
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	
+	\begin{center}
+		\vspace*{-0.8cm}
+		\includegraphics[width=0.15\textwidth]
+		{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		
+		{\Large\bfseries Taller de Movimiento Circular -- Grupo 14}\\[0.05cm]
+		{\large\bfseries Fundamentos de Mecánica (1000019)}
+	\end{center}
+	
+	
+	% =========================================================
+	% INFORMACIÓN DEL CURSO
+	% ========================================================
+	
+	\vspace{0.2cm}
+	
+	% =========================================================
+	\section{Movimiento Circular}
+	% =========================================================
+	
+	\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=8pt]
+		
+		\item Dos puntos tienen coordenadas cartesianas $\left(1,\ \dfrac{\sqrt{3}}{2}\right)$ y $\left(-1,\ \dfrac{\sqrt{3}}{2}\right)$.
+		\begin{enumerate}[label=\alph*)]
+			\item Determine las coordenadas polares de esos dos puntos.
+			\item Determine la distancia entre ellos.
+		\end{enumerate}
+		
+		\item Tu compañero de cuarto está trabajando en su bicicleta y la pone de pies a cabeza. Enseguida notas que en el rin de $60$ cm de diámetro se encuentra atascada una piedra que gira a tres vueltas por segundo. ¿Cuáles son la rapidez y la aceleración de la piedra?
+		
+		\item Calcule la rapidez en km/h y la aceleración en m/s$^2$ de una persona sobre el ecuador, originadas por el movimiento rotacional de la Tierra. El radio de la Tierra es $r_T \simeq 6.37\times10^{6}$ m.
+		
+		\item En el modelo del átomo de hidrógeno propuesto por Niels Bohr, un electrón orbita alrededor de un protón estacionario en un movimiento circular uniforme, en un círculo de radio $r = 5.28\times10^{-11}$ m, con una rapidez $v = 2.18\times10^{6}$ m/s. Halle:
+		\begin{enumerate}[label=\alph*)]
+			\item La magnitud de la aceleración radial.
+			\item El periodo del movimiento.
+		\end{enumerate}
+		
+		\item El brazo de un aspersor de agua gira con una rapidez constante de tal forma que realiza $20$ vueltas en $5$ s. La distancia entre los extremos del brazo es de $20$ cm. Determine:
+		\begin{enumerate}[label=\alph*)]
+			\item El periodo del movimiento.
+			\item La frecuencia angular.
+			\item La rapidez del extremo del brazo.
+			\item La aceleración centrípeta.
+		\end{enumerate}
+		Exprese sus resultados en unidades del SI y en unidades de $\pi$.
+		
+		\item La distancia entre Santo Tomé (África) y Quito es de aproximadamente $9500$ km. Ambas ciudades están casi sobre el ecuador. ¿Cuánto le toma a la Tierra rotar para cubrir la distancia entre las dos ciudades?
+		
+		\item Si la posición angular de un objeto en movimiento circular es $\theta(t) = \left(t^{2} + 2t + 1\right)$ rad, con $t$ en segundos, ¿cuáles son sus velocidad y aceleración angulares como función del tiempo?
+		
+	\end{enumerate}
+	
+	\vfill
+	\noindent
+	\begin{center}
+		\small\textit{*Ejercicios tomados y adaptados del taller de la profesora Edna Carolina Pinilla Beltrán.}
+	\end{center}
+	
+	\vspace{0.5cm}
+	{\color{UnalGreen}\hrule height 0.5pt}
+	\begin{center}
+		\small
+		\textit{Trabajo en grupos.}
+	\end{center}
+	
+\end{document}

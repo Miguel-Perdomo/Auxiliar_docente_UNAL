@@ -1,0 +1,120 @@
+\documentclass[11pt, letterpaper]{article}
+
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1.2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{babel}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+
+\pagestyle{empty}
+\flushbottom
+\setlength{\parindent}{0pt}
+
+% ----- PUNTAJE -----
+\newcommand{\pts}[1]{\hfill{\small\textcolor{UnalGreen}{\textbf{(#1)}}}}
+
+% ----- FIGURA DEL MONTAJE -----
+\newcommand{\montaje}{%
+	\begin{tikzpicture}[scale=0.8]
+		% piso
+		\draw[thick] (-0.2,0) -- (4.3,0);
+		% soporte
+		\draw[line width=1.6pt, gray!70] (1.7,0) -- (1.7,3.3);
+		\fill (1.7,3.3) circle (1.3pt);
+		% hilo y esfera elevada
+		\draw[thick] (1.7,3.3) -- (0.35,2.75);
+		\fill[gray!65] (0.35,2.75) circle (0.15);
+		% arco
+		\draw[dashed, gray!70!black] (0.35,2.75)
+		arc[start angle=202, end angle=270, radius=1.46];
+		% cuchilla (etiqueta a la derecha)
+		\draw[line width=1.6pt] (1.72,2.05) -- (2.02,2.05);
+		\node[right, font=\scriptsize] at (2.05,2.05) {cuchilla};
+		% esfera en el punto bajo
+		\fill[gray!65] (1.7,1.84) circle (0.15);
+		% trayectoria parabolica
+		\draw[dashed, thick, red!75!black, domain=1.7:3.5, samples=40]
+		plot (\x, {1.84 - 1.84*((\x-1.7)/1.8)^2});
+		% cota h
+		\draw[dotted, gray] (0.1,2.75) -- (0.35,2.75);
+		\draw[dotted, gray] (0.1,1.84) -- (1.56,1.84);
+		\draw[|-|] (0.28,1.84) -- (0.28,2.75) node[midway, left, font=\scriptsize] {$h$};
+		% cota H
+		\draw[|-|] (1.15,0) -- (1.15,1.84) node[midway, left, font=\scriptsize] {$H$};
+		% cota x
+		\draw[|-|] (1.7,-0.45) -- (3.5,-0.45) node[midway, below, font=\scriptsize] {$x$};
+	\end{tikzpicture}%
+}
+
+% ----- CONTENIDO DE UN QUIZ -----
+\newcommand{\quizcontent}{%
+	\begin{center}
+		{\large\bfseries\color{UnalGreen} Quiz 2 -- Práctica 2: Conservación de la Energía}\\[0.08cm]
+		{\footnotesize Laboratorio Mecánica y Ondas para Biociencias (1000023)
+			\quad$\cdot$\quad Semestre 2026-2}
+	\end{center}
+	
+	\vspace{0.12cm}
+	Nombre: \rule{9cm}{0.4pt} \hfill Grupo: \rule{1.5cm}{0.4pt}
+	
+	\vspace{0.22cm}
+	\begin{enumerate}[leftmargin=*, itemsep=5pt, topsep=2pt]
+		\item Escriba la expresión de la energía potencial gravitacional y la de
+		la energía cinética. ¿Cuándo se conserva la energía mecánica?
+		\pts{1.5 pts}
+		
+		\item
+		\begin{minipage}[t]{0.66\textwidth}
+			\vspace{0pt}
+			Una esfera se suelta desde el reposo y desciende una altura $h$ hasta
+			la cuchilla, donde el hilo se corta.
+			\begin{enumerate}[label=\alph*), itemsep=3pt, topsep=3pt]
+				\item Usando conservación de la energía, demuestre que llega a la
+				cuchilla con rapidez $v_0 = \sqrt{2gh}$.
+				\pts{1.5 pts}
+				\item ¿Esa rapidez depende de la masa de la esfera? Justifique.
+				\pts{1.0 pt}
+				\item El alcance cumple $x^2 = 4hH$. Si $h = 20$ cm y
+				$H = 45$ cm, calcule $x$.
+				\pts{1.0 pt}
+			\end{enumerate}
+		\end{minipage}%
+		\hfill
+		\begin{minipage}[t]{0.31\textwidth}
+			\vspace{0pt}
+			\centering\montaje
+		\end{minipage}
+	\end{enumerate}
+}
+
+% ----- LÍNEA DE CORTE -----
+\newcommand{\corte}{%
+	\makebox[\textwidth]{\color{gray}\dotfill\ \footnotesize corte\ \dotfill}%
+}
+
+\begin{document}
+	
+	\quizcontent
+	
+	\vfill
+	\corte
+	\vfill
+	
+	\quizcontent
+	
+	\vfill
+	\corte
+	\vfill
+	
+	\quizcontent
+	
+\end{document}

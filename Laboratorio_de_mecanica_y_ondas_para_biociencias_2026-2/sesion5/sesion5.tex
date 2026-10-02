@@ -1,0 +1,484 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+% 1. Definir el color ANTES de llamar al tema SimplePlus
+\usepackage{xcolor}
+\definecolor{nyugray}{RGB}{128,128,128}
+\usetheme{SimplePlus}
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{StripA}{RGB}{200,60,60}
+\definecolor{StripB}{RGB}{60,90,180}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{cancel}
+\usepackage{pgfplots}
+% NOTA: no se declara \pgfplotsset{compat=...} a propósito (ver convenciones del curso)
+\usetikzlibrary{positioning, arrows.meta, babel, calc}
+\usepackage[skip=5pt]{caption}
+\captionsetup{justification=justified, font=small}
+\usefonttheme{professionalfonts}
+
+\title{Laboratorio Mecánica y ondas para Biociencias}
+\subtitle{Sesión 5: Práctica 2 -- Conservación de la Energía}
+\titlegraphic{%
+	\vspace*{-0.3cm}%
+	\IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+		\includegraphics[width=2.2cm]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+	}{%
+		\IfFileExists{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+			\includegraphics[width=2.2cm]{universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+		}{}%
+	}%
+	\hspace{1.0cm}%
+	\IfFileExists{logoMIAI_white.png}{%
+		\includegraphics[width=4.0cm]{logoMIAI_white.png}%
+	}{%
+		\IfFileExists{imagenes/logoMIAI_white.png}{%
+			\includegraphics[width=4.0cm]{imagenes/logoMIAI_white.png}%
+		}{}%
+	}%
+}
+\author{Miguel Andrés Perdomo Gutiérrez}
+\institute{%
+	Auxiliar Docente | M.Sc. en Ciencias -- Física\\
+	Universidad Nacional de Colombia -- Sede Bogotá
+}
+\date{29 de septiembre de 2026}
+
+\begin{document}
+	
+	% ============================================================
+	% SLIDE 1: PORTADA
+	% ============================================================
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 2: AGENDA
+	% ============================================================
+	\begin{frame}{Agenda de la Sesión}
+		\centering
+		\begin{tikzpicture}[
+			box/.style={rectangle, rounded corners, draw=UnalGreen, thick, fill=UnalGreen!10,
+				minimum width=2.3cm, minimum height=1.7cm, align=center, font=\scriptsize},
+			arr/.style={-{Latex[length=2mm]}, thick, UnalGreen}
+			]
+			\node[box] (b1) {Quiz 2\\\textbf{15 min}};
+			\node[box, right=0.35cm of b1] (b2) {Solución\\del quiz\\\textbf{10 min}};
+			\node[box, right=0.35cm of b2] (b3) {Introducción\\a la práctica\\\textbf{15 min}};
+			\node[box, right=0.35cm of b3] (b4) {Montaje y\\toma de datos\\\textbf{60 min}};
+			\node[box, right=0.35cm of b4] (b5) {Cierre\\y dudas\\\textbf{20 min}};
+			\draw[arr] (b1) -- (b2);
+			\draw[arr] (b2) -- (b3);
+			\draw[arr] (b3) -- (b4);
+			\draw[arr] (b4) -- (b5);
+		\end{tikzpicture}
+		
+		\vspace{0.5cm}
+		\begin{itemize}
+			\item Duración total: \textbf{2 horas} (Martes 11:00--13:00, Laboratorio 104, Ed.\ 404).
+			\item Entregable: \textbf{Bitácora 2} (grupal, en PDF por Classroom).
+		\end{itemize}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 3: SEPARADOR -- SOLUCIÓN DEL QUIZ
+	% ============================================================
+	\begin{frame}
+		\begin{center}
+			\vspace{1cm}
+			{\Huge\bfseries\color{UnalGreen} Solución del Quiz 2}
+			
+			\vspace{0.5cm}
+			\large Conservación de la energía
+		\end{center}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 4: PREGUNTA 1
+	% ============================================================
+	\begin{frame}{Pregunta 1: energía potencial y cinética}
+		\begin{columns}[T]
+			\begin{column}{0.48\textwidth}
+				\begin{block}{Energía potencial gravitacional}
+					\centering
+					\Large $U = m\,g\,h$
+				\end{block}
+				\vspace{0.3cm}
+				\begin{block}{Energía cinética}
+					\centering
+					\Large $K = \tfrac{1}{2}\,m\,v^{2}$
+				\end{block}
+			\end{column}
+			\begin{column}{0.48\textwidth}
+				\small
+				\textbf{¿Cuándo se conserva la energía mecánica?}
+				
+				\vspace{0.2cm}
+				\begin{exampleblock}{}
+					Cuando \textbf{no actúan fuerzas disipativas}: sin fricción, sin
+					resistencia del aire, sin choques inelásticos.
+				\end{exampleblock}
+				
+				\vspace{0.3cm}
+				En ese caso, toda la energía que pierde un cuerpo en forma de $U$ la
+				gana en forma de $K$, y viceversa.
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 5: PREGUNTA 2a
+	% ============================================================
+	\begin{frame}{Pregunta 2a: rapidez en la cuchilla}
+		\small
+		La esfera parte del reposo y desciende una altura $h$ hasta la cuchilla.
+		No hay fricción apreciable en el hilo, así que la energía se conserva:
+		
+		\vspace{0.3cm}
+		\textbf{Energía en el punto de partida} (reposo, $v=0$):
+		\[
+		E_i = U = m\,g\,h
+		\]
+		
+		\textbf{Energía justo antes de la cuchilla} (ya bajó toda la altura $h$):
+		\[
+		E_f = K = \tfrac{1}{2}\,m\,v_0^{2}
+		\]
+		
+		\textbf{Igualando} ($E_i = E_f$):
+		\[
+		m\,g\,h = \tfrac{1}{2}\,m\,v_0^{2}
+		\]
+		
+		\vspace{0.2cm}
+		\begin{exampleblock}{}
+			\centering
+			\Large $v_0 = \sqrt{2\,g\,h}$
+		\end{exampleblock}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 6: PREGUNTA 2b
+	% ============================================================
+	\begin{frame}{Pregunta 2b: ¿depende de la masa?}
+		\begin{columns}[T]
+			\begin{column}{0.55\textwidth}
+				\small
+				En la ecuación de conservación, la masa aparece en \textbf{ambos
+					lados}:
+				\[
+				\cancel{m}\,g\,h = \tfrac{1}{2}\,\cancel{m}\,v_0^{2}
+				\]
+				
+				\vspace{0.2cm}
+				Se cancela, y por eso $v_0 = \sqrt{2gh}$ no contiene $m$.
+				
+				\begin{exampleblock}{Respuesta}
+					\centering
+					\textbf{No.} Una esfera pesada y una liviana, soltadas desde la
+					misma altura $h$, llegan con la \textbf{misma} rapidez.
+				\end{exampleblock}
+			\end{column}
+			\begin{column}{0.4\textwidth}
+				\small
+				\textcolor{UnalGreen}{\textbf{Es el mismo resultado}} que en caída
+				libre: todos los cuerpos caen igual, sin importar su masa.
+				
+				\vspace{0.3cm}
+				Por eso, en el experimento, \textbf{no es necesario controlar la
+					masa} de la esfera con cuidado.
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 7: PREGUNTA 2c
+	% ============================================================
+	\begin{frame}{Pregunta 2c: cálculo numérico}
+		\small
+		\textbf{Dato:} $x^{2} = 4\,h\,H$, \quad con $h = 20$ cm y $H = 45$ cm.
+		
+		\vspace{0.4cm}
+		\textbf{Paso 1.} Sustituimos:
+		\[
+		x^{2} = 4 \times 20 \times 45
+		\]
+		
+		\textbf{Paso 2.} Multiplicamos:
+		\[
+		x^{2} = 3600 \ \text{cm}^2
+		\]
+		
+		\textbf{Paso 3.} Sacamos raíz cuadrada:
+		\[
+		x = \sqrt{3600}
+		\]
+		
+		\vspace{0.2cm}
+		\begin{exampleblock}{}
+			\centering
+			\Large $x = 60$ cm
+		\end{exampleblock}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 8: SEPARADOR -- LA PRÁCTICA
+	% ============================================================
+	\begin{frame}
+		\begin{center}
+			\vspace{1cm}
+			{\Huge\bfseries\color{UnalGreen} Práctica 2}
+			
+			\vspace{0.5cm}
+			\large De energía potencial a energía cinética
+		\end{center}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 9: EL MONTAJE
+	% ============================================================
+	\begin{frame}{El montaje}
+		\begin{center}
+			\begin{tikzpicture}[scale=1.05, every node/.style={font=\small}]
+				% piso
+				\draw[very thick] (0.6,0) -- (9.6,0);
+				\draw[gray!60] (0.6,-0.18) -- (9.6,-0.18);
+				
+				% soporte y pivote
+				\draw[line width=2.5pt, gray!65] (4,0) -- (4,5.2);
+				\fill (4,5.2) circle (1.6pt);
+				\node[right] at (4.1,5.2) {soporte};
+				
+				% hilo y esfera elevada
+				\draw[thick] (4,5.2) -- (2.2,3.95);
+				\shade[ball color=gray!60] (2.2,3.95) circle (0.17);
+				\node[left] at (2.0,4.15) {esfera};
+				
+				% arco de la trayectoria circular
+				\draw[dashed, thick, gray!70!black] (2.2,3.95)
+				arc[start angle=214, end angle=270, radius=2.2];
+				
+				% cuchilla
+				\draw[line width=1.8pt] (3.62,3.05) -- (3.98,3.05);
+				\node[right, font=\scriptsize] at (4.05,3.15) {cuchilla};
+				
+				% esfera en el punto mas bajo y v0
+				\shade[ball color=gray!60] (4,2.75) circle (0.17);
+				\draw[-{Latex[length=2.2mm]}, very thick, red!75!black] (4.22,2.75) -- (5.2,2.75)
+				node[above] {$\vec{v}_0$};
+				
+				% trayectoria parabolica
+				\draw[dashed, thick, red!75!black, domain=4:7.4, samples=60]
+				plot (\x, {2.75 - 2.75*((\x-4)/3.4)^2});
+				
+				% papel carbon
+				\fill[gray!55] (6.8,0) rectangle (8.1,0.08);
+				\node[right, font=\scriptsize] at (8.1,0.22) {papel carbón};
+				
+				% linea de referencia a la altura H
+				\draw[dotted, thick, gray] (1.3,2.75) -- (3.83,2.75);
+				\draw[dotted, thick, gray] (1.3,3.95) -- (2.05,3.95);
+				
+				% cota h
+				\draw[|-|, thick] (1.5,2.75) -- (1.5,3.95) node[midway, left] {$h$};
+				
+				% cota H
+				\draw[|-|, thick] (2.9,0) -- (2.9,2.75) node[midway, left] {$H$};
+				
+				% cota x
+				\draw[|-|, thick] (4,-0.55) -- (7.4,-0.55) node[midway, below] {$x$};
+			\end{tikzpicture}
+		\end{center}
+		
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 10: CÓMO MEDIR x CORRECTAMENTE
+	% ============================================================
+	\begin{frame}{Un detalle importante: ¿dónde se mide $x$?}
+		\begin{columns}[T]
+			\begin{column}{0.48\textwidth}
+				\small
+				El papel carbón deja una \textbf{mancha}, no un punto. La esfera
+				toca, rueda un poco y se detiene.
+				
+				\vspace{0.3cm}
+				\begin{alertblock}{Regla}
+					\centering
+					Midan al \textbf{centro} de la mancha, no a un borde.
+				\end{alertblock}
+				
+				\vspace{0.3cm}
+				La ecuación $x^2=4hH$ describe la trayectoria del \textbf{centro}
+				de la esfera, así que hay que estimar dónde cayó ese centro.
+			\end{column}
+			\begin{column}{0.48\textwidth}
+				\small
+				\textbf{La incertidumbre de $x$} no es solo la resolución de la
+				regla: es también el \textbf{ancho de la mancha}.
+				
+				\vspace{0.2cm}
+				\[
+				\Delta x \approx \tfrac{1}{2}\,(\text{ancho de la mancha})
+				\]
+				
+				\vspace{0.3cm}
+				\textbf{El otro extremo:} $x$ se mide desde el punto del piso
+				justo debajo del \textbf{centro} de la esfera en el momento del
+				corte.
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 11: LA LINEALIZACIÓN
+	% ============================================================
+	\begin{frame}{Por qué graficamos $X$ y $Y$, y no $h$ y $x$}
+		\begin{columns}[T]
+			\begin{column}{0.46\textwidth}
+				\small
+				Combinando $v_0=\sqrt{2gh}$ con la caída de la esfera desde $H$
+				se llega a
+				\[
+				x^{2} = 4\,h\,H
+				\]
+				
+				\vspace{0.2cm}
+				Definiendo
+				\[
+				X = \frac{h}{H}
+				\qquad
+				Y = \left(\frac{\bar{x}}{H}\right)^{2}
+				\]
+				
+				\vspace{0.1cm}
+				se obtiene una \textbf{recta por el origen}:
+				\[
+				Y = 4\,X
+				\]
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\begin{center}
+					\begin{tikzpicture}
+						\begin{axis}[width=6.2cm, height=4.8cm,
+							xlabel={$X = h/H$}, ylabel={$Y = (\bar{x}/H)^2$},
+							xmin=0, xmax=0.55, ymin=0, ymax=2.2,
+							xtick={0,0.1,...,0.5}, ytick={0,0.5,1,1.5,2},
+							grid=both, grid style={gray!30, thin},
+							legend style={font=\tiny, at={(0.03,0.97)}, anchor=north west,
+								draw=none, fill=white, fill opacity=0.8, text opacity=1}]
+							\addplot[domain=0:0.55, samples=2, thick, dashed, nyugray] {4*x};
+							\addlegendentry{teórica ($p=4$)}
+							\addplot[only marks, mark=*, mark size=1.8pt, red!75!black,
+							error bars/.cd, y dir=both, y explicit]
+							coordinates {
+								(0.10,0.38) +- (0,0.06)
+								(0.20,0.74) +- (0,0.06)
+								(0.30,1.12) +- (0,0.07)
+								(0.40,1.49) +- (0,0.08)
+								(0.50,1.86) +- (0,0.09)
+							};
+							\addlegendentry{datos}
+						\end{axis}
+					\end{tikzpicture}
+				\end{center}
+				\vspace{-0.2cm}
+				\begin{center}\scriptsize (datos ilustrativos)\end{center}
+			\end{column}
+		\end{columns}
+		
+		\vspace{0.1cm}
+		\begin{center}
+			\small \textcolor{UnalGreen}{\textbf{Ventaja:}} de una recta se lee
+			la pendiente; de una curva, no.
+		\end{center}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 12: PROCEDIMIENTO
+	% ============================================================
+	\begin{frame}{Procedimiento}
+		\begin{enumerate}
+			\setlength{\itemsep}{6pt}
+			\small
+			\item Ubiquen la cuchilla horizontal, justo arriba de la esfera en el
+			punto más bajo.
+			\item Midan $H$ y \textbf{manténganla constante} todo el experimento.
+			\item Marquen en el piso el punto justo debajo de la cuchilla (con
+			plomada): desde ahí se mide $x$.
+			\item Hagan un lanzamiento de prueba y coloquen ahí el papel carbón.
+			\item Suelten la esfera \textbf{desde el reposo}, sin empujarla, desde
+			una altura $h_1$.
+			\item Midan $h = h_1 - h_2$ y la distancia $x$ (al centro de la
+			mancha).
+			\item Repitan \textbf{3 veces} para la misma altura.
+			\item Repitan todo para \textbf{6 alturas} diferentes.
+		\end{enumerate}
+		
+		\vspace{0.2cm}
+		\begin{alertblock}{}
+			\centering
+			Un impulso al soltar la esfera agrega energía cinética que la
+			fórmula no contempla: \textbf{suéltenla, no la empujen}.
+		\end{alertblock}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 13: QUÉ VA EN LA BITÁCORA
+	% ============================================================
+	\begin{frame}{Entregable: Bitácora 2}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\textbf{Debe incluir:}
+				\begin{itemize}
+					\small
+					\item Esquema del montaje, rotulado.
+					\item Tabla de $h$, $x_1,x_2,x_3$, $\bar{x}$ y $\Delta\bar{x}$
+					para las 4 alturas.
+					\item Tabla de $X$, $\Delta X$, $Y$, $\Delta Y$.
+					\item Gráfica $Y$ vs.\ $X$ con barras de error y la recta
+					ajustada.
+					\item Pendiente $m$ y discrepancia respecto a $m_{\text{teo}}=4$.
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.46\textwidth}
+				\begin{block}{Entrega}
+					\small
+					\begin{itemize}
+						\item Un solo \textbf{PDF} por grupo.
+						\item Por Google Classroom.
+						\item Nombre: \texttt{Bitacora2\_GrupoN.pdf}
+					\end{itemize}
+				\end{block}
+				
+				\vspace{0.3cm}
+				\small
+				Revisen \emph{La Bitácora de Laboratorio} en Classroom antes de
+				escribirla.
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% SLIDE 14: CIERRE
+	% ============================================================
+	\begin{frame}{¿Preguntas o Comentarios?}
+		\begin{center}
+			\vspace{0.5cm}
+			\Large Manos a la obra.
+			
+			\vspace{0.8cm}
+			\normalsize
+			mperdomog@unal.edu.co
+			
+			\vspace{0.2cm}
+			Laboratorio 104 -- Edificio 404
+		\end{center}
+	\end{frame}
+	
+\end{document}
