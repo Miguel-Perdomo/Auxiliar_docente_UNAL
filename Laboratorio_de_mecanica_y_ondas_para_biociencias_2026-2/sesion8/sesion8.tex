@@ -1,0 +1,870 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+% 1. Definir el color ANTES de llamar al tema SimplePlus
+\usepackage{xcolor}
+\definecolor{nyugray}{RGB}{128,128,128}
+\usetheme{SimplePlus}
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+\definecolor{StripA}{RGB}{200,60,60}
+\definecolor{StripB}{RGB}{60,90,180}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, babel, calc, angles}
+\usepackage[skip=5pt]{caption}
+\captionsetup{justification=justified, font=small}
+\usefonttheme{professionalfonts}
+
+% ============================================================
+% CONTADOR DE DIAPOSITIVAS (arreglo del bug)
+% SimplePlus define su propio footline; lo sobrescribimos para
+% garantizar frame/total correcto. Requiere compilar 2 veces.
+% ============================================================
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+	\leavevmode%
+	\hbox{%
+		\begin{beamercolorbox}[wd=.34\paperwidth,ht=2.4ex,dp=1.1ex,center]{author in head/foot}%
+			\usebeamerfont{author in head/foot}\insertshortauthor
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.4ex,dp=1.1ex,center]{title in head/foot}%
+			\usebeamerfont{title in head/foot}\insertshorttitle
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.4ex,dp=1.1ex,right]{date in head/foot}%
+			\usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{1.4em}%
+			\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}%
+	\end{beamercolorbox}}%
+	\vskip0pt%
+}
+
+% ----- ESPACIO PARA IMAGENES EXTERNAS -----
+\newcommand{\imgslot}[3][5.5cm]{%
+	\IfFileExists{imagenes/#2}{%
+		\includegraphics[width=#1,height=4.2cm,keepaspectratio]{imagenes/#2}%
+	}{%
+		\fcolorbox{nyugray}{gray!8}{%
+			\parbox[c][3.4cm][c]{#1}{\centering\scriptsize\textcolor{nyugray}{%
+					[\,Insertar imagen:\\ #3\\ \texttt{\detokenize{imagenes/#2}}\,]}}%
+		}%
+	}%
+}
+
+% ----- ESTILOS Y MACROS TikZ -----
+\tikzset{
+	fuerza/.style={-{Latex[length=3mm]}, very thick, UnalGreen!70!black},
+	peso/.style={-{Latex[length=3mm]}, very thick, StripA},
+	reac/.style={-{Latex[length=3mm]}, very thick, StripB},
+	dim/.style={{Latex[length=2mm]}-{Latex[length=2mm]}, thin, DarkGray},
+}
+
+% Barra dentada: 11 orificios (0.5 ... 10.5), longitud 11.
+% #1 = x del extremo izquierdo, #2 = y del eje de la barra.
+\newcommand{\barra}[2]{%
+	\draw[thick, fill=orange!20] (#1,#2-0.25) rectangle (#1+11,#2+0.25);
+	\foreach \hi in {0,...,10}{%
+		\draw[thin, fill=white] (#1+0.5+\hi,#2) circle (0.09);}%
+}
+% Masa colgada: #1 = x, #2 = y de la cara inferior de la barra, #3 = etiqueta
+\newcommand{\pesa}[3]{%
+	\draw[thick] (#1,#2) -- (#1,#2-0.4);
+	\draw[thick, fill=StripA!25] (#1-0.4,#2-1.1) rectangle (#1+0.4,#2-0.4);
+	\node[font=\scriptsize] at (#1,#2-0.75) {#3};
+}
+% Apoyo en el orificio de coordenada x = #1 (el orificio queda en y=0)
+\newcommand{\fulcro}[1]{%
+	\fill[gray!55] (#1,-0.25) -- (#1-0.5,-1.0) -- (#1+0.5,-1.0) -- cycle;
+	\draw[thick] (#1-0.8,-1.0) -- (#1+0.8,-1.0);
+	\draw[thick, fill=white] (#1,0) circle (0.11);
+}
+% Dinamometro colgado de un soporte superior (y = #2) que sujeta la barra en x = #1
+\newcommand{\dinaarriba}[2]{%
+	\draw[line width=2pt, gray!70] (#1-0.7,#2) -- (#1+0.7,#2);
+	\draw[thick] (#1,#2) -- (#1,#2-0.2);
+	\draw[thick, fill=white] (#1-0.22,#2-1.2) rectangle (#1+0.22,#2-0.2);
+	\foreach \dy in {0.4,0.6,0.8,1.0}{\draw[thin] (#1-0.22,#2-\dy) -- (#1-0.08,#2-\dy);}
+	\draw[thick] (#1,#2-1.2) -- (#1,0.25);
+	\fill (#1,0) circle (0.05);
+}
+% Dinamometro que tira hacia abajo, anclado en y = #2 (negativo)
+\newcommand{\dinaabajo}[2]{%
+	\draw[line width=2pt, gray!70] (#1-0.7,#2) -- (#1+0.7,#2);
+	\draw[thick] (#1,-0.25) -- (#1,-0.8);
+	\draw[thick, fill=white] (#1-0.22,-1.9) rectangle (#1+0.22,-0.8);
+	\foreach \dy in {1.1,1.3,1.5,1.7}{\draw[thin] (#1-0.22,-\dy) -- (#1-0.08,-\dy);}
+	\draw[thick] (#1,-1.9) -- (#1,#2);
+	\fill (#1,0) circle (0.05);
+}
+
+% Barra vertical colgada de un perno: #1 = x del panel, #2 = coord. del apoyo
+\newcommand{\reglav}[3]{%
+	\draw[line width=3pt, gray!60] (#1-1.0,0) -- (#1,0);
+	\begin{scope}[shift={(#1,{-0.42*#2})}, rotate=90, scale=0.42]
+		\barra{0}{0}
+	\end{scope}
+	\draw[thick, fill=white] (#1,0) circle (0.09);
+	\fill[StripA] (#1,{0.42*(5.5-#2)}) circle (0.07);
+	\draw[peso] (#1+0.3,{0.42*(5.5-#2)}) -- (#1+0.3,{0.42*(5.5-#2)-0.9}) node[right] {$P_b$};
+	\draw[->, thick, StripB] (#1-1.0,{-0.42*#2+0.15}) -- (#1-0.35,{-0.42*#2+0.15});
+	\node[align=center] at (#1,-4.35) {#3};
+}
+
+\title[Lab. Mecánica y Ondas]{Laboratorio Mecánica y ondas para Biociencias}
+\subtitle{Práctica 5: Equilibrio y Momentos}
+\titlegraphic{%
+	\vspace*{-0.3cm}%
+	\IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+		\includegraphics[width=2.2cm]{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}%
+	}{}%
+	\hspace{1.0cm}%
+	\IfFileExists{logoMIAI_white.png}{%
+		\includegraphics[width=4.0cm]{logoMIAI_white.png}%
+	}{%
+		\IfFileExists{imagenes/logoMIAI_white.png}{%
+			\includegraphics[width=4.0cm]{imagenes/logoMIAI_white.png}%
+		}{}%
+	}%
+}
+\author[M. Perdomo]{Miguel Andrés Perdomo Gutiérrez}
+\institute{%
+	Auxiliar Docente | M.Sc. en Ciencias -- Física\\
+	Universidad Nacional de Colombia -- Sede Bogotá
+}
+\date[20/10/2026]{20 de octubre de 2026}
+
+\begin{document}
+	
+	% ============================================================
+	% 1. PORTADA
+	% ============================================================
+	\begin{frame}[plain]
+		\titlepage
+	\end{frame}
+	
+	% ============================================================
+	% 2. AGENDA
+	% ============================================================
+	\begin{frame}{Agenda de la sesión}
+		\centering
+		\begin{tikzpicture}[
+			box/.style={rectangle, rounded corners, draw=UnalGreen, thick, fill=UnalGreen!10,
+				minimum width=2.45cm, minimum height=1.9cm, align=center, font=\small},
+			arr/.style={-{Latex[length=2mm]}, thick, UnalGreen}
+			]
+			\node[box] (b1) {Teoría:\\torque y palancas\\\textbf{20 min}};
+			\node[box, right=0.3cm of b1] (b2) {Parte A:\\barra sola\\\textbf{10 min}};
+			\node[box, right=0.3cm of b2] (b3) {Parte B:\\3 palancas\\\textbf{55 min}};
+			\node[box, right=0.3cm of b3] (b4) {Parte C:\\equilibrios\\\textbf{10 min}};
+			\node[box, right=0.3cm of b4] (b5) {Datos y cierre\\\textbf{15 min}};
+			\draw[arr] (b1) -- (b2);
+			\draw[arr] (b2) -- (b3);
+			\draw[arr] (b3) -- (b4);
+			\draw[arr] (b4) -- (b5);
+		\end{tikzpicture}
+		
+		\vspace{0.4cm}
+		\begin{itemize}
+			\item Martes 11:10--13:00, Edificio 404, Laboratorio 104.
+			\item \textbf{Hoy solo se toman datos.} El análisis va en el \textbf{Informe 1}.
+		\end{itemize}
+	\end{frame}
+	
+	% ============================================================
+	% 3. MOTIVACION: LA PUERTA
+	% ============================================================
+	\begin{frame}{Una puerta, la misma fuerza, dos resultados}
+		\centering
+		\begin{tikzpicture}[scale=1.0, every node/.style={font=\normalsize}]
+			\begin{scope}
+				\draw[line width=4pt, gray!60] (0,-0.9) -- (0,0.9);
+				\draw[line width=5pt, brown!60!black, line cap=round] (0,0) -- (5,0);
+				\draw[thick, fill=white] (0,0) circle (0.14);
+				\node[left] at (-0.1,0.45) {bisagra};
+				\draw[fuerza] (1,0) -- (1,1.7) node[above] {$F$};
+				\draw[dim] (0,-0.5) -- (1,-0.5) node[midway, below] {$d$ corto};
+				\node[align=center, StripA] at (2.5,-1.9) {\textbf{(a)} cerca:\\ cuesta mucho};
+			\end{scope}
+			\begin{scope}[xshift=7.4cm]
+				\draw[line width=4pt, gray!60] (0,-0.9) -- (0,0.9);
+				\draw[line width=5pt, brown!60!black, line cap=round] (0,0) -- (5,0);
+				\draw[thick, fill=white] (0,0) circle (0.14);
+				\node[left] at (-0.1,0.45) {bisagra};
+				\draw[fuerza] (4.6,0) -- (4.6,1.7) node[above] {$F$};
+				\draw[dim] (0,-0.5) -- (4.6,-0.5) node[midway, below] {$d$ largo};
+				\node[align=center, UnalGreen!70!black] at (2.5,-1.9) {\textbf{(b)} lejos:\\ cuesta poco};
+			\end{scope}
+		\end{tikzpicture}
+		
+		\vspace{0.2cm}
+		\textcolor{UnalGreen}{\textbf{Vista desde arriba. La fuerza es la misma.}}\\[2pt]
+		Lo que cambia es la \textbf{distancia} al punto de giro.
+	\end{frame}
+	
+	% ============================================================
+	% 4. TORQUE
+	% ============================================================
+	\begin{frame}{El torque: lo que hace girar}
+		\begin{columns}[T]
+			\begin{column}{0.46\textwidth}
+				\vspace{0.3cm}
+				Girar depende de \textbf{fuerza por distancia} al punto de giro:
+				\[
+				\boxed{\;\tau = F\times d\;}
+				\]
+				\begin{itemize}
+					\item $F$: fuerza (N).
+					\item $d$: \textbf{brazo}, perpendicular a la línea de la fuerza (m).
+					\item $\tau$: torque (N$\cdot$m).
+				\end{itemize}
+				\vspace{0.1cm}
+				Sentido \textbf{horario} o \textbf{antihorario}.
+			\end{column}
+			\begin{column}{0.54\textwidth}
+				\centering
+				\begin{tikzpicture}[scale=1.1, every node/.style={font=\normalsize}]
+					\draw[line width=5pt, gray!60, line cap=round] (0,0) -- (4.2,0);
+					\draw[thick, fill=white] (0,0) circle (0.15);
+					\node[below left] at (0,-0.1) {punto de giro};
+					\draw[fuerza] (4.2,0) -- (4.2,-1.5) node[right] {$F$};
+					\draw[dim] (0,0.6) -- (4.2,0.6) node[midway, above] {$d$};
+					\draw[->, thick, StripB] (215:0.8) arc (215:145:0.8);
+				\end{tikzpicture}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% 5. EL BRAZO d
+	% ============================================================
+	\begin{frame}{El brazo $d$ se mide en perpendicular}
+		\centering
+		\begin{tikzpicture}[scale=0.85, every node/.style={font=\normalsize}]
+			\begin{scope}
+				\draw[line width=5pt, gray!60, line cap=round] (0,0) -- (3.4,0);
+				\draw[thick, fill=white] (0,0) circle (0.14);
+				\draw[fuerza] (3.4,0) -- (3.4,-1.4) node[right] {$F$};
+				\draw[dim] (0,0.5) -- (3.4,0.5) node[midway, above] {$d$ (máximo)};
+				\node[align=center] at (1.7,-2.2) {(a) perpendicular};
+			\end{scope}
+			\begin{scope}[xshift=4.9cm]
+				\coordinate (O) at (0,0);
+				\coordinate (P) at (3.4,0);
+				\coordinate (Q) at ($(P)+(1.0,1.3)$);
+				\coordinate (H) at ($(P)!(O)!(Q)$);
+				\draw[line width=5pt, gray!60, line cap=round] (O) -- (P);
+				\draw[thick, fill=white] (O) circle (0.14);
+				\draw[dashed, gray] ($(P)!-1.5!(Q)$) -- ($(P)!1.2!(Q)$);
+				\draw[fuerza] (P) -- (Q) node[above right] {$F$};
+				\draw[very thick, StripA] (O) -- (H);
+				\draw pic[draw, angle radius=2.2mm] {right angle=O--H--P};
+				\node[StripA, below left] at ($(O)!0.5!(H)$) {$d$};
+				\node[align=center] at (2.0,-2.6) {(b) en diagonal};
+			\end{scope}
+			\begin{scope}[xshift=10.0cm]
+				\draw[line width=5pt, gray!60, line cap=round] (0,0) -- (3.4,0);
+				\draw[thick, fill=white] (0,0) circle (0.14);
+				\draw[fuerza] (3.4,0) -- (4.9,0) node[above] {$F$};
+				\node[StripA, above] at (1.7,0.15) {$d = 0$};
+				\node[align=center] at (2.2,-2.2) {(c) a lo largo\\ de la barra};
+			\end{scope}
+		\end{tikzpicture}
+		
+		\vspace{0.3cm}
+		\textcolor{UnalGreen}{\textbf{Más perpendicular $=$ más giro.}}\quad
+		En (c) la línea de fuerza pasa por el giro: $\tau=0$.
+	\end{frame}
+	
+	% ============================================================
+	% 7. EQUILIBRIO: DOS CONDICIONES
+	% ============================================================
+	\begin{frame}{Equilibrio: ni se desplaza ni gira}
+		\begin{columns}[T]
+			\begin{column}{0.44\textwidth}
+				\vspace{0.2cm}
+				Se cumplen \textbf{las dos}:
+				\vspace{0.2cm}
+				\begin{enumerate}
+					\item \textbf{No se desplaza:} $\sum F_{\uparrow}=\sum F_{\downarrow}$.
+					\vspace{0.2cm}
+					\item \textbf{No gira:} $\tau_{\text{horario}}=\tau_{\text{antihorario}}$.
+				\end{enumerate}
+			\end{column}
+			\begin{column}{0.56\textwidth}
+				\centering
+				\begin{tikzpicture}[scale=0.95, every node/.style={font=\normalsize}]
+					\draw[line width=5pt, orange!60!black, line cap=round] (-3.6,0) -- (3.6,0);
+					\fill[gray!55] (0,-0.1) -- (-0.55,-1.0) -- (0.55,-1.0) -- cycle;
+					\draw[thick] (-0.9,-1.0) -- (0.9,-1.0);
+					\draw[thick] (-1.4,0) -- (-1.4,-0.5);
+					\draw[thick, fill=StripA!30] (-1.9,-1.5) rectangle (-0.9,-0.5);
+					\node at (-1.4,-1.0) {$2m$};
+					\draw[thick] (2.8,0) -- (2.8,-0.5);
+					\draw[thick, fill=StripA!30] (2.4,-1.5) rectangle (3.2,-0.5);
+					\node at (2.8,-1.0) {$m$};
+					\draw[dim] (-1.4,0.7) -- (0,0.7) node[midway, above] {$d$};
+					\draw[dim] (0,0.7) -- (2.8,0.7) node[midway, above] {$2d$};
+					\draw[dashed, gray] (-1.4,0.05) -- (-1.4,0.7);
+					\draw[dashed, gray] (2.8,0.05) -- (2.8,0.7);
+				\end{tikzpicture}
+				
+				\vspace{0.2cm}
+				$P_{2m}\times d \;=\; P_m\times 2d$
+				
+				{\small El doble de peso, a la mitad de distancia.}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% 8. TRUCO: ELEGIR EL APOYO
+	% ============================================================
+	\begin{frame}{Truco: tomar torque respecto al apoyo}
+		\begin{columns}[T]
+			\begin{column}{0.46\textwidth}
+				\vspace{0.2cm}
+				La condición de giro vale en \textbf{cualquier} punto. Conviene el \textbf{apoyo}:
+				\begin{itemize}
+					\item $N$ pasa por el punto de giro.
+					\item Su brazo es $d=0$.
+					\item Su torque es \textbf{cero} y desaparece.
+				\end{itemize}
+				\vspace{0.2cm}
+				Así se halla la fuerza del dinamómetro sin conocer $N$.
+			\end{column}
+			\begin{column}{0.54\textwidth}
+				\centering
+				\begin{tikzpicture}[scale=0.62, every node/.style={font=\normalsize}]
+					\draw[line width=5pt, orange!60!black, line cap=round] (0,0) -- (8,0);
+					\fill[gray!55] (0,-0.1) -- (-0.55,-0.9) -- (0.55,-0.9) -- cycle;
+					\draw[thick, fill=white] (0,0) circle (0.14);
+					\draw[reac] (0,-0.9) -- (0,1.7) node[above] {$N$};
+					\draw[peso] (3,0) -- (3,-1.7) node[below] {$P$};
+					\draw[fuerza] (7.2,0) -- (7.2,1.7) node[above] {$F$};
+					\node[StripB, align=center] at (0,-1.9) {$d=0$\\ sin torque};
+				\end{tikzpicture}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% P. PALANCAS
+	% ============================================================
+	\begin{frame}{Palancas: los tres géneros}
+		\centering
+		\begin{tikzpicture}[scale=0.52, every node/.style={font=\normalsize}]
+			\tikzset{barrita/.style={line width=4pt, orange!60!black, line cap=round}}
+			\tikzset{apoyo/.style={fill=gray!55, draw=black, thick}}
+			% ---------- 1er genero ----------
+			\begin{scope}
+				\draw[barrita] (0,0) -- (8,0);
+				\draw[apoyo] (4,0) -- (3.5,-0.8) -- (4.5,-0.8) -- cycle;
+				\draw[peso] (0.8,0) -- (0.8,-1.6) node[below] {$P$};
+				\draw[fuerza] (7.2,0) -- (7.2,-1.6) node[below] {$F$};
+				\draw[reac] (4,-0.8) -- (4,1.4) node[above] {$N$};
+				\node[align=center, text width=4.6cm] at (4,-4.4)
+				{\textbf{1.er género}: apoyo en medio\\[1pt]
+					{\footnotesize balancín, tijeras}};
+			\end{scope}
+			% ---------- 2do genero ----------
+			\begin{scope}[xshift=9.8cm]
+				\draw[barrita] (0,0) -- (8,0);
+				\draw[apoyo] (0,0) -- (-0.5,-0.8) -- (0.5,-0.8) -- cycle;
+				\draw[peso] (3,0) -- (3,-1.6) node[below] {$P$};
+				\draw[fuerza] (7.2,0) -- (7.2,1.6) node[above] {$F$};
+				\draw[reac] (0,-0.8) -- (0,1.4) node[above] {$N$};
+				\node[align=center, text width=4.6cm] at (4,-4.4)
+				{\textbf{2.º género}: carga en medio\\[1pt]
+					{\footnotesize carretilla, destapador}};
+			\end{scope}
+			% ---------- 3er genero ----------
+			\begin{scope}[xshift=19.6cm]
+				\draw[barrita] (0,0) -- (8,0);
+				\draw[apoyo] (0,0) -- (-0.5,-0.8) -- (0.5,-0.8) -- cycle;
+				\draw[peso] (7.2,0) -- (7.2,-1.6) node[below] {$P$};
+				\draw[fuerza] (3,0) -- (3,1.6) node[above] {$F$};
+				\draw[reac] (0,-0.8) -- (0,1.4) node[above] {$N$};
+				\node[align=center, text width=4.6cm] at (4,-4.4)
+				{\textbf{3.er género}: esfuerzo en medio\\[1pt]
+					{\footnotesize pinzas; antebrazo, mandíbula}};
+			\end{scope}
+		\end{tikzpicture}
+		
+		\vspace{0.2cm}
+		\small
+		\textcolor{StripA}{\textbf{$P$: carga}}\quad
+		\textcolor{UnalGreen!70!black}{\textbf{$F$: esfuerzo}}\quad
+		\textcolor{StripB}{\textbf{$N$: apoyo}}\\[3pt]
+		Sin peso de la barra: $F\,d_F = P\,d_P \;\Rightarrow\; F = P\,\frac{d_P}{d_F}$
+	\end{frame}
+	
+	% ============================================================
+	% 14. EL ANTEBRAZO
+	% ============================================================
+	\begin{frame}{En el cuerpo: el antebrazo}
+		\begin{columns}[T]
+			\begin{column}{0.58\textwidth}
+				\centering
+				\begin{tikzpicture}[scale=0.72, every node/.style={font=\small}]
+					\draw[line width=12pt, orange!35, line cap=round] (0,0) -- (0,3.6);
+					\draw[line width=12pt, orange!35, line cap=round] (0,0) -- (7,0);
+					\draw[thick, fill=white] (0,0) circle (0.14);
+					\node[left] at (-0.3,0.0) {codo};
+					\draw[line width=3.5pt, StripA!70] (0.55,3.3) -- (0.8,0.25);
+					\draw[fuerza] (0.8,0.25) -- (0.8,1.6);
+					\node[right] at (0.95,1.7) {$F$ (bíceps)};
+					\draw[peso] (7,0) -- (7,-1.3) node[right] {$P$};
+					\draw[thick, fill=StripA!25] (6.55,-2.3) rectangle (7.45,-1.4);
+					\node[font=\scriptsize] at (7,-1.85) {1 kg};
+					\draw[dotted] (0.8,-0.3) -- (0.8,-3.0);
+					\draw[dim] (0,-2.7) -- (0.8,-2.7);
+					\node[below] at (0.4,-2.75) {$d_F\!\approx\!4$ cm};
+					\draw[dim] (0,-3.5) -- (7,-3.5) node[midway, below] {$d_P\!\approx\!35$ cm};
+					\draw[dotted] (7,-2.3) -- (7,-3.5);
+					\draw[dotted] (0,-0.2) -- (0,-3.5);
+				\end{tikzpicture}
+			\end{column}
+			\begin{column}{0.42\textwidth}
+				Apoyo: \textbf{codo}. Carga: \textbf{mano}. Esfuerzo: \textbf{bíceps}.
+				\vspace{0.3cm}
+				\[
+				F = P\,\frac{d_P}{d_F} \approx P\,\frac{35}{4} \approx 9\,P
+				\]
+				Para 1 kg, el bíceps hace unas \textbf{9 veces} su peso.
+				\textcolor{UnalGreen}{\textbf{Se pierde fuerza, se gana alcance.}}
+				
+				{\scriptsize Modelo simple; otros músculos también flexionan.}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% 16. ODONTOLOGIA: LA MANDIBULA
+	% ============================================================
+\begin{frame}{En odontología: la mandíbula como palanca}
+	\begin{columns}[T]
+		\begin{column}{0.62\textwidth}
+			\centering
+			\begin{tikzpicture}[scale=0.68, font=\small]
+				% ---------- CRANEO (vista lateral, mira hacia la derecha) ----------
+				\draw[thick, fill=gray!12]
+				(-2.6,3.5) .. controls (-2.7,6.3) and (2.2,7.0) .. (4.0,5.5)
+				.. controls (4.4,5.0) and (4.6,4.5) .. (4.8,3.9)
+				.. controls (5.1,3.4) and (5.5,3.0) .. (5.6,2.6)
+				-- (5.5,1.95) -- (3.0,1.95)
+				.. controls (2.3,1.95) and (1.9,2.3) .. (1.6,2.8)
+				.. controls (0.4,2.5) and (-1.2,2.2) .. (-2.0,2.7)
+				.. controls (-2.4,2.9) and (-2.6,3.2) .. (-2.6,3.5) -- cycle;
+				\draw[thick, fill=white] (3.9,4.2) ellipse (0.62 and 0.55);   % orbita
+				\draw[line width=4pt, gray!35, line cap=round] (3.3,3.15) -- (1.7,3.05); % arco cigomatico
+				\draw[thick, fill=white] (0.75,3.0) circle (0.12);            % oido
+				% dientes superiores (incisivos al frente, mas altos)
+				\foreach \x in {3.1,3.55,4.0,4.45}{
+					\draw[thick, fill=white, rounded corners=1pt] (\x,1.5) rectangle (\x+0.38,1.95);
+				}
+				\draw[thick, fill=white, rounded corners=1pt] (4.9,1.4) rectangle (5.2,1.95);
+				\draw[thick, fill=white, rounded corners=1pt] (5.2,1.4) rectangle (5.5,1.95);
+				% ---------- MANDIBULA ----------
+				\draw[thick, fill=orange!18]
+				(1.0,2.55) -- (1.6,2.6) -- (1.9,2.15) -- (2.45,2.45) -- (2.55,1.6)
+				-- (3.0,1.1) -- (5.45,1.1) -- (5.7,0.75) -- (5.3,0.1) -- (1.5,0.05)
+				-- (0.75,0.35) -- cycle;
+				\foreach \x in {3.1,3.55,4.0,4.45}{
+					\draw[thick, fill=white, rounded corners=1pt] (\x,1.1) rectangle (\x+0.38,1.5);
+				}
+				\draw[thick, fill=white, rounded corners=1pt] (4.9,1.1) rectangle (5.2,1.4);
+				\draw[thick, fill=white, rounded corners=1pt] (5.2,1.1) rectangle (5.5,1.4);
+				% ---------- MUSCULOS (solo contorno suave) ----------
+				\draw[StripA!80!black, thick, fill=StripA!22, opacity=0.9]
+				(0.7,4.9) -- (2.1,4.7) -- (2.3,2.5) -- (1.9,2.15) -- cycle;        % temporal
+				\draw[StripA!80!black, thick, fill=StripA!30, opacity=0.9]
+				(3.3,3.1) -- (2.2,3.05) -- (0.8,0.45) -- (1.7,0.2) -- cycle;        % masetero
+				\draw[StripA!80!black, thin] (-0.55,4.7) -- (1.1,4.45);
+				\node[StripA!80!black, left, font=\footnotesize, fill=white, inner sep=1pt] at (-0.5,4.7) {m. temporal};
+				\draw[StripA!80!black, thin] (-0.55,0.9) -- (1.0,0.95);
+				\node[StripA!80!black, left, font=\footnotesize, fill=white, inner sep=1pt] at (-0.5,0.9) {m. masetero};
+				% ---------- PALANCA SUPERPUESTA ----------
+				% apoyo: ATM
+				\draw[very thick, StripB, fill=white] (1.3,2.45) circle (0.17);
+				\draw[StripB, thin] (-0.55,2.0) -- (1.15,2.4);
+				\node[StripB, left, align=right, font=\footnotesize, fill=white, inner sep=1pt] at (-0.5,2.0)
+				{articulación temporo-\\ mandibular (\textbf{apoyo})};
+				% esfuerzo
+				\draw[fuerza] (2.2,0.55) -- (2.2,2.25);
+				\node[UnalGreen!70!black, font=\footnotesize, align=center, fill=white, inner sep=1pt] at (2.2,-0.45) {\textbf{esfuerzo} $F$};
+				% resistencia (alimento) sobre molar e incisivo
+				\draw[peso] (3.7,3.0) -- (3.7,1.55);
+				\draw[peso] (5.35,3.0) -- (5.35,1.5);
+				\node[StripA, font=\footnotesize, align=center, fill=white, inner sep=1pt] at (3.55,3.5) {\textbf{carga}\\ molar};
+				\node[StripA, font=\footnotesize, align=center, fill=white, inner sep=1pt] at (5.85,3.5) {\textbf{carga}\\ incisivo};
+				% distancias
+				\draw[dotted] (1.3,2.3) -- (1.3,-0.9);
+				\draw[dotted] (2.2,-0.1) -- (2.2,-0.8);
+				\draw[dotted] (3.7,1.1) -- (3.7,-1.5);
+				\draw[dotted] (5.35,1.1) -- (5.35,-2.1);
+				\draw[dim] (1.3,-0.8) -- (2.2,-0.8);
+				\node[below, font=\footnotesize] at (1.75,-0.82) {$d_F$};
+				\draw[dim] (1.3,-1.5) -- (3.7,-1.5) node[midway, below, font=\footnotesize] {$d_{\text{molar}}$};
+				\draw[dim] (1.3,-2.1) -- (5.35,-2.1) node[midway, below, font=\footnotesize] {$d_{\text{incisivo}}$};
+			\end{tikzpicture}
+		\end{column}
+		\begin{column}{0.38\textwidth}
+			\vspace{0.2cm}
+			El músculo (masetero) queda \textbf{entre} la articulación y el diente:
+			palanca de \textbf{3.er género}.
+			\vspace{0.3cm}
+			
+			La distancia a la carga cambia según el diente:
+			\begin{itemize}
+				\item \textbf{Incisivos:} brazo $d_P$ largo; el músculo hace más
+				fuerza para la misma mordida.
+				\item \textbf{Molares:} brazo $d_P$ corto; más fuerza de mordida con
+				el mismo músculo.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+	% ============================================================
+	% 17. TIPOS DE EQUILIBRIO
+	% ============================================================
+	\begin{frame}{Tipos de equilibrio}
+		\centering
+		\begin{tikzpicture}[scale=1.3, every node/.style={font=\normalsize}]
+			\tikzset{bola/.style={thick, fill=StripA!40}}
+			\begin{scope}
+				\draw[thick, domain=-1.3:1.3, samples=30] plot (\x,{0.9*\x*\x});
+				\draw[bola] (0,0.2) circle (0.2);
+				\node at (0,-0.7) {\textbf{Estable}};
+			\end{scope}
+			\begin{scope}[xshift=4.6cm]
+				\draw[thick] (-1.3,0) -- (1.3,0);
+				\draw[bola] (0,0.2) circle (0.2);
+				\node at (0,-0.7) {\textbf{Indiferente}};
+			\end{scope}
+			\begin{scope}[xshift=9.2cm, yshift=0.9cm]
+				\draw[thick, domain=-1.3:1.3, samples=30] plot (\x,{-0.9*\x*\x});
+				\draw[bola] (0,0.2) circle (0.2);
+				\node at (0,-1.6) {\textbf{Inestable}};
+			\end{scope}
+		\end{tikzpicture}
+		
+		\vspace{0.5cm}
+		Ante una pequeña perturbación, mirando el \textbf{centro de gravedad}:
+		\begin{itemize}
+			\item \textbf{Estable:} sube y el cuerpo \emph{vuelve}.
+			\item \textbf{Indiferente:} no cambia de altura; se queda.
+			\item \textbf{Inestable:} baja y el cuerpo \emph{se aleja}.
+		\end{itemize}
+	\end{frame}
+	
+	% ============================================================
+	% M. MATERIALES Y ANTES DE MEDIR
+	% ============================================================
+	\begin{frame}{Al laboratorio: materiales y antes de medir}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\small
+				\textbf{Materiales}
+				\begin{itemize}
+					\item Soporte universal y barra dentada.
+					\item Juego de masas con portapesas.
+					\item Dinamómetro, balanza y regla.
+				\end{itemize}
+				\vspace{0.1cm}
+				\textbf{Anoten primero}
+				\begin{itemize}
+					\item $a$: separación entre orificios.
+					\item $\Delta_{\text{reg}}$, $\Delta F_{\text{din}}$, $\Delta m$: resoluciones.
+				\end{itemize}
+				\vspace{0.1cm}
+				\textbf{Distancias}
+				\begin{itemize}
+					\item Con regla, \textbf{entre centros}, \textbf{desde el apoyo}.
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\centering
+				\vspace{0.3cm}
+				\begin{tikzpicture}[scale=0.58, every node/.style={font=\small}]
+					\barra{0}{0}
+					\foreach \hi in {0,...,10}{%
+						\pgfmathtruncatemacro{\num}{\hi+1}%
+						\node[font=\scriptsize, gray!70!black] at (0.5+\hi,0.55) {\num};%
+					}
+					\draw[thick, StripA] (5.5,-0.25) -- (5.5,0.25);
+					\draw[peso] (5.5,-0.25) -- (5.5,-1.6) node[right] {$P_b$};
+					\node[StripA, align=center, font=\scriptsize] at (5.5,-2.3)
+					{peso de la barra\\ en el CG};
+					\draw[dim] (0.5,-0.7) -- (1.5,-0.7);
+					\node[font=\scriptsize] at (1.0,-1.1) {$a$};
+				\end{tikzpicture}
+				\vspace{0.3cm}
+				
+				{\small Masas en \textbf{kg}; distancias en \textbf{cm}. Usen $g = 9.78$ m/s$^2$.}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% 20. PARTE A
+	% ============================================================
+	\begin{frame}{Parte A: la barra sola}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\begin{enumerate}
+					\item Midan $m_b$ con la balanza y calculen $P_b = m_b\,g$.
+					\vspace{0.15cm}
+					\item Cuelguen la barra del dinamómetro por el orificio
+					\textbf{central} y comparen la lectura con $m_b\,g$.
+					\vspace{0.15cm}
+					\item Si queda \textbf{horizontal}, el CG está en ese orificio. Si se
+					inclina, el CG está del lado que baja.
+				\end{enumerate}
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\centering
+				\vspace{0.2cm}
+				\begin{tikzpicture}[scale=0.62, every node/.style={font=\small}]
+					\barra{0}{0}
+					\dinaarriba{5.5}{2.8}
+					\draw[peso] (5.5,-0.25) -- (5.5,-1.5) node[right] {$P_b$};
+					\node[right, align=left, font=\footnotesize] at (6.2,1.8)
+					{lectura\\ $=$ peso de\\ la barra};
+				\end{tikzpicture}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% 21. PARTE B: LA FORMULA
+	% ============================================================
+	\begin{frame}{Parte B: predecir la lectura del dinamómetro}
+		\centering
+		\vspace{-0.1cm}
+		\begin{tikzpicture}[scale=0.62, every node/.style={font=\small}]
+			\barra{0}{0}
+			\fulcro{0.5}
+			\dinaarriba{3.5}{2.4}
+			\pesa{10.5}{-0.25}{$m$}
+			\draw[peso] (5.5,-0.25) -- (5.5,-1.2) node[right] {$P_b$};
+			\draw[thick, StripA] (5.5,-0.25) -- (5.5,0.25);
+			\draw[dotted] (0.5,-0.4) -- (0.5,-2.1);
+			\draw[dotted] (3.5,-0.4) -- (3.5,-1.65);
+			\draw[dotted] (5.5,-1.3) -- (5.5,-2.55);
+			\draw[dotted] (10.5,-1.4) -- (10.5,-3.0);
+			\draw[dim] (0.5,-1.7) -- (3.5,-1.7) node[midway, below] {$d_F$};
+			\draw[dim] (0.5,-2.15) -- (5.5,-2.15) node[midway, below] {$d_b$};
+			\draw[dim] (0.5,-2.6) -- (10.5,-2.6) node[midway, below] {$d_m$};
+			\node[right, font=\footnotesize, align=left] at (11.5,0.9)
+			{ejemplo:\\ 3.er género};
+		\end{tikzpicture}
+		
+		\vspace{0.1cm}
+		Torque del dinamómetro $=$ torque de la masa $+$ torque del peso de la barra
+		\[
+		F_{\text{pred}}\,d_F = P_m\,d_m + P_b\,d_b
+		\quad\Longrightarrow\quad
+		\boxed{F_{\text{pred}} = \frac{P_m\,d_m + P_b\,d_b}{d_F}}
+		\]
+		\small
+		$P_m = m\,g$ (masa colgada), $P_b = m_b\,g$ (barra). $d_b$: del apoyo al CG; $d_b=0$ si el apoyo está en el CG.
+	\end{frame}
+	
+	% ============================================================
+	% 22. PARTE B (a): 1er GENERO
+	% ============================================================
+	\begin{frame}{Parte B (a): palanca de 1.er género}
+		\centering
+		\begin{tikzpicture}[scale=0.88, every node/.style={font=\small}]
+			\barra{0}{0}
+			\fulcro{5.5}
+			\pesa{1.5}{-0.25}{$m$}
+			\dinaabajo{9.5}{-2.7}
+			\draw[dim] (1.5,0.8) -- (5.5,0.8) node[midway, above] {$d_m$};
+			\draw[dim] (5.5,0.8) -- (9.5,0.8) node[midway, above] {$d_F$};
+			\draw[dotted] (1.5,0.3) -- (1.5,0.8);
+			\draw[dotted] (5.5,0.3) -- (5.5,0.8);
+			\draw[dotted] (9.5,0.3) -- (9.5,0.8);
+		\end{tikzpicture}
+		
+		\vspace{0.1cm}
+		\begin{flushleft}
+			\small
+			\begin{enumerate}
+				\item \textbf{Apoyo central}: el peso de la barra cae sobre el apoyo, $d_b=0$.
+				\item Masa $m$ a un lado; dinamómetro al otro, \textbf{tirando hacia abajo}.
+				\item \textbf{Predigan} $F_{\text{pred}} = \dfrac{P_m\,d_m}{d_F}$ y lean $F_{\text{med}}$ con la barra \textbf{horizontal}.
+			\end{enumerate}
+		\end{flushleft}
+	\end{frame}
+	
+	% ============================================================
+	% 23. PARTE B (b): 2do GENERO
+	% ============================================================
+	\begin{frame}{Parte B (b): palanca de 2.º género}
+		\centering
+		\begin{tikzpicture}[scale=0.88, every node/.style={font=\small}]
+			\barra{0}{0}
+			\fulcro{0.5}
+			\pesa{5.5}{-0.25}{$m$}
+			\dinaarriba{10.5}{2.3}
+			\draw[dim] (0.5,0.8) -- (5.5,0.8) node[midway, above] {$d_m$};
+			\draw[dim] (0.5,1.45) -- (10.5,1.45) node[midway, above] {$d_F$};
+			\draw[dotted] (0.5,0.3) -- (0.5,1.45);
+			\draw[dotted] (5.5,0.3) -- (5.5,0.8);
+		\end{tikzpicture}
+		
+		\vspace{0.1cm}
+		\begin{flushleft}
+			\small
+			\begin{enumerate}
+				\item \textbf{Apoyo en el extremo} (orificio 1). El CG queda junto a la carga: $d_b$ = apoyo a orificio central.
+				\item Misma masa $m$; dinamómetro \textbf{arriba} en el extremo opuesto.
+				\item \textbf{Predigan} $F_{\text{pred}} = \dfrac{P_m\,d_m + P_b\,d_b}{d_F}$; lean $F_{\text{med}}$ horizontal.
+			\end{enumerate}
+		\end{flushleft}
+	\end{frame}
+	
+	% ============================================================
+	% 24. PARTE B (c): 3er GENERO
+	% ============================================================
+	\begin{frame}{Parte B (c): palanca de 3.er género}
+		\centering
+		\begin{tikzpicture}[scale=0.88, every node/.style={font=\small}]
+			\barra{0}{0}
+			\fulcro{0.5}
+			\dinaarriba{3.5}{2.3}
+			\pesa{10.5}{-0.25}{$m$}
+			\draw[dim] (0.5,0.8) -- (3.5,0.8) node[midway, above] {$d_F$};
+			\draw[dim] (0.5,-2.2) -- (10.5,-2.2) node[midway, below] {$d_m$};
+			\draw[dotted] (0.5,-1.0) -- (0.5,-2.2);
+			\draw[dotted] (10.5,-1.4) -- (10.5,-2.2);
+			\draw[dotted] (0.5,0.3) -- (0.5,0.8);
+			\draw[dotted] (3.5,0.3) -- (3.5,0.8);
+		\end{tikzpicture}
+		
+		\vspace{0.1cm}
+		\begin{flushleft}
+			\small
+			\begin{enumerate}
+				\item \textbf{Apoyo en el extremo}, masa $m$ en el otro.
+				\item Dinamómetro \textbf{arriba}, \textbf{entre} apoyo y masa. Modelo del antebrazo.
+				\item \textbf{Predigan} con la misma fórmula y lean $F_{\text{med}}$ horizontal. ¿$F_{\text{med}}$ supera el peso de $m$?
+			\end{enumerate}
+		\end{flushleft}
+	\end{frame}
+	
+	% ============================================================
+	% 25. PARTE C
+	% ============================================================
+	\begin{frame}{Parte C: equilibrio estable, indiferente o inestable}
+		\begin{columns}[T]
+			\begin{column}{0.55\textwidth}
+				\centering
+				\begin{tikzpicture}[scale=0.66, every node/.style={font=\small}]
+					\reglav{0}{8.5}{(A) apoyo\\ sobre el CG}
+					\reglav{4.4}{5.5}{(B) apoyo\\ en el CG}
+					\reglav{8.8}{2.5}{(C) apoyo\\ bajo el CG}
+				\end{tikzpicture}
+			\end{column}
+			\begin{column}{0.45\textwidth}
+				\vspace{0.2cm}
+				\begin{enumerate}
+					\item Barra \textbf{vertical}, sin masas, de un orificio.
+					\item Prueben orificio \textbf{arriba} del CG, \textbf{central} y \textbf{abajo}.
+					\item Desvíen suave y observen qué hace al soltar.
+				\end{enumerate}
+				\vspace{0.2cm}
+				\textcolor{UnalGreen}{\textbf{¿Qué tipo de equilibrio es cada caso?}}
+				
+				{\small En (C) sostengan con la mano y suelten despacio.}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% 26. TABLA DE DATOS
+	% ============================================================
+	\begin{frame}{Qué deben anotar}
+		\centering
+		\small
+		$m_b = $ \rule{1.3cm}{0.4pt} kg \quad
+		$P_b = $ \rule{1.3cm}{0.4pt} N \quad
+		$a = $ \rule{1.3cm}{0.4pt} cm \quad
+		$m = $ \rule{1.3cm}{0.4pt} kg
+		
+		\vspace{0.2cm}
+		$\Delta_{\text{reg}} = $ \rule{1.3cm}{0.4pt} cm \qquad
+		$\Delta F_{\text{din}} = $ \rule{1.3cm}{0.4pt} N \qquad
+		$\Delta m = $ \rule{1.3cm}{0.4pt} kg
+		
+		\vspace{0.5cm}
+		\setlength{\tabcolsep}{6pt}
+		\renewcommand{\arraystretch}{1.6}
+		\begin{tabular}{|l|c|c|c|c|c|}
+			\hline
+			Montaje & $d_m$ (cm) & $d_F$ (cm) & $d_b$ (cm)
+			& $F_{\text{pred}}$ (N) & $F_{\text{med}}$ (N) \\
+			\hline
+			1.er género & & & & & \\ \hline
+			2.º género & & & & & \\ \hline
+			3.er género & & & & & \\ \hline
+		\end{tabular}
+		
+		\vspace{0.4cm}
+		\normalsize
+		\textcolor{UnalGreen}{\textbf{Hoy se toman los datos. Los cálculos van en el informe.}}
+	\end{frame}
+	
+	% ============================================================
+	% 27. EN CASA: INFORME 1
+	% ============================================================
+	\begin{frame}{En casa: el Informe 1}
+		\begin{columns}[T]
+			\begin{column}{0.5\textwidth}
+				\textbf{Formato}
+				\begin{enumerate}
+					\item Introducción y marco teórico.
+					\item Metodología.
+					\item Resultados.
+					\item Análisis y discusión.
+					\item Conclusiones.
+					\item Referencias.
+				\end{enumerate}
+				\vspace{0.2cm}
+				Primera versión: \textbf{3 de noviembre}. PDF, una entrega por grupo.
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\textbf{Qué calcular}
+				\begin{itemize}
+					\item Discrepancia
+					$\dfrac{|F_{\text{med}}-F_{\text{pred}}|}{F_{\text{pred}}}\times 100\%$.
+					\item Incertidumbre de $F_{\text{pred}}$ (Taller~2).
+					\item Compatibilidad $F_{\text{pred}}$ vs.\ $F_{\text{med}}$.
+					\item Preguntas de la guía, incluido el antebrazo.
+				\end{itemize}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	% ============================================================
+	% 28. PREGUNTAS
+	% ============================================================
+	\begin{frame}{¿Preguntas o comentarios?}
+		\begin{center}
+			\vspace{0.5cm}
+			\Large Nos vemos la próxima sesión.
+			
+			\vspace{0.8cm}
+			\normalsize
+			mperdomog@unal.edu.co
+			
+			\vspace{0.2cm}
+			Edificio 404 -- Laboratorio 104
+		\end{center}
+	\end{frame}
+	
+\end{document}

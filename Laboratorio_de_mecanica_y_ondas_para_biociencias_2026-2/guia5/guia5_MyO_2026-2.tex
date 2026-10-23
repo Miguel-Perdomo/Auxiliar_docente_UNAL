@@ -1,0 +1,690 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, babel, calc, angles}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+\definecolor{StripA}{RGB}{200,60,60}
+\definecolor{StripB}{RGB}{60,90,180}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{colorlinks=true, linkcolor=UnalGreen, urlcolor=UnalGreen}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Mecánica y Ondas para Biociencias (1000023) -- Laboratorio}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt, parsep=0pt}
+\setlist[enumerate]{leftmargin=*, itemsep=3pt, topsep=3pt, parsep=0pt}
+
+% ----- CAJA DE NOTA -----
+\newcommand{\notabox}[1]{%
+	\begin{center}
+		\fcolorbox{UnalGreen}{UnalGreen!8}{%
+			\parbox{0.94\textwidth}{\small #1}%
+		}
+	\end{center}
+}
+
+% ----- LEYENDA DE FIGURAS -----
+\newcounter{figg}
+\newcommand{\leyenda}[2]{%
+	\par\vspace{0.1cm}\refstepcounter{figg}\label{#1}%
+	{\centering\small\textbf{Figura~\thefigg.} #2\par}\vspace{0.2cm}}
+
+% =========================================================
+% ESTILOS Y MACROS TikZ
+% =========================================================
+\tikzset{
+	fuerza/.style={-{Latex[length=2.4mm]}, very thick, UnalGreen!70!black},
+	peso/.style={-{Latex[length=2.4mm]}, very thick, StripA},
+	reac/.style={-{Latex[length=2.4mm]}, very thick, StripB},
+	dim/.style={{Latex[length=1.6mm]}-{Latex[length=1.6mm]}, thin, DarkGray},
+}
+
+% Barra dentada: 11 orificios, longitud 11 (unidades de dibujo).
+% #1 = x del extremo izquierdo, #2 = y del eje central
+\newcommand{\barra}[2]{%
+	\draw[thick, fill=orange!20] (#1,#2-0.25) rectangle (#1+11,#2+0.25);
+	\foreach \hi in {0,...,10}{\draw[thin, fill=white] (#1+0.5+\hi,#2) circle (0.09);}
+}
+
+% Pesa colgada de la barra: #1 = x, #2 = y de la cara inferior de la barra, #3 = etiqueta
+\newcommand{\pesa}[3]{%
+	\draw[thick] (#1,#2) -- (#1,#2-0.4);
+	\draw[thick, fill=StripA!25] (#1-0.4,#2-1.1) rectangle (#1+0.4,#2-0.4);
+	\node[font=\scriptsize] at (#1,#2-0.75) {#3};
+}
+
+% Apoyo (fulcro): triangulo bajo la barra y perno en el orificio #1
+\newcommand{\fulcro}[1]{%
+	\fill[gray!55] (#1,-0.25) -- (#1-0.5,-1.0) -- (#1+0.5,-1.0) -- cycle;
+	\draw[thick] (#1-0.8,-1.0) -- (#1+0.8,-1.0);
+	\draw[thick, fill=white] (#1,0) circle (0.11);
+}
+
+% Dinamometro que cuelga de un soporte superior (y = #2) y sujeta la barra en x = #1
+\newcommand{\dinaarriba}[2]{%
+	\draw[line width=2pt, gray!70] (#1-0.7,#2) -- (#1+0.7,#2);
+	\draw[thick] (#1,#2) -- (#1,#2-0.2);
+	\draw[thick, fill=white] (#1-0.22,#2-1.2) rectangle (#1+0.22,#2-0.2);
+	\foreach \dy in {0.4,0.6,0.8,1.0}{\draw[thin] (#1-0.22,#2-\dy) -- (#1-0.08,#2-\dy);}
+	\draw[thick] (#1,#2-1.2) -- (#1,0.25);
+	\fill (#1,0) circle (0.05);
+}
+
+% Dinamometro que tira hacia abajo, anclado en y = #2 (negativo)
+\newcommand{\dinaabajo}[2]{%
+	\draw[line width=2pt, gray!70] (#1-0.7,#2) -- (#1+0.7,#2);
+	\draw[thick] (#1,-0.25) -- (#1,-0.8);
+	\draw[thick, fill=white] (#1-0.22,-1.9) rectangle (#1+0.22,-0.8);
+	\foreach \dy in {1.1,1.3,1.5,1.7}{\draw[thin] (#1-0.22,-\dy) -- (#1-0.08,-\dy);}
+	\draw[thick] (#1,-1.9) -- (#1,#2);
+	\fill (#1,0) circle (0.05);
+}
+
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	\begin{center}
+		\vspace*{-0.8cm}
+		\IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+			\includegraphics[width=0.15\textwidth]
+			{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		}{}
+		
+		{\Large\bfseries Práctica 5: Equilibrio y Momentos}\\[0.1cm]
+		{\large\bfseries Torque, palancas y equilibrio de una barra}\\[0.1cm]
+		{\normalsize Mecánica y Ondas para Biociencias (1000023)}
+	\end{center}
+	
+	\vspace{0.2cm}
+	\noindent
+	\begin{tabular}{@{}ll@{}}
+		Modalidad: & Grupal (3 a 4 integrantes) \\
+		Entregable: & Informe 1 (formato en la Sección~\ref{sec:informe}) \\
+		Fecha de sesión: & 20 de octubre de 2026 \\
+		Primera versión del informe: & 3 de noviembre de 2026 \\
+	\end{tabular}
+	
+	\notabox{\textbf{Antes de venir al laboratorio:} lean la descripción del
+		experimento.}
+	
+	% =========================================================
+	\section{Objetivos}
+	% =========================================================
+	\begin{itemize}
+		\item Reconocer situaciones de equilibrio mecánico: cuando un objeto no
+		se desplaza y cuando no gira.
+		\item Usar el torque para \emph{predecir} la lectura de un dinamómetro.
+		\item Comparar la predicción con la medida y clasificar el montaje como
+		palanca de primer, segundo o tercer género.
+		\item Distinguir equilibrio estable, indiferente e inestable.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Materiales}
+	% =========================================================
+	\begin{itemize}
+		\item Soporte universal.
+		\item Barra dentada (barra con orificios equiespaciados).
+		\item Juego de masas con portapesas.
+		\item Dinamómetro.
+		\item Balanza.
+		\item Regla o cinta métrica.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Descripción del experimento}
+	% =========================================================
+	
+	Una puerta es más fácil de abrir si se empuja lejos de las bisagras que si
+	se empuja cerca de ellas. Lo que hace girar un objeto no es solo la fuerza,
+	sino la fuerza multiplicada por la distancia al punto de giro: el
+	\textbf{torque}. Un objeto está en \textbf{equilibrio} cuando ni se
+	desplaza ni gira.
+	
+	\vspace{0.3cm}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
+			% ---------- (a) fuerza perpendicular ----------
+			\begin{scope}
+				\draw[line width=4pt, gray!60, line cap=round] (0,0) -- (4.2,0);
+				\draw[thick, fill=white] (0,0) circle (0.14);
+				\node[below left] at (0,0) {punto de giro};
+				\draw[fuerza] (4.2,0) -- (4.2,-1.3) node[right] {$F$};
+				\draw[dim] (0,0.5) -- (4.2,0.5) node[midway, above] {$d$};
+				\draw[->, thick, StripB] (215:0.65) arc (215:145:0.65);
+				\node[align=center] at (2.1,-2.1) {(a) La fuerza empuja\\ perpendicular a la barra};
+			\end{scope}
+			% ---------- (b) fuerza oblicua ----------
+			\begin{scope}[xshift=7.4cm]
+				\coordinate (O) at (0,0);
+				\coordinate (P) at (4.2,0);
+				\coordinate (Q) at ($(P)+(1.2,1.5)$);
+				\coordinate (H) at ($(P)!(O)!(Q)$);
+				\draw[line width=4pt, gray!60, line cap=round] (O) -- (P);
+				\draw[thick, fill=white] (O) circle (0.14);
+				\draw[dashed, gray] ($(P)!-1.45!(Q)$) -- ($(P)!1.3!(Q)$);
+				\draw[fuerza] (P) -- (Q) node[above right] {$F$};
+				\draw[very thick, StripA] (O) -- (H);
+				\draw pic[draw, angle radius=2.2mm] {right angle=O--H--P};
+				\node[StripA, below left] at ($(O)!0.5!(H)$) {$d$};
+				\node[align=center] at (2.4,-2.9) {(b) La fuerza empuja\\ en diagonal};
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}
+	\leyenda{fig:torque}{El torque es $\tau = F\times d$. La distancia $d$ (el
+		\emph{brazo}) va del punto de giro a la línea sobre la que actúa la fuerza
+		(línea punteada), medida \emph{en perpendicular} (línea roja). En (a) $d$ es
+		toda la longitud de la barra; en (b) es más corta, y por eso girar cuesta más.}
+	
+	\vspace{0.1cm}
+	\noindent
+	El experimento se hace con la \textbf{barra dentada}: una barra con
+	orificios equiespaciados, que sirven como puntos de apoyo y como puntos para
+	colgar masas o el dinamómetro.
+	
+	\vspace{0.2cm}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.85, every node/.style={font=\small}]
+			\barra{0}{0}
+			% numeracion de orificios
+			\foreach \hi in {0,...,10}{
+				\pgfmathtruncatemacro{\num}{\hi+1}
+				\node[font=\scriptsize, gray!70!black] at (0.5+\hi,0.55) {\num};
+			}
+			% centro de gravedad
+			\draw[thick, StripA] (5.5,-0.25) -- (5.5,0.25);
+			\draw[peso] (5.5,-0.25) -- (5.5,-1.5) node[right] {$P_b$};
+			\node[StripA, align=left, font=\scriptsize] at (5.5,-2.0) {peso de la barra, aplicado en el centro de gravedad (CG)};
+			% separacion entre orificios
+			\draw[dim] (0.5,-0.6) -- (1.5,-0.6);
+			\node[font=\scriptsize] at (1.0,-0.95) {$a$};
+		\end{tikzpicture}
+	\end{center}
+	\leyenda{fig:barra}{Barra dentada (ilustrativa: el número de orificios y su
+		separación $a$ pueden ser distintos en su barra). El peso de la barra $P_b$
+		actúa en su \emph{centro de gravedad}, que es el punto donde se puede pensar
+		que está concentrado todo el peso.}
+	
+	% =========================================================
+	\section{Teoría}
+	% =========================================================
+	
+	\subsection*{Torque}
+	
+	El torque de una fuerza es
+	\begin{equation}
+		\tau = F\times d
+		\label{eq:torque}
+	\end{equation}
+	
+	\noindent
+	donde $F$ es la fuerza y $d$ el brazo (Figura~\ref{fig:torque}). Sus
+	unidades son N$\cdot$m (aquí usaremos N$\cdot$cm). Un torque puede hacer
+	girar la barra en sentido \textbf{horario} (como las manecillas del reloj) o
+	\textbf{antihorario}.
+	
+	\subsection*{Condiciones de equilibrio}
+	
+	Una barra queda quieta si se cumplen \textbf{las dos} condiciones:
+	\begin{enumerate}
+		\item \emph{No se desplaza:} la suma de las fuerzas hacia arriba es igual
+		a la suma de las fuerzas hacia abajo.
+		\item \emph{No gira:} respecto a cualquier punto, el torque total
+		horario es igual al torque total antihorario.
+	\end{enumerate}
+	
+	\noindent
+	La condición de giro se puede escribir respecto a \emph{cualquier} punto.
+	Conviene escoger el apoyo: la fuerza que hace el apoyo pasa por ese punto,
+	tiene brazo cero y no produce torque, así que desaparece de la ecuación.
+	
+	\subsection*{Palancas}
+	
+	Una palanca es una barra que gira alrededor de un apoyo. Hay tres
+	protagonistas: la \textbf{carga} $P$ (lo que se quiere sostener o mover), el
+	\textbf{esfuerzo} $F$ (la fuerza que se aplica; en el laboratorio, la del
+	dinamómetro) y el \textbf{apoyo}, que también hace una fuerza $N$. El género
+	depende de cuál queda en medio:
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=0.62, every node/.style={font=\small}]
+			\tikzset{barrita/.style={line width=3.5pt, orange!60!black, line cap=round}}
+			\tikzset{apoyo/.style={fill=gray!55, draw=black, thick}}
+			% ---------- 1er genero ----------
+			\begin{scope}
+				\draw[barrita] (0,0) -- (8,0);
+				\draw[apoyo] (4,0) -- (3.5,-0.8) -- (4.5,-0.8) -- cycle;
+				\draw[peso] (0.8,0) -- (0.8,-1.5) node[below] {$P$};
+				\draw[fuerza] (7.2,0) -- (7.2,-1.5) node[below] {$F$};
+				\draw[reac] (4,-0.8) -- (4,1.3) node[above] {$N$};
+				\node at (4,-2.6) {1.er género};
+			\end{scope}
+			% ---------- 2do genero ----------
+			\begin{scope}[xshift=9.5cm]
+				\draw[barrita] (0,0) -- (8,0);
+				\draw[apoyo] (0,0) -- (-0.5,-0.8) -- (0.5,-0.8) -- cycle;
+				\draw[peso] (3,0) -- (3,-1.5) node[below] {$P$};
+				\draw[fuerza] (7.2,0) -- (7.2,1.5) node[above] {$F$};
+				\draw[reac] (0,-0.8) -- (0,1.3) node[above] {$N$};
+				\node at (4,-2.6) {2.º género};
+			\end{scope}
+			% ---------- 3er genero ----------
+			\begin{scope}[xshift=19cm]
+				\draw[barrita] (0,0) -- (8,0);
+				\draw[apoyo] (0,0) -- (-0.5,-0.8) -- (0.5,-0.8) -- cycle;
+				\draw[peso] (7.2,0) -- (7.2,-1.5) node[below] {$P$};
+				\draw[fuerza] (3,0) -- (3,1.5) node[above] {$F$};
+				\draw[reac] (0,-0.8) -- (0,1.3) node[above] {$N$};
+				\node at (4,-2.6) {3.er género};
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}
+	\leyenda{fig:generos}{Los tres géneros de palanca: el apoyo queda en medio
+		(1.º), la carga queda en medio (2.º) o el esfuerzo queda en medio (3.º). En
+		el primero, el esfuerzo empuja hacia abajo, igual que la carga, pero del otro
+		lado del apoyo; por eso en el laboratorio el dinamómetro tirará \emph{hacia
+			abajo}. En este dibujo se desprecia el peso de la barra; en el laboratorio
+		\textbf{no} se puede despreciar.}
+	
+	\noindent
+	Sin contar el peso de la barra, la condición de giro respecto al apoyo da
+	``torque del esfuerzo = torque de la carga'':
+	\[
+	F\times d_F = P\times d_P
+	\]
+	
+	\noindent
+	Si el esfuerzo está \emph{más lejos} del apoyo que la carga ($d_F > d_P$),
+	basta una fuerza menor que el peso (2.º género). Si está \emph{más cerca}
+	($d_F < d_P$), hace falta una fuerza mayor que el peso (3.º género).
+	
+	\subsection*{La fórmula de la práctica}
+	
+	En el laboratorio la carga es una masa $m$ colgada de la barra, y la barra
+	tiene su propio peso $P_b$. Con el apoyo y el dinamómetro como en la
+	Figura~\ref{fig:palancas}, los pesos de la masa y de la barra quedan del
+	mismo lado del apoyo y el dinamómetro del otro. Entonces, el torque del
+	dinamómetro iguala a la suma de los dos torques:
+	\begin{equation}
+		F_{\text{pred}}\times d_F = P_m\times d_m + P_b\times d_b
+		\quad\Longrightarrow\quad
+		F_{\text{pred}} = \frac{P_m\,d_m + P_b\,d_b}{d_F}
+		\label{eq:Fpred}
+	\end{equation}
+	
+	\noindent
+	donde $P_m = m\,g$ es el peso de la masa, $P_b = m_b\,g$ el de la barra,
+	$d_m$ y $d_F$ las distancias del apoyo a la masa y al dinamómetro, y $d_b$ la
+	distancia del apoyo al centro de gravedad de la barra. Si el apoyo está
+	exactamente en el centro de gravedad, $d_b = 0$ y el peso de la barra no
+	produce torque.
+	
+	\notabox{Usen $m$ en \textbf{kg} y $g = 9.78$ m/s$^2$, de modo que $P$ queda
+		en N. Las distancias en cm: así $F_{\text{pred}}$ sale directamente en N.}
+	
+	\subsection*{Tipos de equilibrio}
+	
+	Si a un cuerpo en equilibrio se le da una pequeña perturbación, ocurre una
+	de tres cosas, según cómo cambie la altura de su centro de gravedad:
+	
+	\vspace{0.1cm}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
+			\tikzset{bola/.style={thick, fill=StripA!40}}
+			% estable
+			\begin{scope}
+				\draw[thick, domain=-1.3:1.3, samples=30] plot (\x,{0.9*\x*\x});
+				\draw[bola] (0,0.2) circle (0.2);
+				\node at (0,-0.6) {(a) Estable};
+			\end{scope}
+			% indiferente
+			\begin{scope}[xshift=4.5cm]
+				\draw[thick] (-1.3,0) -- (1.3,0);
+				\draw[bola] (0,0.2) circle (0.2);
+				\node at (0,-0.6) {(b) Indiferente};
+			\end{scope}
+			% inestable
+			\begin{scope}[xshift=9cm, yshift=0.9cm]
+				\draw[thick, domain=-1.3:1.3, samples=30] plot (\x,{-0.9*\x*\x});
+				\draw[bola] (0,0.2) circle (0.2);
+				\node at (0,-1.5) {(c) Inestable};
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}
+	\leyenda{fig:estabilidad}{(a) Tras la perturbación, el centro de gravedad
+		sube y el cuerpo \emph{vuelve}. (b) La altura no cambia: se queda en la nueva
+		posición. (c) El centro de gravedad baja y el cuerpo \emph{se aleja}.}
+	
+	% =========================================================
+	\section{Procedimiento}
+	% =========================================================
+	
+	Midan antes lo que van a necesitar: la separación $a$ entre orificios, la
+	resolución de la regla ($\Delta_{\text{reg}}$), la del dinamómetro
+	($\Delta F_{\text{din}}$) y la de la balanza ($\Delta m$). Las distancias se
+	miden \textbf{con la regla, entre centros de orificios}, siempre desde el
+	apoyo.
+	
+	\subsection{Parte A: la barra sola}
+	
+	\begin{enumerate}
+		\item Midan la masa $m_b$ de la barra con la balanza y calculen
+		$P_b = m_b\,g$.
+		\item Cuelguen la barra del dinamómetro por el orificio central y lean su
+		peso (Figura~\ref{fig:barra1}). Comparen con $m_b\,g$.
+		\item Si la barra queda horizontal colgada de ese orificio, su centro de
+		gravedad está allí. Si se inclina, el centro de gravedad está del lado
+		hacia el que baja.
+	\end{enumerate}
+	
+	\vspace{0.1cm}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.62, every node/.style={font=\small}]
+			\barra{0}{0}
+			\dinaarriba{5.5}{2.6}
+			\draw[peso] (5.5,-0.25) -- (5.5,-1.35) node[right] {$P_b$};
+			\node[right, align=left, text width=5.2cm] at (11.6,1.0)
+			{La lectura del dinamómetro es el peso de la barra};
+		\end{tikzpicture}
+	\end{center}
+	\leyenda{fig:barra1}{La barra colgada del dinamómetro por el orificio central.}
+	
+	\subsection{Parte B: las tres palancas}
+	
+	\begin{enumerate}
+		\setcounter{enumi}{3}
+		\item Armen las tres configuraciones de la Figura~\ref{fig:palancas}.
+		Cuelguen en todas la \textbf{misma masa} $m$. El apoyo va en el orificio
+		\textbf{central} en la palanca de 1.er género y en un \textbf{extremo} en
+		las de 2.º y 3.er género.
+		\item En cada una, \textbf{antes de leer el dinamómetro}, midan $d_m$, $d_F$
+		y $d_b$, y \emph{predigan} la lectura $F_{\text{pred}}$ con la
+		ecuación~(\ref{eq:Fpred}).
+		\item Lean el dinamómetro ($F_{\text{med}}$) con la barra horizontal.
+	\end{enumerate}
+	
+	\notabox{La barra \textbf{debe quedar horizontal} cuando lean el
+		dinamómetro: si está inclinada, los brazos cambian y la predicción deja de
+		valer.}
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=0.62, every node/.style={font=\small}]
+			% ---------- (a) 1er genero ----------
+			\begin{scope}
+				\barra{0}{0}
+				\fulcro{5.5}
+				\pesa{1.5}{-0.25}{$m$}
+				\dinaabajo{9.5}{-2.6}
+				\draw[dim] (1.5,0.75) -- (5.5,0.75) node[midway, above, font=\scriptsize] {$d_m$};
+				\draw[dim] (5.5,0.75) -- (9.5,0.75) node[midway, above, font=\scriptsize] {$d_F$};
+				\node[right, align=left, text width=4.3cm] at (11.6,0)
+				{\textbf{(a) 1.er género}\\ apoyo entre la masa\\ y el dinamómetro\\ (el dinamómetro tira\\ hacia abajo)};
+			\end{scope}
+			% ---------- (b) 2do genero ----------
+			\begin{scope}[yshift=-6.0cm]
+				\barra{0}{0}
+				\fulcro{0.5}
+				\pesa{5.5}{-0.25}{$m$}
+				\dinaarriba{10.5}{2.2}
+				\draw[dim] (0.5,0.75) -- (5.5,0.75) node[midway, above, font=\scriptsize] {$d_m$};
+				\draw[dim] (0.5,1.4) -- (10.5,1.4) node[midway, above, font=\scriptsize] {$d_F$};
+				\node[right, align=left, text width=4.3cm] at (11.6,0)
+				{\textbf{(b) 2.º género}\\ la masa queda entre\\ el apoyo y el\\ dinamómetro};
+			\end{scope}
+			% ---------- (c) 3er genero ----------
+			\begin{scope}[yshift=-11.6cm]
+				\barra{0}{0}
+				\fulcro{0.5}
+				\dinaarriba{3.5}{2.2}
+				\pesa{10.5}{-0.25}{$m$}
+				\draw[dim] (0.5,1.4) -- (3.5,1.4) node[midway, above, font=\scriptsize] {$d_F$};
+				\draw[dim] (0.5,0.75) -- (10.5,0.75) node[midway, above, font=\scriptsize] {$d_m$};
+				\node[right, align=left, text width=4.3cm] at (11.6,0)
+				{\textbf{(c) 3.er género}\\ el dinamómetro queda\\ entre el apoyo y\\ la masa (como el\\ bíceps en el antebrazo)};
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}
+	\leyenda{fig:palancas}{Las tres palancas del laboratorio (las posiciones de los
+		orificios son un ejemplo). En (a) el dinamómetro se ancla desde abajo; en
+		(b) y (c) cuelga del soporte superior. $d_m$ y $d_F$ son las distancias del
+		apoyo a la masa y al dinamómetro. El peso de la barra actúa en su centro de
+		gravedad en las tres; $d_b$ es su distancia al apoyo (cero en la (a) si el
+		apoyo está en el orificio central).}
+	
+	\subsection{Parte C: equilibrio estable, indiferente e inestable}
+	
+	\begin{enumerate}
+		\setcounter{enumi}{6}
+		\item Pongan la barra en posición \textbf{vertical} y suspéndanla por un
+		orificio, sin masas, de modo que pueda girar libremente
+		(Figura~\ref{fig:regla}). Pruébenlo con un orificio \emph{arriba} del centro de
+		gravedad, con el orificio \emph{del centro} y con uno \emph{abajo} del
+		centro. En cada caso, desvíen suavemente la barra y observen qué hace al
+		soltarla.
+	\end{enumerate}
+	
+	\vspace{0.1cm}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.95, every node/.style={font=\small}]
+			\newcommand{\reglav}[3]{%
+				% #1 = x del panel, #2 = coordenada del apoyo en la barra, #3 = etiqueta
+				\draw[line width=3pt, gray!60] (#1-1.0,0) -- (#1,0);
+				\begin{scope}[shift={(#1,{-0.42*#2})}, rotate=90, scale=0.42]
+					\barra{0}{0}
+				\end{scope}
+				\draw[thick, fill=white] (#1,0) circle (0.09);
+				\fill[StripA] (#1,{0.42*(5.5-#2)}) circle (0.07);
+				\draw[peso] (#1+0.3,{0.42*(5.5-#2)}) -- (#1+0.3,{0.42*(5.5-#2)-0.9}) node[right] {$P_b$};
+				\draw[->, thick, StripB] (#1-1.0,{-0.42*#2+0.15}) -- (#1-0.35,{-0.42*#2+0.15});
+				\node[align=center] at (#1,-4.35) {#3};
+			}
+			\reglav{0}{8.5}{(A) apoyo\\ sobre el CG}
+			\reglav{4.4}{5.5}{(B) apoyo\\ en el CG}
+			\reglav{8.8}{2.5}{(C) apoyo\\ bajo el CG}
+		\end{tikzpicture}
+	\end{center}
+	\leyenda{fig:regla}{Barra vertical suspendida de un perno (círculo blanco) en
+		tres posiciones. El punto rojo es el centro de gravedad (CG); la flecha azul
+		es la perturbación. ¿Qué tipo de equilibrio es cada caso? Es una de las
+		preguntas del análisis.}
+	
+	\noindent
+	En el caso (C) el equilibrio es muy delicado: sostengan la barra con la mano
+	hasta soltarla despacio.
+	
+	\vspace{0.2cm}
+	\begin{center}
+		\small
+		$m_b = $ \rule{1.3cm}{0.4pt} kg
+		\quad
+		$P_b = $ \rule{1.3cm}{0.4pt} N
+		\quad
+		$a = $ \rule{1.3cm}{0.4pt} cm
+		\quad
+		$m = $ \rule{1.3cm}{0.4pt} kg
+		
+		\vspace{0.15cm}
+		$\Delta_{\text{reg}} = $ \rule{1.3cm}{0.4pt} cm
+		\qquad
+		$\Delta F_{\text{din}} = $ \rule{1.3cm}{0.4pt} N
+		\qquad
+		$\Delta m = $ \rule{1.3cm}{0.4pt} kg
+		
+		\vspace{0.4cm}
+		\setlength{\tabcolsep}{4pt}
+		\begin{tabular}{|l|c|c|c|c|c|}
+			\hline
+			Montaje & $d_m$ (cm) & $d_F$ (cm) & $d_b$ (cm)
+			& $F_{\text{pred}}$ (N) & $F_{\text{med}}$ (N) \\
+			\hline
+			\rule{0pt}{3ex} 1.er género & & & & & \\ \hline
+			\rule{0pt}{3ex} 2.º género & & & & & \\ \hline
+			\rule{0pt}{3ex} 3.er género & & & & & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	% =========================================================
+	\section{Análisis de resultados (en casa)}\label{sec:analisis}
+	% =========================================================
+	
+	\subsection{Predicción contra medida}
+	
+	Para cada montaje, calculen la discrepancia:
+	\[
+	\text{disc.} = \frac{|F_{\text{med}} - F_{\text{pred}}|}{F_{\text{pred}}}\times 100\%
+	\]
+	
+	\noindent
+	Calculen también la incertidumbre de $F_{\text{pred}}$ siguiendo las reglas
+	del Taller~2, en este orden:
+	\begin{enumerate}
+		\item Cada distancia es la resta de dos lecturas de la regla:
+		$\Delta d = \sqrt{2}\,\Delta_{\text{reg}}$. Y $\Delta P = g\,\Delta m$.
+		\item Cada torque es un \emph{producto} ($P_m\,d_m$ y $P_b\,d_b$): sumen
+		en cuadratura las incertidumbres \emph{relativas} y multipliquen por el
+		valor del producto.
+		\item El numerador es una \emph{suma}: sumen en cuadratura las
+		incertidumbres \emph{absolutas} de los dos torques.
+		\item Al dividir entre $d_F$ (un \emph{cociente}): sumen en cuadratura la
+		incertidumbre relativa del numerador y la de $d_F$.
+	\end{enumerate}
+	
+	\noindent
+	Digan si $F_{\text{pred}}$ y $F_{\text{med}}$ son compatibles: es decir, si
+	su diferencia es menor que la raíz de la suma de los cuadrados de sus dos
+	incertidumbres.
+	
+	\subsection{Preguntas}
+	
+	\begin{enumerate}
+		\item ¿A qué clase de equilibrio corresponde la barra en cada posición de
+		la Figura~\ref{fig:regla}? Justifiquen con lo que pasa con la altura del
+		centro de gravedad.
+		\item ¿El centro de gravedad de la barra coincide con el orificio central?
+		¿Cómo lo comprobaron en la Parte A?
+		\item Si la lectura del dinamómetro fuera desconocida, ¿podría
+		calcularse? ¿Con qué ecuación?
+		\item ¿En qué casos es importante incluir el peso de la barra? ¿En qué
+		casos podría despreciarse? Usen sus datos: calculen cuánto cambia
+		$F_{\text{pred}}$ si se omite el término $P_b\,d_b$.
+		\item En su palanca de 3.er género, ¿cuántas veces es mayor la fuerza del
+		dinamómetro que el peso de la masa? Un bíceps se inserta a unos 4~cm del
+		codo y la mano queda a unos 35~cm (valores aproximados). ¿Cuántas veces el
+		peso que sostiene debe hacer fuerza el bíceps?
+		\item Clasifiquen como palancas los sistemas de la tabla siguiente.
+	\end{enumerate}
+	
+	\begin{center}
+		\small
+		\begin{tabular}{|l|c|c|c|c|}
+			\hline
+			Sistema & Apoyo & Carga & Esfuerzo & Género \\
+			\hline
+			\rule{0pt}{3ex} Balanza de platillos & & & & \\ \hline
+			\rule{0pt}{3ex} Tijeras & & & & \\ \hline
+			\rule{0pt}{3ex} Brazo (flexión del codo) & & & & \\ \hline
+			\rule{0pt}{3ex} Carretilla & & & & \\ \hline
+			\rule{0pt}{3ex} Mordida (mandíbula) & & & & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	\noindent
+	Para el brazo: el apoyo es el codo, la carga es el peso de la mano y lo que
+	sostiene, y el esfuerzo es la fuerza del bíceps, que se inserta en el
+	antebrazo muy cerca del codo.
+	
+	% =========================================================
+	\section{Conclusiones}
+	% =========================================================
+	
+	Presenten conclusiones contrastando los resultados experimentales con las
+	condiciones de equilibrio. Además de sus conclusiones propias, discutan:
+	
+	\begin{itemize}
+		\item ¿Se cumplieron las condiciones de equilibrio dentro de las
+		incertidumbres?
+		\item ¿Qué montaje tuvo mayor discrepancia? ¿Qué lo explicaría (barra
+		inclinada, lectura del dinamómetro, posición de los orificios, centro
+		de gravedad que no está en el centro)?
+		\item ¿Qué implicación tiene, para los músculos y las articulaciones, que
+		el antebrazo sea una palanca de 3.er género?
+	\end{itemize}
+	
+	% =========================================================
+	\section{Formato del Informe 1}\label{sec:informe}
+	% =========================================================
+	
+	Esta práctica se entrega como \textbf{informe} (PDF), no como bitácora.
+	Una sola entrega por grupo, con el nombre
+	\texttt{Informe1\_GrupoN.pdf}. Debe tener:
+	
+	\begin{enumerate}
+		\item \textbf{Introducción y marco teórico:} equilibrio, torque y
+		palancas, con las ecuaciones que usarán. Incluyan por qué importa en
+		biomecánica.
+		\item \textbf{Metodología:} montaje con un esquema propio, instrumentos y
+		sus incertidumbres.
+		\item \textbf{Resultados:} tablas con unidades e incertidumbres, y el
+		cálculo de $F_{\text{pred}}$ de cada montaje.
+		\item \textbf{Análisis y discusión:} la comparación y las preguntas de la
+		Sección~\ref{sec:analisis}.
+		\item \textbf{Conclusiones.}
+		\item \textbf{Referencias} en un formato consistente (al menos dos).
+	\end{enumerate}
+	
+	\notabox{La primera versión se entrega el \textbf{3 de noviembre de 2026}.
+		Recibirán comentarios y entregarán una versión corregida; las fechas
+		exactas se publicarán en Classroom.}
+	
+	% =========================================================
+	\section{Referencias}
+	% =========================================================
+	
+	\begin{itemize}
+		\item L. Agulles Perdós, \emph{Guías de Laboratorio: Mecánica y Ondas
+			para Biociencias}, Departamento de Física, Universidad Nacional de
+		Colombia, 2026. Laboratorio 9.
+	\end{itemize}
+	
+	\vfill
+	\noindent
+	{\footnotesize \textit{Auxiliar docente: Miguel Andrés Perdomo Gutiérrez
+			--- mperdomog@unal.edu.co}}
+	
+\end{document}

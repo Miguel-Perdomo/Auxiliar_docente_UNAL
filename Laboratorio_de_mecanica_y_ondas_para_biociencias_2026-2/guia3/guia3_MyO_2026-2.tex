@@ -21,6 +21,8 @@
 % ----- COLORES -----
 \definecolor{UnalGreen}{RGB}{0,153,51}
 \definecolor{DarkGray}{RGB}{60,60,60}
+\definecolor{StripA}{RGB}{200,60,60}
+\definecolor{StripB}{RGB}{60,90,180}
 
 % ----- SECCIONES -----
 \titleformat{\section}
@@ -71,8 +73,8 @@
 			{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
 		}{}
 		
-		{\Large\bfseries Práctica 2: Conservación de la Energía}\\[0.1cm]
-		{\large\bfseries De energía potencial a energía cinética}\\[0.1cm]
+		{\Large\bfseries Práctica 3: Primera Ley de Newton}\\[0.1cm]
+		{\large\bfseries Equilibrio de fuerzas en una mesa de fuerzas}\\[0.1cm]
 		{\normalsize Mecánica y Ondas para Biociencias (1000023)}
 	\end{center}
 	
@@ -80,101 +82,100 @@
 	\noindent
 	\begin{tabular}{@{}ll@{}}
 		Modalidad: & Grupal (3 a 4 integrantes) \\
-		Entregable: & Bitácora 2 \\
-		Fecha de sesión: & 29 de septiembre de 2026 \\
+		Entregable: & Bitácora 3 \\
+		Fecha de sesión: & 06 de octubre de 2026 \\
 	\end{tabular}
 	
 	\notabox{\textbf{Antes de venir al laboratorio:} lean la descripción del
 		experimento y respondan las \emph{preguntas previas} de la
-		Sección~\ref{sec:previas} en su cuaderno de bitácora. El quiz individual del
+		Sección~\ref{sec:previas}. El quiz individual del
 		inicio de la sesión sale de esas preguntas.}
 	
 	% =========================================================
 	\section{Objetivos}
 	% =========================================================
 	\begin{itemize}
-		\item Explorar los conceptos de energía cinética y energía potencial
-		gravitacional.
-		\item Validar experimentalmente la conservación de la energía mecánica.
-		\item Linealizar una relación física usando variables adimensionales.
-		\item Propagar incertidumbres en cocientes y potencias.
+		\item Sumar fuerzas vectorialmente usando componentes rectangulares.
+		\item Aplicar la primera ley de Newton para estudiar un sistema en
+		equilibrio.
+		\item Predecir teóricamente una masa de equilibrio y contrastarla con la
+		medida experimentalmente.
 	\end{itemize}
 	
 	% =========================================================
 	\section{Materiales}
 	% =========================================================
 	\begin{itemize}
-		\item Esfera metálica e hilo.
-		\item Soporte con cuchilla.
-		\item Papel carbón y papel blanco.
-		\item Regla o cinta métrica.
-		\item Papel milimetrado.
+		\item Mesa de fuerzas con transportador graduado.
+		\item Tres poleas ajustables.
+		\item Juego de masas y portapesas.
+		\item Regla.
 	\end{itemize}
 	
 	% =========================================================
 	\section{Descripción del experimento}
 	% =========================================================
 	
-	Una esfera de masa $m$, atada a un hilo, se eleva formando un arco y se suelta
-	desde una altura $h_1$ sobre el piso. Al pasar por el punto más bajo de su
-	trayectoria, a una altura $h_2 = H$, una cuchilla corta el hilo. A partir de ese
-	instante la esfera continúa en movimiento parabólico, con rapidez inicial
-	horizontal $v_0$, hasta caer a una distancia $x$ medida desde el punto del piso
-	que está justo debajo de la cuchilla.
+	Una mesa de fuerzas tiene, en su centro, un anillo del que salen tres
+	cuerdas. Cada cuerda pasa por una polea ubicada en el borde de la mesa y
+	cuelga de ella una masa $M_i$. El peso de esa masa, transmitido por la
+	cuerda, actúa sobre el anillo como una fuerza $\vec{F}_i$ dirigida hacia la
+	polea, en un ángulo $\theta_i$ que se lee directamente en la graduación de
+	la mesa.
 	
-	\begin{center}
-		\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
-			% piso
-			\draw[very thick] (0.8,0) -- (9.4,0);
-			\draw[gray!60] (0.8,-0.18) -- (9.4,-0.18);
-			
-			% soporte y pivote
-			\draw[line width=2.5pt, gray!65] (4,0) -- (4,5.4);
-			\fill (4,5.4) circle (1.6pt);
-			\node[right] at (4.1,5.4) {soporte};
-			
-			% hilo y esfera elevada
-			\draw[thick] (4,5.4) -- (2.116,4.081);
-			\node[above left] at (3.05,4.75) {hilo};
-			\shade[ball color=gray!60] (2.116,4.081) circle (0.17);
-			\node[left] at (1.9,4.3) {esfera};
-			
-			% arco de la trayectoria circular
-			\draw[dashed, thick, gray!70!black] (2.116,4.081)
-			arc[start angle=215, end angle=270, radius=2.3];
-			
-			% cuchilla
-			\draw[line width=1.8pt] (3.62,3.36) -- (3.98,3.36);
-			\draw[-{Latex[length=1.8mm]}] (3.0,3.62) -- (3.6,3.40);
-			\node[left] at (3.05,3.66) {cuchilla};
-			
-			% esfera en el punto mas bajo y v0
-			\shade[ball color=gray!60] (4,3.1) circle (0.17);
-			\draw[-{Latex[length=2.2mm]}, very thick, red!75!black] (4.22,3.1) -- (5.2,3.1)
-			node[above] {$\vec{v}_0$};
-			
-			% trayectoria parabolica
-			\draw[dashed, thick, red!75!black, domain=4:7.4, samples=60]
-			plot (\x, {3.1 - 3.1*((\x-4)/3.4)^2});
-			
-			% papel carbon
-			\fill[gray!55] (6.8,0) rectangle (8.1,0.08);
-			\node[right, font=\scriptsize] at (8.1,0.22) {papel carbón};
-			
-			% linea de referencia a la altura H
-			\draw[dotted, thick, gray] (1.3,3.1) -- (3.83,3.1);
-			
-			% cota h
-			\draw[dotted, thick, gray] (1.3,4.081) -- (1.95,4.081);
-			\draw[|-|, thick] (1.5,3.1) -- (1.5,4.081) node[midway, left] {$h$};
-			
-			% cota H
-			\draw[|-|, thick] (2.9,0) -- (2.9,3.1) node[midway, left] {$H$};
-			
-			% cota x
-			\draw[|-|, thick] (4,-0.55) -- (7.4,-0.55) node[midway, below] {$x$};
-		\end{tikzpicture}
-	\end{center}
+	\vspace{0.3cm}
+\begin{center}
+	\begin{tikzpicture}[scale=1.0,>=Latex]
+		% mesa circular (más grande para dar espacio)
+		\draw[thick] (0,0) circle (3.0);
+		\foreach \ang in {0,30,...,330} {
+			\draw[gray!60] ({3.0*cos(\ang)},{3.0*sin(\ang)}) --
+			({3.18*cos(\ang)},{3.18*sin(\ang)});
+		}
+		
+		% Etiquetas de los grados (bien alejadas)
+		\node[font=\small, gray!60!black] at (3.6,0) {$0^\circ$};
+		\node[font=\small, gray!60!black] at (0,3.6) {$90^\circ$};
+		\node[font=\small, gray!60!black] at (-3.6,0) {$180^\circ$};
+		\node[font=\small, gray!60!black] at (0,-3.6) {$270^\circ$};
+		
+		% eje de referencia punteado
+		\draw[dotted, gray] (-3.0,0) -- (3.0,0);
+		
+		% anillo central
+		\fill (0,0) circle (2.5pt);
+		
+		% --- FUERZAS (más cortas para no tocar los grados) ---
+		% F1 (0°): termina en 2.5, etiqueta manual a la derecha
+		\draw[-{Latex[length=3.5mm]}, very thick, StripA]
+		(0,0) -- (2.5,0);
+		\node[font=\large, StripA] at (2.0,0.38) {$\vec{F}_1$};
+		
+		% F2 (90°): termina en 2.5, etiqueta manual arriba
+		\draw[-{Latex[length=3.5mm]}, very thick, StripB]
+		(0,0) -- (0,2.5);
+		\node[font=\large, StripB] at (0.35,1.9) {$\vec{F}_2$};
+		
+		% F3 (220°): termina en 2.5, etiqueta manual abajo-izquierda
+		\draw[-{Latex[length=3.5mm]}, very thick, UnalGreen!70!black]
+		(0,0) -- ({2.5*cos(220)},{2.5*sin(220)});
+		\node[font=\large, UnalGreen!70!black] at (-1.0,-1.7) {$\vec{F}_3$};
+		
+		% --- ARCOS DE ÁNGULO (radios distintos, etiquetas libres) ---
+		% Arco para theta_2 (radio 0.7)
+		\draw[gray] (0.7,0) arc (0:90:0.7);
+		\node[font=\large] at (0.35,0.35) {$\theta_2$};
+		
+		% Arco para theta_3 (radio 1.1, más grande para no encimarse)
+		\draw[gray] (1.1,0) arc (0:220:1.1);
+		\node[font=\large] at (-1.3,-0.35) {$\theta_3$};
+		
+	\end{tikzpicture}
+\end{center}
+	
+	\noindent
+	Si el anillo permanece quieto, las tres fuerzas se equilibran:
+	$\vec{F}_1 + \vec{F}_2 + \vec{F}_3 = \vec{0}$.
 	
 	% =========================================================
 	\section{Preguntas previas}\label{sec:previas}
@@ -184,104 +185,130 @@
 	entrada sale de aquí.
 	
 	\begin{enumerate}
-		\item \emph{Predicción} (respondan antes de hacer cálculos): si aumenta la
-		altura $h$, ¿cómo cambia la distancia $x$? ¿Y si se usa una esfera de mayor
-		masa?
+		\item \emph{Predicción} (respondan antes de hacer cálculos): si
+		$\vec{F}_1$ está en $\theta_1 = 0^\circ$ y $\vec{F}_2$ en
+		$\theta_2 = 90^\circ$, con magnitudes parecidas, ¿en qué cuadrante
+		debe apuntar aproximadamente $\vec{F}_3$ para que el anillo quede en
+		equilibrio?
 		
-		\item Escriban la energía potencial gravitacional y la energía cinética.
-		¿Cuándo se conserva la energía mecánica?
+		\item Enuncien la primera ley de Newton. ¿Qué significa que un objeto
+		esté en \emph{equilibrio}?
 		
-		\item Usando conservación de la energía, demuestren que la esfera llega a la
-		cuchilla con rapidez $v_0 = \sqrt{2gh}$.
+		\item Cada cuerda pasa por una polea sin fricción y cuelga de ella una
+		masa $M_i$. Expliquen por qué la tensión de esa cuerda --y por tanto la
+		fuerza $F_i$ que actúa sobre el anillo-- es igual a $M_i\,g$.
 		
-		\item Si la esfera sale horizontal con rapidez $v_0$ desde una altura $H$,
-		tarda $t = \sqrt{2H/g}$ en caer. Con esto, demuestren que $x^{2} = 4hH$.
-		¿Depende de $m$? ¿Depende de $g$?
+		\item Si tres fuerzas mantienen un punto en equilibrio,
+		$\vec{F}_1+\vec{F}_2+\vec{F}_3=\vec{0}$, demuestren que esto exige que
+		las sumas de las componentes en $x$ y en $y$ sean cero \textbf{por
+			separado}.
 	\end{enumerate}
 	
 	% =========================================================
 	\section{Teoría}
 	% =========================================================
 	
-	Si no hay pérdidas, toda la energía potencial que pierde la esfera al bajar la
-	altura $h = h_1 - h_2$ se convierte en energía cinética:
+	\subsection*{De la masa colgante a la fuerza sobre el anillo}
+	
+	Para una masa $M_i$ en reposo, colgando de una cuerda que pasa por una
+	polea sin fricción, la tensión de la cuerda es igual al peso de la masa:
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=0.8]
+			% borde de la mesa y polea
+			\draw[thick] (-1.8,0) -- (1.3,0);
+			\node[left, font=\scriptsize] at (-1.8,0.15) {hacia el anillo};
+			\draw[thick] (1.5,0) circle (0.2);
+			\draw[thick] (-1.5,0.05) -- (1.32,0.05);
+			% hilo vertical y masa
+			\draw[thick] (1.7,0) -- (1.7,-1.1);
+			\draw[thick, fill=UnalGreen!20] (1.45,-1.1) rectangle (1.95,-1.5);
+			\node[font=\scriptsize] at (1.7,-1.3) {$M_i$};
+			\draw[-{Latex[length=2.5mm]}, thick] (1.7,-1.5) -- (1.7,-1.95)
+			node[right, font=\scriptsize] {$M_i\,g$};
+		\end{tikzpicture}
+	\end{center}
+	
+	\noindent
+	Así, la magnitud de cada fuerza sobre el anillo es $F_i = M_i\,g$, dirigida
+	hacia la polea correspondiente, en el ángulo $\theta_i$ leído en la mesa.
+	
+	\subsection*{Condición de equilibrio en componentes}
+	
+	La condición vectorial $\vec{F}_1+\vec{F}_2+\vec{F}_3=\vec{0}$ equivale a
+	que las componentes en $x$ y en $y$ se anulen por separado:
+	
 	\begin{equation}
-		m\,g\,h = \tfrac{1}{2}\,m\,v_0^{2}
-		\qquad\Longrightarrow\qquad
-		v_0 = \sqrt{2\,g\,h}
-		\label{eq:energia}
+		M_1g\cos\theta_1 + M_2g\cos\theta_2 + M_3g\cos\theta_3 = 0
+		\label{eq:compx}
+	\end{equation}
+	\begin{equation}
+		M_1g\sin\theta_1 + M_2g\sin\theta_2 + M_3g\sin\theta_3 = 0
+		\label{eq:compy}
 	\end{equation}
 	
 	\noindent
-	Después del corte, la esfera cae la altura $H$ en un tiempo $t=\sqrt{2H/g}$,
-	mientras avanza horizontalmente con rapidez constante $v_0$. Combinando ambos
-	resultados (pregunta previa 4):
-	\begin{equation}
-		x^{2} = 4\,h\,H
-		\label{eq:alcance}
-	\end{equation}
+	La gravedad $g$ aparece en los tres términos de cada ecuación, así que se
+	cancela. Despejando $M_3$ de la ecuación (\ref{eq:compx}):
 	
-	\subsection*{Linealización con variables adimensionales}
-	
-	Dividiendo la ecuación (\ref{eq:alcance}) entre $H^{2}$ y definiendo
 	\begin{equation}
-		X = \frac{h}{H}
-		\qquad\qquad
-		Y = \left(\frac{\bar{x}}{H}\right)^{2}
-		\label{eq:variables}
+		M_{3,\text{teo}} = -\frac{M_1\cos\theta_1 + M_2\cos\theta_2}{\cos\theta_3}
+		\qquad (\cos\theta_3 \neq 0)
+		\label{eq:m3x}
 	\end{equation}
 	
 	\noindent
-	se obtiene una recta que pasa por el origen:
+	o, si $\theta_3$ está cerca de $90^\circ$ o $270^\circ$ (donde
+	$\cos\theta_3\approx 0$), se despeja de la ecuación (\ref{eq:compy}) en su
+	lugar:
+	
 	\begin{equation}
-		Y = 4\,X
-		\label{eq:recta}
+		M_{3,\text{teo}} = -\frac{M_1\sin\theta_1 + M_2\sin\theta_2}{\sin\theta_3}
+		\qquad (\sin\theta_3 \neq 0)
+		\label{eq:m3y}
 	\end{equation}
 	
-	\notabox{Fíjense en dos cosas. Primero, $X$ y $Y$ no tienen unidades. Segundo,
-		la pendiente teórica es \textbf{exactamente 4}: no depende de la masa de la
-		esfera ni del valor de $g$. Si el experimento conserva la energía, cualquier
-		grupo, con cualquier esfera, debería obtener la misma pendiente.}
+	\notabox{Las ecuaciones (\ref{eq:m3x}) y (\ref{eq:m3y}) deberían dar el
+		mismo resultado: son dos formas de leer la \textbf{misma} condición de
+		equilibrio. Se usa la que evita dividir por un número cercano a cero.}
 	
 	% =========================================================
 	\section{Procedimiento}
 	% =========================================================
 	
 	\begin{enumerate}
-		\item Ubiquen la cuchilla horizontalmente, de modo que corte el hilo justo
-		arriba de la esfera cuando esta pasa por el punto más bajo.
-		\item Aten la esfera al hilo, y el hilo al soporte, por encima de la cuchilla.
-		\item Midan la altura $H$ de la esfera en el punto de corte, respecto al
-		piso. \textbf{Manténganla constante} durante todo el experimento.
-		\item Marquen en el piso el punto que está justo debajo de la cuchilla: desde
-		ahí se mide $x$.
-		\item Hagan un lanzamiento de prueba para ver dónde cae la esfera, y coloquen
-		allí el papel blanco con el papel carbón encima.
-		\item Suelten la esfera desde una altura $h_1$, midan $h = h_1 - h_2$ y la
-		distancia horizontal $x$ marcada en el papel.
-		\item Repitan \textbf{tres veces} para la misma altura $h$.
-		\item Repitan todo para \textbf{cuatro alturas diferentes}.
+		\item Monten la mesa de fuerzas con sus tres poleas.
+		\item Coloquen $M_1 = 30$ g en $\theta_1 = 0^\circ$ y
+		$M_2 = 30$ g en $\theta_2 = 90^\circ$.
+		\item Ajusten la tercera polea con una masa $M_3$ y un ángulo
+		$\theta_3$ hasta que el anillo quede \textbf{centrado y en reposo}.
+		\item Registren $M_3$ y $\theta_3$, con sus incertidumbres.
+		\item Repitan para completar la tabla.
 	\end{enumerate}
 	
-	\notabox{Suelten la esfera sin empujarla: debe partir del reposo. Cualquier
-		impulso inicial agrega energía cinética que la ecuación (\ref{eq:energia}) no
-		contempla.}
+	\notabox{El anillo está en equilibrio cuando queda exactamente centrado
+		respecto a las tres poleas. Verifíquenlo desplazándolo levemente: debe
+		regresar al mismo punto.}
 	
 	\vspace{0.2cm}
 	\begin{center}
 		\small
-		$H = $ \rule{2cm}{0.4pt} $\pm$ \rule{1.2cm}{0.4pt} cm
+		$\Delta M = $ \rule{1.5cm}{0.4pt} g
+		\qquad
+		$\Delta\theta = $ \rule{1.5cm}{0.4pt} $^\circ$
+		\quad (resolución de las masas y del transportador de la mesa)
 		
 		\vspace{0.3cm}
 		\begin{tabular}{|c|c|c|c|c|c|c|}
 			\hline
-			Medida & $h$ (cm) & $x_1$ (cm) & $x_2$ (cm) & $x_3$ (cm)
-			& $\bar{x}$ (cm) & $\Delta\bar{x}$ (cm) \\
+			Medida & $M_1$ (g) & $\theta_1$ & $M_2$ (g) & $\theta_2$
+			& $M_3$ (g) & $\theta_3$ \\
 			\hline
-			\rule{0pt}{3ex} 1 & & & & & & \\ \hline
-			\rule{0pt}{3ex} 2 & & & & & & \\ \hline
-			\rule{0pt}{3ex} 3 & & & & & & \\ \hline
-			\rule{0pt}{3ex} 4 & & & & & & \\ \hline
+			1 & 30 & $0^\circ$  & 30 & $90^\circ$  & & \\ \hline
+			2 & 30 & $0^\circ$  & 50 & $90^\circ$  & & \\ \hline
+			3 & 50 & $45^\circ$ & 30 & $180^\circ$ & & \\ \hline
+			4 & 30 & $45^\circ$ & 30 & $135^\circ$ & & \\ \hline
+			5 & 30 & $60^\circ$ & 30 & $120^\circ$ & & \\ \hline
 		\end{tabular}
 	\end{center}
 	
@@ -289,57 +316,41 @@
 	\section{Análisis de resultados}
 	% =========================================================
 	
-	\subsection{Incertidumbre de la distancia}
+	\subsection{Masa teórica}
 	
-	Para cada altura, combinen en cuadratura la dispersión de sus tres medidas con
-	la resolución de la regla, como en el Taller~1:
-	\[
-	\Delta\bar{x} = \sqrt{\sigma_x^{2} + \Delta_{\text{inst}}^{2}}
-	\]
-	
-	\subsection{Variables linealizadas}
-	
-	Calculen $X$ y $Y$ con la ecuación (\ref{eq:variables}). Sus incertidumbres
-	salen de las reglas de propagación del Taller~2: $X$ es un \emph{cociente}, y
-	$Y$ es el \emph{cuadrado} de un cociente, por lo que su error relativo se
-	duplica:
-	\[
-	\frac{\Delta X}{X} = \sqrt{\left(\frac{\Delta h}{h}\right)^{2}
-		+ \left(\frac{\Delta H}{H}\right)^{2}}
-	\qquad\qquad
-	\frac{\Delta Y}{Y} = 2\sqrt{\left(\frac{\Delta\bar{x}}{\bar{x}}\right)^{2}
-		+ \left(\frac{\Delta H}{H}\right)^{2}}
-	\]
+	Para cada medida, calculen $M_{3,\text{teo}}$ con la ecuación
+	(\ref{eq:m3x}) o (\ref{eq:m3y}), según cuál evite dividir entre un coseno o
+	un seno cercano a cero.
 	
 	\begin{center}
 		\small
 		\begin{tabular}{|c|c|c|c|c|}
 			\hline
-			Medida & $X = h/H$ & $\Delta X$ & $Y = (\bar{x}/H)^2$ & $\Delta Y$ \\
+			Medida & $M_3$ medido (g) & $\theta_3$ medido
+			& $M_{3,\text{teo}}$ (g) & \%Error \\
 			\hline
 			\rule{0pt}{3ex} 1 & & & & \\ \hline
 			\rule{0pt}{3ex} 2 & & & & \\ \hline
 			\rule{0pt}{3ex} 3 & & & & \\ \hline
 			\rule{0pt}{3ex} 4 & & & & \\ \hline
+			\rule{0pt}{3ex} 5 & & & & \\ \hline
 		\end{tabular}
 	\end{center}
 	
-	\subsection{La gráfica}
-	
-	Grafiquen $Y$ (eje vertical) contra $X$ (eje horizontal), con barras de error
-	en ambos ejes. Tracen la recta que mejor represente los puntos y obtengan su
-	pendiente $m$ y su intercepto $b$.
-	
-	\subsection{Comparación con la teoría}
-	
-	Comparen la pendiente medida con el valor teórico $m_{\text{teo}} = 4$:
+	\noindent
+	donde
 	\[
-	\text{discrepancia} = \frac{|m - 4|}{4}\times 100\%
+	\%\text{Error} = \frac{|M_3 - M_{3,\text{teo}}|}{M_{3,\text{teo}}}
+	\times 100\%
 	\]
 	
-	\noindent
-	Si la discrepancia es baja, puede afirmarse que la energía potencial $mgh$ se
-	convirtió en energía cinética $\frac{1}{2}mv_0^2$ justo antes del corte.
+	\subsection{Comparación con la incertidumbre}
+	
+	Para cada medida, verifiquen si $M_{3,\text{teo}}$ cae dentro del intervalo
+	$M_3 \pm \Delta M$ que ustedes midieron. Esta comparación es más honesta
+	que el \%Error solo: un error del 5\,\% puede ser perfectamente aceptable
+	si su incertidumbre también es de ese orden, o puede ser demasiado grande
+	si su incertidumbre es mucho menor.
 	
 	% =========================================================
 	\section{Conclusiones}
@@ -348,14 +359,14 @@
 	Además de sus conclusiones propias, discutan:
 	
 	\begin{itemize}
-		\item ¿Sus resultados son compatibles con la conservación de la energía?
-		\item ¿La pendiente resultó mayor o menor que 4? ¿Qué mecanismos físicos
-		podrían hacer que la esfera llegue a la cuchilla con \emph{menos} energía
-		cinética de la esperada?
-		\item ¿El intercepto $b$ es compatible con cero? ¿Debería serlo?
+		\item ¿En cuántas de las cinco medidas $M_{3,\text{teo}}$ cayó dentro
+		de $M_3 \pm \Delta M$? ¿Qué dice esto sobre la calidad de sus ajustes?
 		\item ¿Su predicción de la pregunta previa 1 resultó correcta?
-		\item ¿Qué factores del montaje (el corte del hilo, la posición de la
-		cuchilla, la lectura en el papel carbón) pueden explicar las diferencias?
+		\item ¿Qué dificultades encontraron para dejar el anillo exactamente
+		centrado? ¿Cómo afecta eso a la incertidumbre de $\theta_3$?
+		\item ¿Qué aspectos del montaje (fricción en las poleas, lectura del
+		ángulo, nivelación de la mesa) pueden explicar las diferencias entre
+		teoría y experimento?
 	\end{itemize}
 	
 	% =========================================================
@@ -363,18 +374,19 @@
 	% =========================================================
 	
 	\begin{itemize}
-		\item L. Agulles Perdós, \emph{Guías de Laboratorio: Mecánica y Ondas para
-			Biociencias}, Departamento de Física, Universidad Nacional de Colombia,
-		2026. Laboratorio 8.
-		\item C. Perilla, \emph{Guía de trabajo en el laboratorio: Conservación de
-			la energía}, Universidad Nacional de Colombia, 2023.
-		\item L. G. Chica G., \emph{Guías de Laboratorio de Física: Cinemática,
-			Dinámica y Termodinámica}, Universidad Nacional de Colombia, 2003.
+		\item L. Agulles Perdós, \emph{Guías de Laboratorio: Mecánica y Ondas
+			para Biociencias}, Departamento de Física, Universidad Nacional de
+		Colombia, 2026. Laboratorio 6.
+		\item C. Perilla, \emph{Guía de trabajo en el laboratorio: Todos al
+			tiempo y equilibrados}, Universidad Nacional de Colombia, 2023.
+		\item L. G. Chica G., \emph{Guías de Laboratorio de Física:
+			Cinemática, Dinámica y Termodinámica}, Universidad Nacional de
+		Colombia, 2003.
 	\end{itemize}
 	
 	\vfill
 	\noindent
-	{\footnotesize \textit{Auxiliar docente: Miguel Andrés Perdomo Gutiérrez ---
-			mperdomog@unal.edu.co}}
+	{\footnotesize \textit{Auxiliar docente: Miguel Andrés Perdomo Gutiérrez
+			--- mperdomog@unal.edu.co}}
 	
 \end{document}

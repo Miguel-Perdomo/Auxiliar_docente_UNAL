@@ -1,0 +1,404 @@
+\documentclass[11pt, letterpaper]{article}
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, babel, calc, decorations.pathmorphing}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+\definecolor{StripA}{RGB}{200,60,60}
+\definecolor{StripB}{RGB}{60,90,180}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Mecánica y Ondas para Biociencias (1000023) -- Laboratorio}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{leftmargin=*, itemsep=2pt, topsep=2pt, parsep=0pt}
+\setlist[enumerate]{leftmargin=*, itemsep=3pt, topsep=3pt, parsep=0pt}
+
+% ----- CAJA DE NOTA -----
+\newcommand{\notabox}[1]{%
+	\begin{center}
+		\fcolorbox{UnalGreen}{UnalGreen!8}{%
+			\parbox{0.94\textwidth}{\small #1}%
+		}
+	\end{center}
+}
+
+% ----- TECHO PARA LA FIGURA DE LOS RESORTES -----
+\newcommand{\techo}[2]{%
+	\fill[gray!40] (#1,5.2) rectangle (#2,5.45);
+	\draw[very thick] (#1,5.2) -- (#2,5.2);%
+}
+
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	\begin{center}
+		\vspace*{-0.8cm}
+		\IfFileExists{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}{%
+			\includegraphics[width=0.15\textwidth]
+			{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		}{}
+		
+		{\Large\bfseries Práctica 4: Ley de Hooke}\\[0.1cm]
+		{\large\bfseries Rigidez de un resorte, en serie y en paralelo}\\[0.1cm]
+		{\normalsize Mecánica y Ondas para Biociencias (1000023)}
+	\end{center}
+	
+	\vspace{0.2cm}
+	\noindent
+	\begin{tabular}{@{}ll@{}}
+		Modalidad: & Grupal (3 a 4 integrantes) \\
+		Entregable: & Bitácora 4 \\
+		Fecha de sesión: & 13 de octubre de 2026 \\
+	\end{tabular}
+	
+	\notabox{\textbf{Antes de venir al laboratorio:} lean la descripción del
+		experimento y respondan las \emph{preguntas previas}. El quiz individual del
+		inicio de la sesión sale de esas preguntas.}
+	
+	% =========================================================
+	\section{Objetivos}
+	% =========================================================
+	\begin{itemize}
+		\item Caracterizar la rigidez $k$ de un resorte a partir de la relación
+		entre fuerza y elongación.
+		\item Explorar cómo se combinan las rigideces de dos resortes conectados
+		en paralelo y en serie.
+		\item Propagar la incertidumbre de una resta y representarla en una
+		gráfica con barras de error.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Materiales}
+	% =========================================================
+	\begin{itemize}
+		\item Dos resortes de diferente rigidez.
+		\item Juego de masas y portapesas.
+		\item Soporte universal.
+		\item Regla o cinta métrica.
+		\item Una varilla o regla liviana (para el montaje en paralelo).
+		\item Papel milimetrado.
+	\end{itemize}
+	
+	% =========================================================
+	\section{Descripción del experimento}
+	% =========================================================
+	
+	Un resorte se estira cuando se cuelga una masa de él. Se mide la longitud
+	inicial $L_0$ del resorte sin carga y, para cada masa $m$ colgada, su
+	longitud $L_i$; la \textbf{elongación} es $\Delta L = L_i - L_0$.
+	
+	\vspace{0.1cm}
+	\noindent
+	El experimento se hace con tres configuraciones: cada resorte
+	\textbf{individual}, los dos resortes \textbf{en paralelo} (lado a lado,
+	sosteniendo juntos la masa) y los dos \textbf{en serie} (uno a continuación
+	del otro).
+	
+	\vspace{0.3cm}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
+			\tikzset{resorte/.style={decorate,
+					decoration={zigzag, segment length=3mm, amplitude=1.4mm,
+						pre=lineto, pre length=3mm, post=lineto, post length=3mm},
+					thick, UnalGreen!70!black}}
+			\tikzset{masa/.style={thick, fill=gray!25}}
+			
+			% ---------- (a) individual ----------
+			\techo{0}{2}
+			\draw[resorte] (1,5.2) -- (1,3.2);
+			\draw[masa] (0.55,2.5) rectangle (1.45,3.2);
+			\node at (1,2.85) {$m$};
+			\node[right] at (1.15,4.2) {$k$};
+			\node at (1,1.7) {(a) Individual};
+			
+			% ---------- (b) paralelo ----------
+			\techo{3.6}{7.0}
+			\draw[resorte] (4.4,5.2) -- (4.4,3.8);
+			\draw[resorte] (6.2,5.2) -- (6.2,3.8);
+			\draw[very thick] (4.1,3.8) -- (6.5,3.8);
+			\draw[thick] (5.3,3.8) -- (5.3,3.2);
+			\draw[masa] (4.85,2.5) rectangle (5.75,3.2);
+			\node at (5.3,2.85) {$m$};
+			\node[left] at (4.3,4.5) {$k_1$};
+			\node[right] at (6.3,4.5) {$k_2$};
+			\node at (5.3,1.7) {(b) Paralelo};
+			
+			% ---------- (c) serie ----------
+			\techo{8.2}{10.2}
+			\draw[resorte] (9.2,5.2) -- (9.2,4.0);
+			\fill (9.2,4.0) circle (1.6pt);
+			\draw[resorte] (9.2,4.0) -- (9.2,2.9);
+			\draw[masa] (8.75,2.2) rectangle (9.65,2.9);
+			\node at (9.2,2.55) {$m$};
+			\node[right] at (9.35,4.6) {$k_1$};
+			\node[right] at (9.35,3.45) {$k_2$};
+			\node at (9.2,1.7) {(c) Serie};
+		\end{tikzpicture}
+	\end{center}
+	
+	% =========================================================
+	\section{Preguntas previas}\label{sec:previas}
+	% =========================================================
+	
+	Respóndanlas \textbf{antes} de la sesión. No se califican, pero el quiz de
+	entrada sale de aquí.
+	
+	\begin{enumerate}
+		\item \emph{Predicción} (respondan antes de hacer cálculos): si se cuelgan
+		masas cada vez mayores de un resorte, ¿qué forma tiene la gráfica de la
+		elongación $\Delta L$ contra la masa? Y si se cuelga la misma masa de dos
+		resortes en paralelo, ¿se estira más o menos que con uno solo? ¿Y en
+		serie?
+		
+		\item Enuncien la ley de Hooke. ¿Qué mide la constante $k$ y en qué
+		unidades? ¿Qué resorte es más rígido: el de $k$ grande o el de $k$
+		pequeño?
+		
+		\item \emph{Paralelo.} Los dos resortes se estiran lo \textbf{mismo},
+		$\Delta L$, y la fuerza total es la suma de las dos fuerzas. Demuestren
+		que $k_{\text{par}} = k_1 + k_2$.
+		
+		\item \emph{Serie.} La \textbf{misma} fuerza $F$ actúa sobre los dos
+		resortes y la elongación total es la suma de las dos elongaciones.
+		Demuestren que
+		\[
+		\frac{1}{k_{\text{ser}}} = \frac{1}{k_1} + \frac{1}{k_2}
+		\]
+	\end{enumerate}
+	
+	% =========================================================
+	\section{Teoría}
+	% =========================================================
+	
+	Dentro de su región elástica, la fuerza que hay que aplicar a un resorte es
+	proporcional a su elongación:
+	\begin{equation}
+		F = k\,\Delta L
+		\label{eq:hooke}
+	\end{equation}
+	
+	\noindent
+	Cuando el resorte cuelga en equilibrio con una masa $m$, la fuerza aplicada
+	es el peso de la masa, $F = m\,g$. Graficando $F$ (eje vertical) contra
+	$\Delta L$ (eje horizontal) se obtiene una recta cuya \textbf{pendiente es
+		$k$}.
+	
+	\notabox{Si grafican $\Delta L$ contra $m$ (como en otras guías), la
+		pendiente es $g/k$ y \textbf{no} $k$. Por eso aquí graficamos $F$ contra
+		$\Delta L$: así la pendiente es directamente la constante del resorte.}
+	
+	\subsection*{Combinación de resortes}
+	
+	De las preguntas previas 3 y 4 se obtiene:
+	\begin{equation}
+		k_{\text{par,teo}} = k_1 + k_2
+		\label{eq:paralelo}
+	\end{equation}
+	\begin{equation}
+		k_{\text{ser,teo}} = \frac{1}{\dfrac{1}{k_1} + \dfrac{1}{k_2}}
+		= \frac{k_1\,k_2}{k_1 + k_2}
+		\label{eq:serie}
+	\end{equation}
+	
+	\noindent
+	En paralelo la rigidez \textbf{aumenta} (el sistema es más difícil de
+	estirar); en serie \textbf{disminuye} (queda más blando que el más blando de
+	los dos).
+	
+	\subsection*{Incertidumbres}
+	
+	La elongación es una \textbf{resta} de dos longitudes medidas con la misma
+	regla. Con la regla de la suma y resta del Taller~2:
+	\begin{equation}
+		\Delta(\Delta L) = \sqrt{(\Delta L_i)^2 + (\Delta L_0)^2}
+		= \sqrt{2}\,\Delta_{\text{reg}}
+		\label{eq:dDL}
+	\end{equation}
+	
+	\noindent
+	donde $\Delta_{\text{reg}}$ es la resolución de la regla. Para la fuerza,
+	$\Delta F = g\,\Delta m$, con $\Delta m$ la resolución de las masas.
+	
+	% =========================================================
+	\section{Procedimiento}
+	% =========================================================
+	
+	\begin{enumerate}
+		\item Cuelguen un resorte del soporte y midan su longitud sin carga, $L_0$.
+		\item Cuelguen masas crecientes (al menos \textbf{cinco}) y registren la
+		longitud $L_i$ con cada una. Esperen a que el resorte se quede quieto
+		antes de leer.
+		\item Calculen $\Delta L = L_i - L_0$ en cada caso.
+		\item Repitan con el \textbf{otro resorte}.
+		\item Repitan con los dos resortes en \textbf{paralelo}: cuelguen ambos
+		del soporte, unan sus extremos inferiores con la varilla y cuelguen la
+		masa del \textbf{centro} de la varilla, para que los dos se estiren por
+		igual. Midan $L_0$ de este montaje sin carga.
+		\item Repitan con los dos resortes en \textbf{serie}: el segundo resorte
+		cuelga del extremo del primero, y la masa del extremo del segundo.
+		La longitud $L$ es la del conjunto completo.
+	\end{enumerate}
+	
+	\notabox{\textbf{No sobrecarguen los resortes.} Usen solo masas con las que
+		el resorte regrese a su longitud original al retirarlas. Si queda
+		estirado de forma permanente, ya salió de la región elástica y la ley de
+		Hooke deja de aplicar.}
+	
+	\vspace{0.2cm}
+	\begin{center}
+		\small
+		$\Delta_{\text{reg}} = $ \rule{1.5cm}{0.4pt} cm
+		\qquad
+		$\Delta m = $ \rule{1.5cm}{0.4pt} g
+		\qquad
+		$L_0 = $ \rule{1.5cm}{0.4pt} cm
+		\quad (una tabla por configuración)
+		
+		\vspace{0.3cm}
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			$m$ (g) & $F = mg$ (N) & $L_i$ (cm) & $\Delta L$ (cm)
+			& $\Delta(\Delta L)$ (cm) \\
+			\hline
+			\rule{0pt}{3ex} & & & & \\ \hline
+			\rule{0pt}{3ex} & & & & \\ \hline
+			\rule{0pt}{3ex} & & & & \\ \hline
+			\rule{0pt}{3ex} & & & & \\ \hline
+			\rule{0pt}{3ex} & & & & \\ \hline
+			\rule{0pt}{3ex} & & & & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	% =========================================================
+	\section{Análisis de resultados}
+	% =========================================================
+	
+	\subsection{Fuerza y elongación}
+	
+	Para cada configuración, calculen $F = m\,g$ \textbf{con $m$ en kg}, usando
+	$g = 9.78$ m/s$^2$, y $\Delta(\Delta L)$ con la ecuación (\ref{eq:dDL}).
+	Verifiquen si $\Delta F$ es pequeño frente a la incertidumbre de $\Delta L$:
+	si lo es, basta con dibujar barras de error \emph{horizontales}.
+	
+	\subsection{Las gráficas}
+	
+	Para cada una de las cuatro configuraciones (resorte 1, resorte 2, paralelo y
+	serie), grafiquen $F$ (eje vertical, en N) contra $\Delta L$ (eje
+	horizontal, \textbf{en metros}), con barras de error. Pueden hacerlo en una
+	sola gráfica con colores distintos para compararlas. Tracen a ojo la recta
+	que mejor represente los puntos de cada una.
+	
+	\subsection{Las constantes}
+	
+	Obtengan la pendiente de cada recta, escogiendo dos puntos sobre la recta
+	(no sobre los datos) bien separados, como en el Taller~2:
+	\[
+	k = \frac{F_2 - F_1}{\Delta L_2 - \Delta L_1}
+	\]
+	
+	\noindent
+	Reporten $k_1$, $k_2$, $k_{\text{par}}$ y $k_{\text{ser}}$ en N/m.
+	
+	\subsection{Comparación con la teoría}
+	
+	Calculen los valores teóricos con las ecuaciones (\ref{eq:paralelo}) y
+	(\ref{eq:serie}), usando sus $k_1$ y $k_2$, y comparen:
+	\[
+	\text{disc.\ paralelo} = \frac{|k_{\text{par}} - (k_1+k_2)|}{k_1+k_2}\times 100\%
+	\qquad
+	\text{disc.\ serie} = \frac{|k_{\text{ser}} - k_{\text{ser,teo}}|}{k_{\text{ser,teo}}}\times 100\%
+	\]
+	
+	\begin{center}
+		\small
+		\begin{tabular}{|l|c|c|c|}
+			\hline
+			Configuración & $k$ medida (N/m) & $k$ teórica (N/m) & Discrepancia \\
+			\hline
+			\rule{0pt}{3ex} Resorte 1 & & --- & --- \\ \hline
+			\rule{0pt}{3ex} Resorte 2 & & --- & --- \\ \hline
+			\rule{0pt}{3ex} Paralelo & & & \\ \hline
+			\rule{0pt}{3ex} Serie & & & \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	% =========================================================
+	\section{Conclusiones}
+	% =========================================================
+	
+	Además de sus conclusiones propias, discutan:
+	
+	\begin{itemize}
+		\item ¿Los resortes cumplen la ley de Hooke? ¿Sus puntos se alinean, o
+		la gráfica se curva a cargas mayores?
+		\item ¿La recta de cada configuración pasa por el origen? ¿Debería
+		hacerlo? ¿Qué podría explicar un intercepto distinto de cero (por
+		ejemplo, el peso del propio resorte)?
+		\item ¿Qué configuración resultó más rígida y cuál más blanda? ¿Coincide
+		con su predicción de la pregunta previa 1?
+		\item ¿Las expresiones teóricas para serie y paralelo describen bien sus
+		datos? ¿Las discrepancias son comparables con la dispersión de sus
+		puntos?
+		\item ¿Qué aspectos del montaje (lectura de $L$, balanceo de la masa,
+		varilla desnivelada en paralelo) pueden explicar las diferencias?
+	\end{itemize}
+	
+	% =========================================================
+	\section{Referencias}
+	% =========================================================
+	
+	\begin{itemize}
+		\item L. Agulles Perdós, \emph{Guías de Laboratorio: Mecánica y Ondas
+			para Biociencias}, Departamento de Física, Universidad Nacional de
+		Colombia, 2026. Laboratorio 10.
+		\item C. Perilla, \emph{Guía de trabajo en el laboratorio: Fuerza de un
+			resorte}, Universidad Nacional de Colombia, 2023.
+	\end{itemize}
+	
+	\vfill
+	\noindent
+	{\footnotesize \textit{Auxiliar docente: Miguel Andrés Perdomo Gutiérrez
+			--- mperdomog@unal.edu.co}}
+	
+\end{document}

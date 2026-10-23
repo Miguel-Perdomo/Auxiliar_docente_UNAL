@@ -1,0 +1,213 @@
+\documentclass[11pt, letterpaper]{article}
+
+% ----- PAQUETES -----
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, patterns, babel, calc}
+
+% ----- COLORES -----
+\definecolor{UnalGreen}{RGB}{0,153,51}
+\definecolor{DarkGray}{RGB}{60,60,60}
+\definecolor{BlockGray}{RGB}{150,150,150}
+\definecolor{PulleyBlue}{RGB}{70,140,210}
+
+% ----- SECCIONES -----
+\titleformat{\section}
+{\normalfont\large\bfseries\color{UnalGreen}}
+{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries\color{DarkGray}}
+{\thesubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ----- ENLACES -----
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UnalGreen,
+	urlcolor=UnalGreen
+}
+
+% ----- ENCABEZADO -----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize Fundamentos de Mecánica (1000019) -- Taller}
+\rhead{\footnotesize Semestre 2026-2}
+\cfoot{\thepage}
+
+% ----- LISTAS COMPACTAS -----
+\setlist[itemize]{
+	leftmargin=*,
+	itemsep=2pt,
+	topsep=2pt,
+	parsep=0pt
+}
+
+% ----- ESTILO DE FIGURAS -----
+\tikzset{
+	>=Stealth,
+	cuerda/.style={thin},
+}
+
+\begin{document}
+	
+	% =========================================================
+	% ENCABEZADO
+	% =========================================================
+	
+	\begin{center}
+		\vspace*{-0.8cm}
+		\includegraphics[width=0.15\textwidth]
+		{imagenes/universidad-nacional-de-colombia-sede-bogota-seeklogo.png}\\[0.1cm]
+		
+		{\Large\bfseries Taller de Dinámica II -- Grupo 14}\\[0.05cm]
+		{\large\bfseries Fundamentos de Mecánica (1000019)}
+	\end{center}
+	
+	
+	% =========================================================
+	% INFORMACIÓN DEL CURSO
+	% ========================================================
+	
+	\vspace{0.2cm}
+	
+	% =========================================================
+	\section{Fricción, Movimiento Circular y Fuerzas Resistivas}
+	% =========================================================
+	
+	\noindent Use $g = 9.8\ \mathrm{m/s^2}$ cuando sea necesario.
+	
+	\vspace{0.1cm}
+	
+	\begin{enumerate}[label=\arabic*., leftmargin=*, itemsep=8pt]
+		
+		% ---------- 1 ----------
+		\item Una vaca de $120$ kg se rehúsa a moverse, así que un granjero desesperado le ata una cuerda y la hala horizontalmente con una fuerza de $500$ N. Si el coeficiente de fricción cinético entre el piso y la vaca es $0.5$ y el estático es $0.8$, ¿logra el granjero mover la vaca?
+		
+		% ---------- 2 ----------
+		\item Dos bloques de masa $m = 1$ kg cada uno, conectados por una cuerda tensionada de longitud $L = 2$ m, se mueven en un movimiento circular uniforme con rapidez $v = 5$ m/s, en un ambiente de gravedad cero. ¿Cuál es la tensión de la cuerda en newtons?
+		
+		% ---------- 3 ----------
+		\item Se tiene una masa $M$ atada a otra masa $m$ por medio de una cuerda (desprecie su masa) y una polea (desprecie su masa y extensión), como se muestra en la siguiente figura. Si el coeficiente de fricción cinética entre cada masa y su plano es $\mu_k$, demuestre que la magnitud de la aceleración de las masas, cuando $m$ desciende por su plano, está dada por
+		\begin{equation}
+			a = \dfrac{-M\sin\alpha + m\sin\beta - \mu_k\,\bigl(M\cos\alpha + m\cos\beta\bigr)}{m + M}\; g .
+		\end{equation}
+		
+		\begin{center}
+			\begin{tikzpicture}[scale=0.9]
+				\def\thA{35}
+				\def\thB{50}
+				\def\Lb{5}
+				\pgfmathsetmacro{\hh}{\Lb/(1/tan(\thA)+1/tan(\thB))}
+				\pgfmathsetmacro{\xa}{\hh/tan(\thA)}
+				\coordinate (O) at (0,0);
+				\coordinate (C) at (\Lb,0);
+				\coordinate (T) at (\xa,\hh);
+				\draw[thick] (O) -- (C) -- (T) -- cycle;
+				\coordinate (Pl) at ($(T)+(0,0.12)$);
+				% bloque M (plano izquierdo)
+				\coordinate (P1) at ($(O)!0.6!(T)$);
+				\begin{scope}[shift={(P1)}, rotate=\thA]
+					\draw[fill=BlockGray] (-0.4,0) rectangle (0.4,0.45);
+					\node[rotate=-\thA] at (0,0.8) {$M$};
+					\coordinate (S1) at (0.4,0.22);
+				\end{scope}
+				% bloque m (plano derecho)
+				\coordinate (P2) at ($(C)!0.7!(T)$);
+				\begin{scope}[shift={(P2)}, rotate=-\thB]
+					\draw[fill=BlockGray] (-0.25,0) rectangle (0.25,0.35);
+					\node[rotate=\thB] at (0,0.65) {$m$};
+					\coordinate (S2) at (-0.25,0.17);
+				\end{scope}
+				\draw[cuerda] (S1) -- (Pl) -- (S2);
+				\draw[fill=PulleyBlue] (Pl) circle (0.12);
+				% ángulos
+				\draw (0.9,0) arc[start angle=0, end angle=\thA, radius=0.9];
+				\node at ({1.3*cos(\thA/2)},{1.3*sin(\thA/2)}) {$\alpha$};
+				\draw ($(C)+(-0.6,0)$) arc[start angle=180, end angle={180-\thB}, radius=0.6];
+				\node at ($(C)+({0.95*cos(180-\thB/2)},{0.95*sin(180-\thB/2)})$) {$\beta$};
+			\end{tikzpicture}
+		\end{center}
+		
+		% ---------- 4 ----------
+		\item Dos bloques de masa $m_1$ y $m_2$ se encuentran en contacto sobre un plano inclinado, como se indica en la figura. Si el coeficiente de fricción cinética entre la masa $m_i$ y el plano es $\mu_i$, con $\mu_1>\mu_2$, demuestre que la magnitud de la aceleración de los bloques $a$ y la magnitud de la fuerza de contacto $F_c$ están dadas por
+		\begin{align}
+			a &= g\left[\sin\theta - \cos\theta\,\dfrac{m_1\mu_1 + m_2\mu_2}{m_1 + m_2}\right], \\[4pt]
+			F_c &= g\cos\theta\,\dfrac{m_1 m_2}{m_1 + m_2}\,(\mu_1 - \mu_2).
+		\end{align}
+		
+		\begin{center}
+			\begin{tikzpicture}[scale=0.95]
+				\def\ang{30}
+				\coordinate (A) at (0,2.2);
+				\coordinate (C) at ({2.2/tan(\ang)},0);
+				\draw[thick] (0,0) -- (C) -- (A) -- cycle;
+				\coordinate (P) at ($(A)!0.5!(C)$);
+				\begin{scope}[shift={(P)}, rotate=-\ang]
+					\draw[fill=BlockGray] (-0.95,0) rectangle (0,0.5);
+					\draw[fill=BlockGray!70] (0,0) rectangle (0.75,0.45);
+					\node[rotate=\ang] at (-0.47,0.85) {$m_2$};
+					\node[rotate=\ang] at (0.37,0.8) {$m_1$};
+				\end{scope}
+				\draw ($(C)+(-0.8,0)$) arc[start angle=180, end angle={180-\ang}, radius=0.8];
+				\node at ($(C)+({-1.15*cos(\ang/2)},0.12)$) {$\theta$};
+			\end{tikzpicture}
+		\end{center}
+		
+		% ---------- 5 ----------
+		\item Un auto con rapidez $v_0$ está en una curva con peralte de $15^\circ$ y radio $70$ m. ¿Cuál debe ser el valor de $v_0$ para que el auto pueda dar la curva sin fricción?
+		
+		% ---------- 6 ----------
+		\item Un carro de montaña rusa se encuentra en la cima de un círculo vertical de diámetro $40$ m.
+		\begin{enumerate}[label=\alph*)]
+			\item ¿Cuál es la rapidez del carro en este punto, si justo en este lugar la magnitud de la fuerza normal iguala a la del peso?
+			\item Si definimos $v_c$ como la velocidad mínima en la cima del círculo para que el carro gire en movimiento circular uniforme, ¿cuál es este valor?
+			\item Si el carro gira a $2v_c$, ¿cuál es la razón de la fuerza normal sobre $g$?
+		\end{enumerate}
+		
+		% ---------- 7 ----------
+		\item Un cilindro de $90$ cm de diámetro y masa $100$ kg cae libremente en presencia de aire. Si la fuerza de arrastre o fuerza resistiva, opuesta a la dirección de movimiento, está dada por
+		\begin{equation*}
+			F_R = \dfrac{1}{2}\,C_d\,A\,\rho\,v^{2},
+		\end{equation*}
+		siendo $C_d = 0.8$, $A$ el área de las tapas del cilindro y $\rho = 1.225\ \mathrm{kg/m^3}$ la densidad del aire.
+		\begin{enumerate}[label=\alph*)]
+			\item Calcule la velocidad terminal $v_T$.
+			\item ¿En qué tiempo este objeto alcanza el 90\,\% de su velocidad terminal?
+			\item Dibuje la velocidad y la posición como función del tiempo, en el intervalo de tiempo $[0,\,30]$ s, de este cilindro dadas por las expresiones
+			\begin{equation*}
+				v(t) = v_T \tanh(\alpha t), \qquad y(t) = \dfrac{v_T}{\alpha}\,\ln\!\bigl(\cosh(\alpha t)\bigr), \qquad \alpha = g/v_T,
+			\end{equation*}
+			y compárelas con el caso sin fuerza de arrastre (tome el eje $y$ positivo hacia abajo).
+		\end{enumerate}
+		
+	\end{enumerate}
+	
+	\vfill
+	\noindent
+	\begin{center}
+		\small\textit{*Ejercicios tomados y adaptados del taller de la profesora Edna Carolina Pinilla Beltrán.}
+	\end{center}
+	
+	\vspace{0.2cm}
+	{\color{UnalGreen}\hrule height 0.5pt}
+	\begin{center}
+		\small
+		\textit{Trabajo en grupos.}
+	\end{center}
+	
+\end{document}
